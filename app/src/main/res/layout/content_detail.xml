@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_detail"
+    tools:context="com.casa.doughlator.DetailActivity">
+
+    <LinearLayout
+        android:id="@+id/toplayout"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:id="@+id/weightTextTv"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Peso calculado: "/>
+
+            <TextView
+                android:id="@+id/weightTv"
+                android:layout_toRightOf="@id/weightTextTv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+
+            <TextView
+                android:id="@+id/hydrationTextTv"
+                android:layout_below="@id/weightTextTv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Hidratación: "/>
+
+            <TextView
+                android:id="@+id/hydrationTv"
+                android:layout_toRightOf="@id/hydrationTextTv"
+                android:layout_below="@id/weightTv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+
+
+            <TextView
+                android:id="@+id/evaporationTextTv"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Evaporación: 20%"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/example4"
+                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="0%"/>
+
+            <TextView
+                android:id="@+id/currHydrationTv"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="50%"/>
+
+            <TextView
+                android:id="@+id/example6"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="100%"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="@drawable/hydrabar"/>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/bottomLayout"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/addIngBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Add ingredient"
+            android:onClick="addIngredient"/>
+
+        <Button
+            android:id="@+id/plannerBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text="Notes ->"
+            android:onClick="launchPlanner"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/toplayout"
+        android:layout_above="@id/bottomLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

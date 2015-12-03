@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content" >
+
+  <TextView
+      android:id="@+id/item_IngNameTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Name text"
+      android:textSize="10pt"
+      android:textStyle="bold"
+      />
+  <TextView
+    android:id="@+id/item_IngQtyTextView"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textStyle="normal"
+    android:textSize="15pt"
+    />
+  <TextView
+    android:id="@+id/item_IngPerTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/item_IngNameTextView"
+    android:text="Percentage text"
+    android:textStyle="italic"
+    />
+
+</merge>

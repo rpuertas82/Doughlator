@@ -1,0 +1,15 @@
+ <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="rectangle"
+        android:useLevel="false"
+        android:layout_height="match_parent"
+        android:layout_width= "match_parent">
+        <gradient
+            android:layout_height="match_parent"
+            android:layout_width= "match_parent"
+            android:startColor="#ecd314"
+            android:endColor="#69abfc"
+            android:centerColor="#4cff76"
+            android:useLevel="false"
+            android:type="linear"
+            />
+ </shape>

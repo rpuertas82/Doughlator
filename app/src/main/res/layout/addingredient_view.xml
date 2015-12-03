@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/infoIngTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre del ingrediente:"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:paddingLeft="24dp"/>
+
+    <EditText
+        android:id="@+id/addIngEt"
+        android:layout_below="@id/infoIngTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:hint="Nombre del ingrediente"/>
+
+    <TextView
+        android:id="@+id/infoQtyTv"
+        android:layout_below="@id/addIngEt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cantidad:"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:paddingLeft="24dp"/>
+
+    <EditText
+        android:id="@+id/addQtyEt"
+        android:layout_below="@id/infoQtyTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:hint="Cantidad"/>
+
+    <LinearLayout
+        android:id="@+id/checkboxLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addQtyEt">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:paddingLeft="24dp"
+            android:text="Ingrediente líquido"/>
+        <CheckBox
+            android:id="@+id/isLiquidCb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/checkboxLayout">
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Add"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@android:color/holo_blue_light" />
+
+        <Button
+            android:id="@+id/cancelBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:layout_toLeftOf="@id/addBtn"
+            android:text="Cancel"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@android:color/holo_blue_light" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
