@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
 
         /* Setup listview and set data */
         list = (ListView) findViewById(R.id.list);
-        adapter = new ArrayAdapter<DoughRecipe>(this, android.R.layout.simple_list_item_1, doughRecipes);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, doughRecipes);
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,19 +104,23 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
                     public void onClick(DialogInterface dialog, int whichButton)
                     {
                         DoughRecipe dr;
-                        File notesFile;
                         String notesFileName;
 
                         /* Delete attached notes file */
                         dr = doughRecipes.get(lPosition);
                         notesFileName = dr.getRecipePlanner().getNotesFileName();
 
-                        if(notesFileName!=null)
+                        if (notesFileName != null)
                         {
-                            notesFile = new File(dr.getRecipePlanner().getNotesFileName());
+                            File notesFile = getBaseContext().getFileStreamPath(notesFileName);
 
-                            if(notesFile.exists())
-                                notesFile.delete();
+                            if (notesFile.exists())
+                            {
+                                if(!notesFile.delete())
+                                {
+                                    logger.toast("Error borrando las notas");
+                                }
+                            }
                         }
 
                         doughRecipes.remove(lPosition);
@@ -173,41 +177,39 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
 
         recipeName = bundle.getString(ConstantContainer.NAME_KEY);
 
-        if(recipeName.isEmpty())
+        if(recipeName!=null)
         {
+            if (recipeName.isEmpty())
+            {
             /* Do nothing */
-        }
-        else
-        {
-            nameExist = false;
-
-            /* Check for duplicated recipe name */
-            for(DoughRecipe rd:doughRecipes)
-            {
-                if(rd.getRecipeName().equals(recipeName))
-                {
-                    /* Name already created */
-                    nameExist = true;
-                }
-            }
-
-            if(nameExist==false)
-            {
-                /* Create new dough recipe */
-                DoughRecipe doughRecipe = new DoughRecipe(recipeName);
-
-                /* Add recipe to Dough recipe store */
-                doughRecipes.add(doughRecipe);
-
-                /* Save recipe */
-                ds.save(this);
-
-                /* Update List view */
-                adapter.notifyDataSetChanged();
             }
             else
             {
-               logger.toast("Ya existe una receta con el mismo nombre");
+                nameExist = false;
+
+            /* Check for duplicated recipe name */
+                for (DoughRecipe rd : doughRecipes) {
+                    if (rd.getRecipeName().equals(recipeName)) {
+                    /* Name already created */
+                        nameExist = true;
+                    }
+                }
+
+                if (nameExist == false) {
+                /* Create new dough recipe */
+                    DoughRecipe doughRecipe = new DoughRecipe(recipeName);
+
+                /* Add recipe to Dough recipe store */
+                    doughRecipes.add(doughRecipe);
+
+                /* Save recipe */
+                    ds.save(this);
+
+                /* Update List view */
+                    adapter.notifyDataSetChanged();
+                } else {
+                    logger.toast("Ya existe una receta con el mismo nombre");
+                }
             }
         }
     }
