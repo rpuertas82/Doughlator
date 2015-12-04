@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
                                 if(!notesFile.delete())
                                 {
                                     logger.toast("Error borrando las notas");
+
                                 }
                             }
                         }
