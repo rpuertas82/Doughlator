@@ -11,9 +11,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,8 +26,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
     private static final String TAG = "DetailActivity";
     private TextView tv;
     private TextView weightTv;
-    private TextView hydrationTv;
     private TextView currHydrationTv;
+    private TextView maxHydrationTv;
     private ArrayList<Ingredient> ingList;
     private ListView list;
     private ItemAdapter adapter;
@@ -70,23 +73,19 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         /* Get reference to widgets */
         weightTv = (TextView)findViewById(R.id.weightTv);
-        hydrationTv = (TextView)findViewById(R.id.hydrationTv);
         currHydrationTv = (TextView)findViewById(R.id.currHydrationTv);
+        maxHydrationTv = (TextView)findViewById(R.id.maxHydrationTv);
         hydrabarIv = (ImageView)findViewById(R.id.hydrabarIv);
-
-        /* HydrabarAnimation instance */
-        float aPoint = hydrabarIv.getLeft();
-        float bPoint = hydrabarIv.getWidth();
-        hydrabarAnimation = new HydrabarAnimation(
-                currHydrationTv, aPoint,bPoint);
 
         list = (ListView)findViewById(R.id.list);
         adapter = new ItemAdapter(this, ingList);
         list.setAdapter(adapter);
 
+        /* Create hydrabar with empty values */
+        hydrabarAnimation = new HydrabarAnimation();
+
         /* Update textview contents */
-        weightTv.setText(String.valueOf(doughRecipe.getRecipeWeight())+"gr.");
-        hydrationTv.setText(String.valueOf(doughRecipe.getDoughHydration()+"%"));
+        weightTv.setText(String.valueOf(doughRecipe.getRecipeWeight()) + "gr.");
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -128,12 +127,9 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
                 lIndex = index;
 
-                if(lIndex == ConstantContainer.ZERO)
-                {
+                if (lIndex == ConstantContainer.ZERO) {
                     logger.toast("No se puede borrar el ingrediente referencia");
-                }
-                else
-                {
+                } else {
                     final AlertDialog.Builder b = new AlertDialog.Builder(DetailActivity.this);
                     b.setIcon(android.R.drawable.ic_dialog_alert);
                     b.setMessage("¿Desea borrar el ingrediente?");
@@ -160,6 +156,25 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                 }
 
                 return true;
+            }
+        });
+
+        final ViewTreeObserver observer = maxHydrationTv.getViewTreeObserver();
+        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Log.d(TAG, "onCreate(): View ready on parent view!!");
+
+                // On these listener we know view positions
+                float aPoint = hydrabarIv.getLeft();
+                float bPoint = hydrabarIv.getWidth();
+                hydrabarAnimation.setValues(currHydrationTv, aPoint, bPoint);
+
+                ViewTreeObserver vto = maxHydrationTv.getViewTreeObserver();
+                vto.removeOnGlobalLayoutListener(this);
+
+                hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
+                currHydrationTv.setText(doughRecipe.getDoughHydration() + "%");
             }
         });
     }
@@ -236,12 +251,13 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         /* Update textview contents */
         weightTv.setText(String.valueOf(doughRecipe.getRecipeWeight())+"gr.");
-        hydrationTv.setText(String.valueOf(doughRecipe.getDoughHydration()+"%"));
-
-        hydrabarUpdateView();
 
         /* Save changes */
         //ds.save(this);
+
+        /* Move hydrationbar */
+        currHydrationTv.setText(doughRecipe.getDoughHydration() + "%");
+        hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
 
         /* Notify changes to listview */
         adapter.notifyDataSetChanged();
@@ -333,25 +349,13 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
     }
 
     @Override
-    protected void onResume(){
-
+    protected void onResume() {
         super.onResume();
 
-        hydrabarUpdateView();
-
-    }
-
-    private void hydrabarUpdateView()
-    {
-        /* Update x axle, if view changes or repaint */
-        float aPoint = hydrabarIv.getLeft();
-        float bPoint = hydrabarIv.getWidth();
-        hydrabarAnimation.setXAxle(aPoint,bPoint);
-
-        /* Move view to percentage */
-        hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
-
-        /* Put value into text view */
-        currHydrationTv.setText(doughRecipe.getDoughHydration() + "%");
+        if(hydrabarAnimation!=null &&
+                hydrabarAnimation.isReady()) {
+            hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
+            currHydrationTv.setText(doughRecipe.getDoughHydration() + "%");
+        }
     }
 }
