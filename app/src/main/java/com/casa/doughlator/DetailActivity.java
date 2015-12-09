@@ -330,7 +330,6 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         try
         {
             startActivity(Intent.createChooser(emailIntent, "Send email"));
-            finish();
         }
         catch (android.content.ActivityNotFoundException ex)
         {
