@@ -34,9 +34,9 @@ public class DoughRecipe extends Recipe implements Serializable
         return ingredients.get(0);
     }
 
-    public int getDoughHydration()
+    public float getDoughHydration()
     {
-        int doughHydration;
+        float doughHydration;
 
         doughHydration = ConstantContainer.ZERO;
 
@@ -49,6 +49,13 @@ public class DoughRecipe extends Recipe implements Serializable
         }
 
         return doughHydration;
+    }
+
+    public String getFormattedDoughHydration()
+    {
+        String formattedValue = String.format("%.1f", getDoughHydration());
+
+        return formattedValue +="%";
     }
 
     public void updateIngredientsValues()

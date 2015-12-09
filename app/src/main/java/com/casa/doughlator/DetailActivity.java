@@ -85,37 +85,37 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         hydrabarAnimation = new HydrabarAnimation();
 
         /* Update textview contents */
-        weightTv.setText(String.valueOf(doughRecipe.getRecipeWeight()) + "gr.");
+        weightTv.setText(doughRecipe.getFormattedRecipeWeight());
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                EditDialog editDialog;
-                Bundle bundle = new Bundle();
+                    EditDialog editDialog;
+                    Bundle bundle = new Bundle();
 
-                //Pass string values and row position
-                bundle.putString(ConstantContainer.NAME_KEY,
-                        ingList.get(position).getName());
+                    //Pass string values and row position
+                    bundle.putString(ConstantContainer.NAME_KEY,
+                            ingList.get(position).getName());
 
-                bundle.putString(ConstantContainer.QTY_KEY,
-                        ingList.get(position).getQtyString());
+                    bundle.putString(ConstantContainer.QTY_KEY,
+                            ingList.get(position).getQtyString());
 
-                bundle.putString(ConstantContainer.PER_KEY,
-                        ingList.get(position).getPerString());
+                    bundle.putString(ConstantContainer.PER_KEY,
+                            ingList.get(position).getPerString());
 
-                bundle.putInt(ConstantContainer.POSITION_KEY,
-                        position);
+                    bundle.putInt(ConstantContainer.POSITION_KEY,
+                            position);
 
-                bundle.putBoolean(ConstantContainer.BOOLEAN_KEY,
-                        ingList.get(position).isLiquid());
+                    bundle.putBoolean(ConstantContainer.BOOLEAN_KEY,
+                            ingList.get(position).isLiquid());
 
-                lastPosition = position;
+                    lastPosition = position;
 
-                /* Create dialog object, set bundle and show */
-                editDialog = new EditDialog();
-                editDialog.setArguments(bundle);
-                editDialog.show(getFragmentManager(), "EditDialog");
+                    /* Create dialog object, set bundle and show */
+                    editDialog = new EditDialog();
+                    editDialog.setArguments(bundle);
+                    editDialog.show(getFragmentManager(), "EditDialog");
             }
         });
 
@@ -174,7 +174,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                 vto.removeOnGlobalLayoutListener(this);
 
                 hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
-                currHydrationTv.setText(doughRecipe.getDoughHydration() + "%");
+                currHydrationTv.setText(String.valueOf(doughRecipe.getFormattedDoughHydration()));
             }
         });
     }
@@ -250,13 +250,13 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         doughRecipe.updateIngredientsValues();
 
         /* Update textview contents */
-        weightTv.setText(String.valueOf(doughRecipe.getRecipeWeight())+"gr.");
+        weightTv.setText(doughRecipe.getFormattedRecipeWeight());
 
         /* Save changes */
         //ds.save(this);
 
         /* Move hydrationbar */
-        currHydrationTv.setText(doughRecipe.getDoughHydration() + "%");
+        currHydrationTv.setText(doughRecipe.getFormattedDoughHydration());
         hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
 
         /* Notify changes to listview */
@@ -300,9 +300,9 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         emailBody += "\n";
         emailBody += "Peso aproximado: " +
-                String.valueOf(doughRecipe.getRecipeWeight()) + " gr" + "\n";
+                doughRecipe.getFormattedRecipeWeight() + "\n";
         emailBody += "Tasa de hidratación: " +
-                String.valueOf(doughRecipe.getDoughHydration()) + "%" + "\n";
+                doughRecipe.getFormattedDoughHydration() + "\n";
 
         /* Load notes if exist */
         if(doughRecipe.getRecipePlanner().getNotesFileName()!=null)
@@ -354,7 +354,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         if(hydrabarAnimation!=null &&
                 hydrabarAnimation.isReady()) {
             hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
-            currHydrationTv.setText(doughRecipe.getDoughHydration() + "%");
+            currHydrationTv.setText(doughRecipe.getFormattedDoughHydration());
         }
     }
 }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,8 +71,7 @@ public class EditDialog extends DialogFragment
 
         if(rowPosition == ConstantContainer.NO_POSITION)
         {
-            /* isLiquid field only can be set on edit action */
-            //isLiquidCb.setClickable(false);
+
         }
         else
         {
@@ -85,24 +85,42 @@ public class EditDialog extends DialogFragment
                     @Override
                     public void onClick(View v) {
 
-                        Bundle bundle = new Bundle();
+                        boolean parseOK = true;
 
-                        bundle.putString(ConstantContainer.NAME_KEY, ingEt.getText().toString());
-                        bundle.putInt(ConstantContainer.POSITION_KEY, rowPosition);
-
-                        if(rowPosition==ConstantContainer.ZERO)
+                        /* Parse input data */
+                        try
                         {
-                            bundle.putString(ConstantContainer.QTY_KEY, qtyEt.getText().toString());
+                            float parsedValue = Float.parseFloat(qtyEt.getText().toString());
+                        }
+                        catch (NumberFormatException e)
+                        {
+                            parseOK = false;
+                        }
+
+                        if(!parseOK)
+                        {
+                            qtyEt.setText("");
+                            qtyEt.setHintTextColor(Color.RED);
+                            qtyEt.setHint("Valor erroneo");
                         }
                         else
                         {
-                            bundle.putString(ConstantContainer.PER_KEY, qtyEt.getText().toString());
-                            bundle.putBoolean(ConstantContainer.BOOLEAN_KEY, isLiquidCb.isChecked());
+                            Bundle bundle = new Bundle();
+
+                            bundle.putString(ConstantContainer.NAME_KEY, ingEt.getText().toString());
+                            bundle.putInt(ConstantContainer.POSITION_KEY, rowPosition);
+
+                            if (rowPosition == ConstantContainer.ZERO) {
+                                bundle.putString(ConstantContainer.QTY_KEY, qtyEt.getText().toString());
+                            } else {
+                                bundle.putString(ConstantContainer.PER_KEY, qtyEt.getText().toString());
+                                bundle.putBoolean(ConstantContainer.BOOLEAN_KEY, isLiquidCb.isChecked());
+                            }
+
+                            mCallBack.onOkButtonClick(bundle);
+
+                            dismiss();
                         }
-
-                        mCallBack.onOkButtonClick(bundle);
-
-                        dismiss();
                     }
                 }
         );

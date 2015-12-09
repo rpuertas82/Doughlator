@@ -41,6 +41,13 @@ public class Recipe implements Serializable
         return recipeWeight;
     }
 
+    public String getFormattedRecipeWeight()
+    {
+        String formattedValue = String.format("%.1f gr.", getRecipeWeight());
+
+        return formattedValue;
+    }
+
     public void setIngredientQtyAtIndex(int index, String qty)
     {
         Ingredient i = ingredients.get(index);

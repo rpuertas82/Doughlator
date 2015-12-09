@@ -83,14 +83,16 @@ public class Ingredient implements Serializable
 
     public String getQtyString()
     {
-        return String.valueOf(getQty());
+        String formattedValue = String.format("%.1f", getQty());
+
+        return formattedValue;
     }
 
     public void setQty(String qty)
     {
         try
         {
-            this.qty = Integer.parseInt(qty);
+            this.qty = Float.parseFloat(qty);
         }
         catch (NumberFormatException e)
         {
@@ -104,7 +106,9 @@ public class Ingredient implements Serializable
 
     public String getPerString()
     {
-        return String.valueOf(this.per);
+        String formattedValue = String.format("%.1f", this.per);
+
+        return formattedValue;
     }
 
     public float getPer() {
