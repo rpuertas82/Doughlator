@@ -10,6 +10,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
@@ -45,9 +47,23 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarTitle = (TextView)findViewById(R.id.toolbarTitle);
         setSupportActionBar(toolbar);
 
-        setTitle("Detail of " + getIntent().getStringExtra(ConstantContainer.NAME_KEY));
+        /* Configure actionbar */
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        /* Place textview instead toolbar native title (clickable)*/
+        toolbarTitle.setClickable(true);
+        toolbarTitle.setText(getIntent().getStringExtra(ConstantContainer.NAME_KEY));
+        toolbarTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -179,7 +195,41 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         });
     }
 
-    public void addIngredient(View v)
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if(id == R.id.action_settings)
+        {
+            return true;
+        }
+
+        if(id == R.id.action_add_ingredient)
+        {
+            addIngredient();
+        }
+
+        if(id == R.id.action_planner)
+        {
+            launchPlanner();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void addIngredient()
     {
         EditDialog editDialog;
         Bundle bundle;
@@ -195,7 +245,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         editDialog.show(getFragmentManager(), "EditDialog");
     }
 
-    public void launchPlanner(View v)
+    public void launchPlanner()
     {
         Intent i = new Intent(DetailActivity.this, PlannerActivity.class);
 

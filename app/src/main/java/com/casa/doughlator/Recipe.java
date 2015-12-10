@@ -2,6 +2,7 @@ package com.casa.doughlator;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Casa on 20/11/15.
@@ -43,7 +44,7 @@ public class Recipe implements Serializable
 
     public String getFormattedRecipeWeight()
     {
-        String formattedValue = String.format("%.1f gr.", getRecipeWeight());
+        String formattedValue = String.format(Locale.US, "%.1f gr.", getRecipeWeight());
 
         return formattedValue;
     }

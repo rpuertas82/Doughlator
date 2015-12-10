@@ -1,6 +1,7 @@
 package com.casa.doughlator;
 
 import java.io.Serializable;
+import java.util.Locale;
 
 /**
  * Created by Casa on 20/11/15.
@@ -53,7 +54,7 @@ public class DoughRecipe extends Recipe implements Serializable
 
     public String getFormattedDoughHydration()
     {
-        String formattedValue = String.format("%.1f", getDoughHydration());
+        String formattedValue = String.format(Locale.US, "%.1f", getDoughHydration());
 
         return formattedValue +="%";
     }

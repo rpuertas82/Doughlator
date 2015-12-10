@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import junit.framework.Test;
 
 /**
  * Created by Casa on 18/11/15.
@@ -46,6 +49,9 @@ public class AddRecipeDialog extends DialogFragment
         Button addIngBtn = (Button) v.findViewById(R.id.addBtn);
         Button cancelBtn = (Button) v.findViewById(R.id.cancelBtn);
         final EditText recipeNameEt = (EditText) v.findViewById(R.id.recipeNameEt);
+        final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
+
+        dialogTitle.setText("Nueva receta:");
 
         addIngBtn.setOnClickListener(
                 new View.OnClickListener() {

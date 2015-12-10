@@ -2,6 +2,7 @@ package com.casa.doughlator;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.Locale;
 
 /**
  * Created by Casa on 20/11/15.
@@ -83,7 +84,7 @@ public class Ingredient implements Serializable
 
     public String getQtyString()
     {
-        String formattedValue = String.format("%.1f", getQty());
+        String formattedValue = String.format(Locale.US, "%.1f", getQty());
 
         return formattedValue;
     }
@@ -106,7 +107,7 @@ public class Ingredient implements Serializable
 
     public String getPerString()
     {
-        String formattedValue = String.format("%.1f", this.per);
+        String formattedValue = String.format(Locale.US, "%.1f", this.per);
 
         return formattedValue;
     }

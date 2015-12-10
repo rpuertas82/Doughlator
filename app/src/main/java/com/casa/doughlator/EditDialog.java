@@ -66,18 +66,21 @@ public class EditDialog extends DialogFragment
         final EditText ingEt = (EditText) v.findViewById(R.id.addIngEt);
         final EditText qtyEt = (EditText) v.findViewById(R.id.addQtyEt);
         final CheckBox isLiquidCb = (CheckBox)v.findViewById(R.id.isLiquidCb);
-        
-        qtyEt.requestFocus();
+        final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
 
         if(rowPosition == ConstantContainer.NO_POSITION)
         {
-
+            dialogTitle.setText("Añadir ingrediente:");
         }
         else
         {
+            dialogTitle.setText("Editar ingrediente:");
+
             ingEt.setText(bundle.getString(ConstantContainer.NAME_KEY));
             qtyEt.setText(valuePassed);
             isLiquidCb.setChecked(bundle.getBoolean(ConstantContainer.BOOLEAN_KEY));
+
+            qtyEt.requestFocus();
         }
 
         addIngBtn.setOnClickListener(
@@ -99,9 +102,7 @@ public class EditDialog extends DialogFragment
 
                         if(!parseOK)
                         {
-                            qtyEt.setText("");
-                            qtyEt.setHintTextColor(Color.RED);
-                            qtyEt.setHint("Valor erroneo");
+                            qtyEt.setTextColor(Color.RED);
                         }
                         else
                         {

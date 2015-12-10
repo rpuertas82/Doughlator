@@ -90,32 +90,7 @@
     </LinearLayout>
 
     <LinearLayout
-
-        android:id="@+id/bottomLayout"
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:id="@+id/addIngBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="Add ingredient"
-            android:onClick="addIngredient"/>
-
-        <Button
-            android:id="@+id/plannerBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:text="Notes ->"
-            android:onClick="launchPlanner"/>
-
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_below="@id/toplayout"
-        android:layout_above="@id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ListView
