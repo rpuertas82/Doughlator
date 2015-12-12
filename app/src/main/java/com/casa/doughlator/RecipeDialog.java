@@ -11,18 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import junit.framework.Test;
-
 /**
  * Created by Casa on 18/11/15.
  */
-public class AddRecipeDialog extends DialogFragment
+public class RecipeDialog extends DialogFragment
 {
-    private AddRecipeDialogListener mCallBack;
+    private RecipeDialogListener mCallBack;
     Bundle bundle;
     private int rowPosition;
 
-    public AddRecipeDialog()
+    public RecipeDialog()
     {
 
     }
@@ -38,7 +36,7 @@ public class AddRecipeDialog extends DialogFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.addrecipe_view, null);
+        View v = inflater.inflate(R.layout.recipedialog_view, null);
 
         builder.setView(v);
 
@@ -51,7 +49,19 @@ public class AddRecipeDialog extends DialogFragment
         final EditText recipeNameEt = (EditText) v.findViewById(R.id.recipeNameEt);
         final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
 
-        dialogTitle.setText("Nueva receta:");
+        if(rowPosition == ConstantContainer.NO_POSITION)
+        {
+            dialogTitle.setText("Nueva receta:");
+        }
+        else
+        {
+            /* Recipe name edit */
+            String recipeName = bundle.getString(ConstantContainer.NAME_KEY);
+
+            dialogTitle.setText("Nuevo nombre:");
+
+            recipeNameEt.setText(recipeName);
+        }
 
         addIngBtn.setOnClickListener(
                 new View.OnClickListener() {
@@ -63,7 +73,7 @@ public class AddRecipeDialog extends DialogFragment
                         bundle.putString(ConstantContainer.NAME_KEY, recipeNameEt.getText().toString());
                         bundle.putInt(ConstantContainer.POSITION_KEY, rowPosition);
 
-                        mCallBack.onOkButtonClick(bundle);
+                        mCallBack.onOkButtonClickRecipeDialogListener(bundle);
 
                         dismiss();
                     }
@@ -75,7 +85,7 @@ public class AddRecipeDialog extends DialogFragment
                     @Override
                     public void onClick(View v) {
 
-                        mCallBack.onCancelButtonClick();
+                        mCallBack.onCancelButtonClickRecipeDialogListener();
 
                         dismiss();
                     }
@@ -86,10 +96,10 @@ public class AddRecipeDialog extends DialogFragment
         return builder.create();
     }
 
-    public interface AddRecipeDialogListener
+    public interface RecipeDialogListener
     {
-        void onOkButtonClick(Bundle bundle);
-        void onCancelButtonClick();
+        void onOkButtonClickRecipeDialogListener(Bundle bundle);
+        void onCancelButtonClickRecipeDialogListener();
     }
 
     @Override
@@ -98,7 +108,7 @@ public class AddRecipeDialog extends DialogFragment
 
         try
         {
-            mCallBack = (AddRecipeDialogListener)activity;
+            mCallBack = (RecipeDialogListener)activity;
         }
         catch (ClassCastException e)
         {

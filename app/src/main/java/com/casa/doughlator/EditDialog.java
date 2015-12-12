@@ -38,7 +38,7 @@ public class EditDialog extends DialogFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.addingredient_view, null);
+        View v = inflater.inflate(R.layout.ingredientdialog_view, null);
 
         builder.setView(v);
 
@@ -118,7 +118,7 @@ public class EditDialog extends DialogFragment
                                 bundle.putBoolean(ConstantContainer.BOOLEAN_KEY, isLiquidCb.isChecked());
                             }
 
-                            mCallBack.onOkButtonClick(bundle);
+                            mCallBack.onOkButtonClickEditDialogListener(bundle);
 
                             dismiss();
                         }
@@ -131,7 +131,7 @@ public class EditDialog extends DialogFragment
                     @Override
                     public void onClick(View v) {
 
-                        mCallBack.onCancelButtonClick();
+                        mCallBack.onCancelButtonClickEditDialogListener();
 
                         dismiss();
                     }
@@ -144,8 +144,8 @@ public class EditDialog extends DialogFragment
 
     public interface EditDialogListener
     {
-        void onOkButtonClick(Bundle bundle);
-        void onCancelButtonClick();
+        void onOkButtonClickEditDialogListener(Bundle bundle);
+        void onCancelButtonClickEditDialogListener();
     }
 
     @Override

@@ -23,7 +23,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class DetailActivity extends AppCompatActivity implements EditDialog.EditDialogListener
+public class DetailActivity extends AppCompatActivity implements EditDialog.EditDialogListener,
+        RecipeDialog.RecipeDialogListener
 {
     private static final String TAG = "DetailActivity";
     private TextView tv;
@@ -51,25 +52,34 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         setSupportActionBar(toolbar);
 
         /* Configure actionbar */
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setClickable(true);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
 
-        /* Place textview instead toolbar native title (clickable)*/
-        toolbarTitle.setClickable(true);
-        toolbarTitle.setText(getIntent().getStringExtra(ConstantContainer.NAME_KEY));
-        toolbarTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+               RecipeDialog editRecipeDialog;
+               Bundle bundle;
 
+               bundle = new Bundle();
 
-            }
-        });
+                /* send Recipe index and recipe name */
+               bundle.putInt(ConstantContainer.POSITION_KEY, recipeIndex);
+               bundle.putString(ConstantContainer.NAME_KEY, doughRecipe.getRecipeName());
+
+                /* Create dialog object, set bundle and show */
+               editRecipeDialog = new RecipeDialog();
+               editRecipeDialog.setArguments(bundle);
+               editRecipeDialog.show(getFragmentManager(), "RecipeDialog");
+
+           }
+        }
+        );
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 sendEmail();
             }
         });
@@ -86,6 +96,9 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         /* Get recipe and ingredients  */
         doughRecipe = ds.getDoughRecipes().get(recipeIndex);
         ingList = doughRecipe.getIngredientsList();
+
+        /* Set toolbar title */
+        getSupportActionBar().setTitle(doughRecipe.getRecipeName());
 
         /* Get reference to widgets */
         weightTv = (TextView)findViewById(R.id.weightTv);
@@ -257,7 +270,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
 
     @Override
-    public void onOkButtonClick(Bundle bundle)
+    public void onOkButtonClickEditDialogListener(Bundle bundle)
     {
         Ingredient ingredient;
         int currentPosition;
@@ -314,7 +327,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
     }
 
     @Override
-    public void onCancelButtonClick() {
+    public void onCancelButtonClickEditDialogListener() {
 
     }
 
@@ -406,5 +419,60 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
             currHydrationTv.setText(doughRecipe.getFormattedDoughHydration());
         }
+    }
+
+    @Override
+    public void onOkButtonClickRecipeDialogListener(Bundle bundle)
+    {
+        String recipeName;
+        boolean nameExist;
+        int rowPosition;
+        ArrayList<DoughRecipe> doughRecipes;
+
+        doughRecipes = ds.getDoughRecipes();
+
+        recipeName = bundle.getString(ConstantContainer.NAME_KEY);
+        rowPosition = bundle.getInt(ConstantContainer.POSITION_KEY);
+
+        if(recipeName!=null)
+        {
+            if (recipeName.isEmpty())
+            {
+            /* Do nothing */
+            }
+            else
+            {
+                nameExist = false;
+
+                /* Check for duplicated recipe name */
+                for (DoughRecipe dr : doughRecipes) {
+                    if (dr.getRecipeName().equals(recipeName)) {
+                        /* Name already created */
+                        nameExist = true;
+                    }
+                }
+
+                if (nameExist == false) {
+
+                    /* Set new name */
+                    DoughRecipe dr = doughRecipes.get(rowPosition);
+                    dr.setRecipeName(recipeName);
+
+                    /* Save recipe */
+                    ds.save(this);
+
+                    /* Update toolbar title */
+                    getSupportActionBar().setTitle(recipeName);
+
+                } else {
+                    logger.toast("Ya existe una receta con el mismo nombre");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onCancelButtonClickRecipeDialogListener() {
+
     }
 }

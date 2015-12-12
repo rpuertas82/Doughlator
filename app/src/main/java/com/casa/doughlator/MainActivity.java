@@ -5,9 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,14 +15,14 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.casa.doughlator.AddRecipeDialog.AddRecipeDialogListener;
+import com.casa.doughlator.RecipeDialog.RecipeDialogListener;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements AddRecipeDialogListener{
+public class MainActivity extends AppCompatActivity implements RecipeDialogListener {
 
-    private final static String TAG = "com.example.casa.listviewsample";
+    private final static String TAG = "MainActivity";
     private ListView list;
     private ArrayAdapter<DoughRecipe> adapter;
     private ArrayList<DoughRecipe> doughRecipes;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
             @Override
             public void onClick(View view)
             {
-                AddRecipeDialog addRecipeDialog;
+                RecipeDialog addRecipeDialog;
                 Bundle bundle;
 
                 bundle = new Bundle();
@@ -51,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
                 bundle.putInt(ConstantContainer.POSITION_KEY, ConstantContainer.NO_POSITION);
 
                 /* Create dialog object, set bundle and show */
-                addRecipeDialog = new AddRecipeDialog();
+                addRecipeDialog = new RecipeDialog();
                 addRecipeDialog.setArguments(bundle);
-                addRecipeDialog.show(getFragmentManager(), "AddRecipeDialog");
+                addRecipeDialog.show(getFragmentManager(), "RecipeDialog");
             }
         });
 
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
     }
 
     @Override
-    public void onOkButtonClick(Bundle bundle)
+    public void onOkButtonClickRecipeDialogListener(Bundle bundle)
     {
         String recipeName;
         boolean nameExist;
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
             {
                 nameExist = false;
 
-            /* Check for duplicated recipe name */
+                /* Check for duplicated recipe name */
                 for (DoughRecipe rd : doughRecipes) {
                     if (rd.getRecipeName().equals(recipeName)) {
                     /* Name already created */
@@ -197,16 +197,16 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
                 }
 
                 if (nameExist == false) {
-                /* Create new dough recipe */
+                    /* Create new dough recipe */
                     DoughRecipe doughRecipe = new DoughRecipe(recipeName);
 
-                /* Add recipe to Dough recipe store */
+                    /* Add recipe to Dough recipe store */
                     doughRecipes.add(doughRecipe);
 
-                /* Save recipe */
+                    /* Save recipe */
                     ds.save(this);
 
-                /* Update List view */
+                    /* Update List view */
                     adapter.notifyDataSetChanged();
                 } else {
                     logger.toast("Ya existe una receta con el mismo nombre");
@@ -216,7 +216,18 @@ public class MainActivity extends AppCompatActivity implements AddRecipeDialogLi
     }
 
     @Override
-    public void onCancelButtonClick() {
+    public void onCancelButtonClickRecipeDialogListener() {
 
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        /* Repaint list */
+        adapter.notifyDataSetChanged();
+
+        Log.d(TAG, "onResume called");
     }
 }
