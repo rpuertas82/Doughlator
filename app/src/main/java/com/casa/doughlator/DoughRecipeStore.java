@@ -1,6 +1,7 @@
 package com.casa.doughlator;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -9,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
@@ -46,6 +48,65 @@ public class DoughRecipeStore
         return  ds;
     }
 
+    public int loadRecipeListFromResource(Context context, int rawFileNameId, String loadedVolFlag)
+    {
+        /* Check associated loaded flag */
+        SharedPreferences preferences = context.getSharedPreferences(
+                context.getString(R.string.app_load_prefs), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        boolean loadedVol = preferences.getBoolean(loadedVolFlag, false /*Default value*/);
+
+        if(!loadedVol)
+        {
+            try
+            {
+                InputStream is = context.getResources().openRawResource(rawFileNameId);
+                ObjectInputStream ois = new ObjectInputStream(is);
+
+              /* Load into recipe store  */
+                while (true)
+                {
+                    try
+                    {
+                        /* Add recipes to doughRecipe container */
+                        doughRecipes.add((DoughRecipe) ois.readObject());
+
+                        /* Copy notes file to user directory */
+                        //TODO
+                    }
+                    catch (EOFException e)
+                    {
+                        ois.close();
+                        break;
+                    }
+                    catch (InvalidClassException e)
+                    {
+                        e.printStackTrace();
+                    }
+                    catch (ClassNotFoundException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            /* If load OK, set loaded_volX_flag to true */
+            editor.putBoolean(loadedVolFlag,true);
+            editor.commit();
+
+            Log.d(TAG, "Recipe list added to user list");
+        }
+        else
+        {
+            /* Vol already loaded */
+        }
+
+        return 1;
+    }
+
     public int load(Context context)
     {
         FileOutputStream fo = null;
@@ -53,10 +114,32 @@ public class DoughRecipeStore
         FileInputStream fi = null;
         int loadFile = 0;
 
+        /*
+         * Recipes will be only loaded from
+         * resource/raw directory the first time
+         * app is started on device or user reset
+         * preferences settings.
+         *
+         * Once loaded, loaded_volX_flag will be set
+         * to true.
+         * */
+
+        /* 1 - Load recipe volumes (first time app is started or reset preferences) */
+        loadRecipeListFromResource(context, R.raw.recipelist_vol1,
+                context.getString(R.string.loaded_vol1_flag));
+
+        loadRecipeListFromResource(context, R.raw.recipelist_vol2,
+                context.getString(R.string.loaded_vol2_flag));
+
+        loadRecipeListFromResource(context, R.raw.recipelist_vol3,
+                context.getString(R.string.loaded_vol3_flag));
+
+
+        /* 2 - Check for user recipe list file existence */
         try
         {
             fi = context.openFileInput(
-                    context.getResources().getString(R.string.RECIPE_LIST_FILE));
+                    context.getResources().getString(R.string.user_recipe_list));
             fi.close();
 
             loadFile = ConstantContainer.ONE;
@@ -70,13 +153,13 @@ public class DoughRecipeStore
             e.printStackTrace();
         }
 
-        /* Load recipes from file */
+        /* 3 - Load recipes from user recipe list */
         if(loadFile==ConstantContainer.ONE)
         {
             try
             {
                 FileInputStream fInput =
-                        context.openFileInput(context.getResources().getString(R.string.RECIPE_LIST_FILE));
+                        context.openFileInput(context.getResources().getString(R.string.user_recipe_list));
                 ObjectInputStream ois = new ObjectInputStream(fInput);
 
                 /* Load into recipe store  */
@@ -112,25 +195,18 @@ public class DoughRecipeStore
                 e.printStackTrace();
             }
 
-            Log.d(TAG, "Data loaded from " + context.getResources().getString(R.string.RECIPE_LIST_FILE));
-
-            dataLoaded = true;
+            Log.d(TAG, "Data loaded from " + context.getResources().getString(R.string.user_recipe_list));
         }
         else
         {
-            /* Load into main pool */
-            doughRecipes.add(new DoughRecipe("Pan básico"));
-            doughRecipes.add(new DoughRecipe("Poolish"));
-            doughRecipes.add(new DoughRecipe("Biga"));
-            doughRecipes.add(new DoughRecipe("Pizza"));
-
-            /* If it fails, make a toast*/
-            Log.d(TAG,
-                    "Creating recipe file " + context.getResources().getString(R.string.RECIPE_LIST_FILE));
-
-            /* Save into recipe file */
-            save(context);
+            /* Do nothing, we assume that if we reach here
+             * app has installed for first time */
         }
+
+        /* After loaded, sort dough recipes container */
+
+        /* Set loaded flag to avoid reloads during activity life */
+        dataLoaded = true;
 
         return 1;
     }
@@ -144,7 +220,7 @@ public class DoughRecipeStore
         try
         {
             fo = context.openFileOutput(
-                    context.getResources().getString(R.string.RECIPE_LIST_FILE), context.MODE_PRIVATE);
+                    context.getResources().getString(R.string.user_recipe_list), context.MODE_PRIVATE);
             o = new ObjectOutputStream(fo);
 
             /* Save into file */
@@ -162,7 +238,7 @@ public class DoughRecipeStore
             e.printStackTrace();
         }
 
-        Log.d(TAG, "Data saved on " + context.getResources().getString(R.string.RECIPE_LIST_FILE));
+        Log.d(TAG, "Data saved on " + context.getResources().getString(R.string.user_recipe_list));
 
         return 1;
     }

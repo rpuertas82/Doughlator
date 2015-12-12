@@ -3,5 +3,9 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_planner">PlannerActivity</string>
-    <string name="RECIPE_LIST_FILE">recipelist_001.obj</string>
+    <string name="user_recipe_list">recipelist.list</string>
+    <string name="app_load_prefs">app_load_prefs</string>
+    <string name="loaded_vol1_flag">loaded_vol1_flag</string>
+    <string name="loaded_vol2_flag">loaded_vol2_flag</string>
+    <string name="loaded_vol3_flag">loaded_vol3_flag</string>
 </resources>
