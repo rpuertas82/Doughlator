@@ -15,8 +15,12 @@ import java.io.InputStreamReader;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by Casa on 13/11/15.
@@ -203,7 +207,8 @@ public class DoughRecipeStore
              * app has installed for first time */
         }
 
-        /* After loaded, sort dough recipes container */
+        /* 4 - After loaded, sort dough recipes container */
+        Collections.sort(this.getDoughRecipes());
 
         /* Set loaded flag to avoid reloads during activity life */
         dataLoaded = true;
@@ -241,20 +246,6 @@ public class DoughRecipeStore
         Log.d(TAG, "Data saved on " + context.getResources().getString(R.string.user_recipe_list));
 
         return 1;
-    }
-
-    public ArrayList<String> getDoughRecipeNameList()
-    {
-        ArrayList<String> recipeNames;
-
-        recipeNames = new ArrayList<String>();
-
-        for(DoughRecipe dr:doughRecipes)
-        {
-            recipeNames.add(dr.getRecipeName());
-        }
-
-        return recipeNames;
     }
 
     public String loadNotes(Context context, String notesFileName, String recipeName)
@@ -361,6 +352,58 @@ public class DoughRecipeStore
 
         Log.d(TAG, "Notes saved on " + notesFileName);
 
+    }
+
+    public boolean copyFile(Context context, String fromFileName, String toFileName)
+    {
+        boolean retVal = false;
+
+        try
+        {
+            FileInputStream inStream = context.openFileInput(fromFileName);
+            FileOutputStream outStream = context.openFileOutput(toFileName, Context.MODE_PRIVATE);
+            FileChannel inChannel = inStream.getChannel();
+            FileChannel outChannel = outStream.getChannel();
+
+            inChannel.transferTo(0, inChannel.size(), outChannel);
+
+            inStream.close();
+            outStream.close();
+
+            retVal = true;
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return retVal;
+    }
+
+    public boolean checkForDuplicatedRecipeName(String name)
+    {
+        boolean nameExist = false;
+
+        /* Check for duplicated recipe name */
+        for (DoughRecipe rd : doughRecipes) {
+            if (rd.getRecipeName().equals(name)) {
+                /* Name already created */
+                nameExist = true;
+            }
+        }
+
+        return nameExist;
+    }
+
+    public void unload()
+    {
+        this.getDoughRecipes().clear();
+
+        this.dataLoaded = false;
     }
 
     public ArrayList<DoughRecipe> getDoughRecipes()

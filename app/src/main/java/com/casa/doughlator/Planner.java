@@ -18,7 +18,7 @@ import java.util.Random;
 /**
  * Created by Casa on 20/11/15.
  */
-public class Planner implements Serializable
+public class Planner implements Serializable, Cloneable
 {
     /* serialVersionUID has to be overloaded in order to
     * avoid InvalidClassException in serialization */
@@ -55,5 +55,10 @@ public class Planner implements Serializable
 
     public void setNotesFileName(String notesFileName) {
         this.notesFileName = notesFileName;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

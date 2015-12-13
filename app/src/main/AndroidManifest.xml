@@ -24,13 +24,26 @@
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.casa.doughlator.MainActivity"/>
+
         </activity>
         <activity
             android:name=".PlannerActivity"
             android:label="@string/title_activity_planner"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".DetailActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.casa.doughlator.DetailActivity"/>
+
         </activity>
     </application>
 

@@ -186,15 +186,8 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
             }
             else
             {
-                nameExist = false;
-
                 /* Check for duplicated recipe name */
-                for (DoughRecipe rd : doughRecipes) {
-                    if (rd.getRecipeName().equals(recipeName)) {
-                    /* Name already created */
-                        nameExist = true;
-                    }
-                }
+                nameExist = ds.checkForDuplicatedRecipeName(recipeName);
 
                 if (nameExist == false) {
                     /* Create new dough recipe */
@@ -229,5 +222,23 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
         adapter.notifyDataSetChanged();
 
         Log.d(TAG, "onResume called");
+    }
+
+    @Override
+    protected void onPause() {
+
+        /* Save data */
+        ds.save(this);
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        /* Free memory */
+        ds.unload();
+
+        super.onDestroy();
     }
 }

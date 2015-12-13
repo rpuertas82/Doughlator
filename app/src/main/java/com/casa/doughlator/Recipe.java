@@ -7,7 +7,7 @@ import java.util.Locale;
 /**
  * Created by Casa on 20/11/15.
  */
-public class Recipe implements Serializable
+public class Recipe implements Serializable, Cloneable
 {
     /* serialVersionUID has to be overloaded in order to
     * avoid InvalidClassException in serialization */
@@ -89,7 +89,50 @@ public class Recipe implements Serializable
         return ingredients;
     }
 
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public void setRecipePlanner(Planner recipePlanner) {
+        this.recipePlanner = recipePlanner;
+    }
+
     public Planner getRecipePlanner() {
         return recipePlanner;
+    }
+
+    public Recipe duplicate()
+    {
+        Recipe recipeCloned = null;
+
+        try {
+            recipeCloned = (DoughRecipe) this.clone();
+        }catch (CloneNotSupportedException e)
+        {
+            e.printStackTrace();
+        }
+
+        return recipeCloned;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+
+        Recipe recipe = (Recipe)super.clone();
+        ArrayList<Ingredient> clonedList = new ArrayList<>(recipe.getIngredientsList().size());
+
+        /* Copy ingredient list */
+        for(Ingredient i:recipe.getIngredientsList())
+        {
+            clonedList.add((Ingredient)i.clone());
+        }
+
+        /* Copy planner */
+        recipe.setRecipePlanner((Planner) recipe.getRecipePlanner().clone());
+
+        /* Reference to new cloned ingredient list */
+        recipe.setIngredients(clonedList);
+
+        return recipe;
     }
 }

@@ -7,7 +7,7 @@ import java.util.Locale;
 /**
  * Created by Casa on 20/11/15.
  */
-public class Ingredient implements Serializable
+public class Ingredient implements Serializable, Cloneable
 {
     /* serialVersionUID has to be overloaded in order to
     * avoid InvalidClassException in serialization */
@@ -148,5 +148,10 @@ public class Ingredient implements Serializable
 
     public boolean isLiquid() {
         return isLiquid;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

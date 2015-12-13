@@ -6,7 +6,7 @@ import java.util.Locale;
 /**
  * Created by Casa on 20/11/15.
  */
-public class DoughRecipe extends Recipe implements Serializable
+public class DoughRecipe extends Recipe implements Serializable, Comparable<DoughRecipe>
 {
     /* serialVersionUID has to be overloaded in order to
     * avoid InvalidClassException in serialization */
@@ -90,4 +90,9 @@ public class DoughRecipe extends Recipe implements Serializable
         i.setPer(per);
     }
 
+    @Override
+    public int compareTo(DoughRecipe another)
+    {
+        return getRecipeName().compareTo(another.getRecipeName());
+    }
 }

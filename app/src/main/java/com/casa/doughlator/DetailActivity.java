@@ -87,8 +87,16 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         /* Create Logger */
         logger = new Logger(getApplicationContext());
 
-        /* Get list index from mainactivity */
-        recipeIndex = getIntent().getIntExtra(ConstantContainer.POSITION_KEY, 0);
+        if(savedInstanceState==null)
+        {
+            /* We come up from parent activity */
+            recipeIndex = getIntent().getIntExtra(ConstantContainer.POSITION_KEY, 0);
+        }
+        else
+        {
+            /* We come back from child activity */
+            recipeIndex = savedInstanceState.getInt(ConstantContainer.POSITION_KEY);
+        }
 
         /* Get Dough recipe store instance */
         ds = DoughRecipeStore.getInstance();
@@ -232,14 +240,60 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         if(id == R.id.action_add_ingredient)
         {
             addIngredient();
+
+            return true;
         }
 
         if(id == R.id.action_planner)
         {
             launchPlanner();
+
+            return true;
+        }
+
+        if(id == R.id.action_recipe_copy)
+        {
+            duplicateAndAddToList();
+
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void duplicateAndAddToList()
+    {
+        DoughRecipe drCloned = null;
+        boolean nameExist;
+
+        String newName = "Copia de " + doughRecipe.getRecipeName();
+
+        /* Check for duplicated name */
+        nameExist = ds.checkForDuplicatedRecipeName(newName);
+
+        if(!nameExist)
+        {
+            drCloned = (DoughRecipe) doughRecipe.duplicate();
+
+            drCloned.setRecipeName(newName);
+
+            /* Add duplicated recipe to container */
+            ds.getDoughRecipes().add(drCloned);
+
+            /* Create a new notesfile name and attach to recipe  */
+            String notesFileName = drCloned.getRecipePlanner().composeNotesFileName(newName,".nts");
+            drCloned.getRecipePlanner().setNotesFileName(notesFileName);
+
+            /* Copy to new notes file */
+            ds.copyFile(getApplicationContext(),
+                    doughRecipe.getRecipePlanner().getNotesFileName(),
+                    drCloned.getRecipePlanner().getNotesFileName());
+
+            logger.toast("Se ha duplicado la receta");
+        } else
+        {
+            logger.toast("Error duplicando receta");
+        }
     }
 
     public void addIngredient()
@@ -398,6 +452,14 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         {
             logger.toast("There is no email client installed.");
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(ConstantContainer.POSITION_KEY,recipeIndex);
     }
 
     @Override

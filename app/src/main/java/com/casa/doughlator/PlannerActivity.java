@@ -1,6 +1,7 @@
 package com.casa.doughlator;
 
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,7 +29,7 @@ public class PlannerActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         /* Configure toolbar */
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recipeIndex = getIntent().getIntExtra(ConstantContainer.POSITION_KEY, 0);
         notesBoard = (EditText)findViewById(R.id.notesBoardEt);
@@ -96,6 +97,14 @@ public class PlannerActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if(id == R.id.action_settings)
         {
+            return true;
+        }
+
+        // Respond to the action bar's Up/Home button
+        if(id == android.R.id.home)
+        {
+            NavUtils.navigateUpFromSameTask(this);
+
             return true;
         }
 
