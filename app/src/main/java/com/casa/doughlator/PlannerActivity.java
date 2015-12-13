@@ -1,5 +1,7 @@
 package com.casa.doughlator;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+
+import java.io.File;
 
 public class PlannerActivity extends AppCompatActivity {
 
@@ -49,7 +54,8 @@ public class PlannerActivity extends AppCompatActivity {
         /* Get recipe file name */
         notesFileName = recipePlanner.getNotesFileName();
 
-        if(notesFileName==null)
+        if(notesFileName==null ||
+                notesFileName.equals(""))
         {
             /* We need to create a new fileName */
             notesFileName = recipePlanner.composeNotesFileName(doughRecipe.getRecipeName(), ".nts");
@@ -108,7 +114,78 @@ public class PlannerActivity extends AppCompatActivity {
             return true;
         }
 
+        if(id == R.id.action_delete)
+        {
+            deleteNotes();
+
+            return true;
+        }
+
+        if(id == R.id.action_ok)
+        {
+            InputMethodManager imm = (InputMethodManager)getSystemService(
+                    getApplicationContext().INPUT_METHOD_SERVICE);
+
+            imm.hideSoftInputFromWindow(notesBoard.getWindowToken(), 0);
+
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void deleteNotes()
+    {
+        final AlertDialog.Builder b = new AlertDialog.Builder(PlannerActivity.this);
+        b.setIcon(android.R.drawable.ic_dialog_alert);
+        b.setMessage("¿Desea borrar las notas?");
+        b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                boolean retVal = false;
+                DoughRecipe dr;
+                String notesFileName;
+
+                    /* Delete attached notes file */
+                dr = doughRecipe;
+
+                notesFileName = dr.getRecipePlanner().getNotesFileName();
+
+                if (notesFileName != null) {
+                    File notesFile = getBaseContext().getFileStreamPath(notesFileName);
+
+                    if (notesFile.exists()) {
+                        if (!notesFile.delete()) {
+                            retVal = false;
+                        } else {
+                                /* Re-compose notes file name */
+                            notesFileName = recipePlanner.composeNotesFileName(doughRecipe.getRecipeName(), ".nts");
+                            dr.getRecipePlanner().setNotesFileName(notesFileName);
+
+                                /* Delete edit text content */
+                            notesBoard.getText().clear();
+
+                            //ds.save(getApplicationContext());
+                            retVal = true;
+
+                        }
+                    }
+                }
+
+                if (retVal) {
+                    logger.toast("Notas eliminadas");
+                } else {
+                    logger.toast("Error eliminando las notas");
+                }
+            }
+        });
+
+        b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+
+        b.show();
     }
 
     @Override

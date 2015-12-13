@@ -52,6 +52,49 @@ public class DoughRecipeStore
         return  ds;
     }
 
+    public boolean duplicateAndAddToList(Context context, int recipeIndex)
+    {
+        DoughRecipe drOrig;
+        DoughRecipe drCloned;
+        boolean nameExist;
+        boolean retVal;
+
+        drOrig = ds.getDoughRecipes().get(recipeIndex);
+
+        String newName = "Copia de " + drOrig.getRecipeName();
+
+        /* Check for duplicated name */
+        nameExist = ds.checkForDuplicatedRecipeName(newName);
+
+        if(!nameExist)
+        {
+            drCloned = (DoughRecipe) drOrig.duplicate();
+
+            drCloned.setRecipeName(newName);
+
+            /* Add duplicated recipe to container */
+            ds.getDoughRecipes().add(drCloned);
+
+            /* Create a new notesfile name and attach to recipe  */
+            String notesFileName = drCloned.getRecipePlanner().composeNotesFileName(newName,".nts");
+            drCloned.getRecipePlanner().setNotesFileName(notesFileName);
+
+            /* Copy to new notes file */
+            ds.copyFile(context,
+                    drOrig.getRecipePlanner().getNotesFileName(),
+                    drCloned.getRecipePlanner().getNotesFileName());
+
+            retVal = true;
+        }
+        else
+        {
+            retVal = false;
+        }
+
+        return retVal;
+    }
+
+
     public int loadRecipeListFromResource(Context context, int rawFileNameId, String loadedVolFlag)
     {
         /* Check associated loaded flag */

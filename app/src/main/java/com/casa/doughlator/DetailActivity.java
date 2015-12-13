@@ -253,7 +253,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         if(id == R.id.action_recipe_copy)
         {
-            duplicateAndAddToList();
+            duplicateRecipe();
 
             return true;
         }
@@ -261,36 +261,17 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         return super.onOptionsItemSelected(item);
     }
 
-    public void duplicateAndAddToList()
+    public void duplicateRecipe()
     {
-        DoughRecipe drCloned = null;
-        boolean nameExist;
+        boolean retVal;
 
-        String newName = "Copia de " + doughRecipe.getRecipeName();
+        retVal = ds.duplicateAndAddToList(getApplicationContext(), recipeIndex);
 
-        /* Check for duplicated name */
-        nameExist = ds.checkForDuplicatedRecipeName(newName);
-
-        if(!nameExist)
+        if(retVal)
         {
-            drCloned = (DoughRecipe) doughRecipe.duplicate();
-
-            drCloned.setRecipeName(newName);
-
-            /* Add duplicated recipe to container */
-            ds.getDoughRecipes().add(drCloned);
-
-            /* Create a new notesfile name and attach to recipe  */
-            String notesFileName = drCloned.getRecipePlanner().composeNotesFileName(newName,".nts");
-            drCloned.getRecipePlanner().setNotesFileName(notesFileName);
-
-            /* Copy to new notes file */
-            ds.copyFile(getApplicationContext(),
-                    doughRecipe.getRecipePlanner().getNotesFileName(),
-                    drCloned.getRecipePlanner().getNotesFileName());
-
             logger.toast("Se ha duplicado la receta");
-        } else
+        }
+        else
         {
             logger.toast("Error duplicando receta");
         }
