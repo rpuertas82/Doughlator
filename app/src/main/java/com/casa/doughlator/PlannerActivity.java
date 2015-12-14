@@ -100,12 +100,6 @@ public class PlannerActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if(id == R.id.action_settings)
-        {
-            return true;
-        }
-
         // Respond to the action bar's Up/Home button
         if(id == android.R.id.home)
         {

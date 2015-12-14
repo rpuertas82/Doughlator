@@ -90,19 +90,28 @@ public class EditDialog extends DialogFragment
 
                         boolean parseOK = true;
 
-                        /* Parse input data */
-                        try
+                        /* Parse name field */
+                        if(ingEt.getText().toString().equals(""))
                         {
-                            float parsedValue = Float.parseFloat(qtyEt.getText().toString());
-                        }
-                        catch (NumberFormatException e)
-                        {
+                            ingEt.setHint("Especifique un nombre");
+                            ingEt.setHintTextColor(Color.RED);
+
                             parseOK = false;
+                        }
+                        else {
+
+                            /* Parse numeric field */
+                            try {
+                                float parsedValue = Float.parseFloat(qtyEt.getText().toString());
+                            } catch (NumberFormatException e) {
+                                parseOK = false;
+                                qtyEt.setTextColor(Color.RED);
+                            }
                         }
 
                         if(!parseOK)
                         {
-                            qtyEt.setTextColor(Color.RED);
+                            /* Do nothing */
                         }
                         else
                         {

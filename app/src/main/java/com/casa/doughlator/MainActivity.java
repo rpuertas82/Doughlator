@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
             ds.load(this);
         }
 
-        setTitle("Doughlator Alpha 1.2");
+        getSupportActionBar().setTitle("Doughlator Alpha 1.20");
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
         /* Get data from data source */
         doughRecipes = ds.getDoughRecipes();
@@ -162,8 +163,31 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if(id == R.id.action_restore){
+
+            final AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+            b.setIcon(android.R.drawable.ic_dialog_alert);
+            b.setMessage("ATENCIÓN: Si reestablece los ajustes se borrarán todas las recetas creadas por usted.");
+            b.setTitle("¿Restablecer?");
+            b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                    ds.restore(MainActivity.this);
+
+                    adapter.notifyDataSetChanged();
+
+                    logger.toast("Se han restablecido los ajustes");
+                }
+            });
+
+            b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
+            });
+
+            b.show();
+
             return true;
         }
 

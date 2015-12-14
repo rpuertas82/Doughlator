@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,14 +69,23 @@ public class RecipeDialog extends DialogFragment
                     @Override
                     public void onClick(View v) {
 
-                        Bundle bundle = new Bundle();
+                        /* Parse name field */
+                        if(recipeNameEt.getText().toString().equals(""))
+                        {
+                            recipeNameEt.setHint("Especifique un nombre");
+                            recipeNameEt.setHintTextColor(Color.RED);
+                        }
+                        else{
 
-                        bundle.putString(ConstantContainer.NAME_KEY, recipeNameEt.getText().toString());
-                        bundle.putInt(ConstantContainer.POSITION_KEY, rowPosition);
+                            Bundle bundle = new Bundle();
 
-                        mCallBack.onOkButtonClickRecipeDialogListener(bundle);
+                            bundle.putString(ConstantContainer.NAME_KEY, recipeNameEt.getText().toString());
+                            bundle.putInt(ConstantContainer.POSITION_KEY, rowPosition);
 
-                        dismiss();
+                            mCallBack.onOkButtonClickRecipeDialogListener(bundle);
+
+                            dismiss();
+                        }
                     }
                 }
         );

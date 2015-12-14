@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".DetailActivity">
 
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_help" android:title="Ayuda"
+        android:orderInCategory="110" app:showAsAction="never" />
     <item android:id="@+id/action_recipe_copy" android:title="Duplicar receta"
-        android:orderInCategory="100" app:showAsAction="never" />
+        android:orderInCategory="101" app:showAsAction="never" />
     <item android:id="@+id/action_add_ingredient" android:title="@string/add_ingredient"
-        android:orderInCategory="101" app:showAsAction="ifRoom"
+        android:orderInCategory="103" app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_add" />
     <item android:id="@+id/action_planner" android:title="@string/notes"
-        android:orderInCategory="102" app:showAsAction="ifRoom"
+        android:orderInCategory="104" app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_edit"/>
 </menu>

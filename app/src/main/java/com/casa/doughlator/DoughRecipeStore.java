@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -61,7 +62,7 @@ public class DoughRecipeStore
 
         drOrig = ds.getDoughRecipes().get(recipeIndex);
 
-        String newName = "Copia de " + drOrig.getRecipeName();
+        String newName = drOrig.getRecipeName()+" (Copia)";
 
         /* Check for duplicated name */
         nameExist = ds.checkForDuplicatedRecipeName(newName);
@@ -80,9 +81,17 @@ public class DoughRecipeStore
             drCloned.getRecipePlanner().setNotesFileName(notesFileName);
 
             /* Copy to new notes file */
-            ds.copyFile(context,
-                    drOrig.getRecipePlanner().getNotesFileName(),
-                    drCloned.getRecipePlanner().getNotesFileName());
+            if(drOrig.getRecipePlanner().getNotesFileName()!=null &&
+                    !drOrig.getRecipePlanner().getNotesFileName().equals("")) {
+
+                File notesFile = context.getFileStreamPath(drOrig.getRecipePlanner().getNotesFileName());
+
+                if(notesFile.exists()) {
+                    ds.copyFile(context,
+                            drOrig.getRecipePlanner().getNotesFileName(),
+                            drCloned.getRecipePlanner().getNotesFileName());
+                }
+            }
 
             retVal = true;
         }
@@ -425,6 +434,51 @@ public class DoughRecipeStore
         }
 
         return retVal;
+    }
+
+    public void restore(Context context)
+    {
+        /* Set shared preferences flags to false */
+        SharedPreferences preferences = context.getSharedPreferences(
+                context.getString(R.string.app_load_prefs), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putBoolean(context.getResources().getString(R.string.loaded_vol1_flag),false);
+        editor.putBoolean(context.getResources().getString(R.string.loaded_vol2_flag),false);
+        editor.putBoolean(context.getResources().getString(R.string.loaded_vol3_flag),false);
+
+        editor.commit();
+
+        /* Remove notes */
+        for(DoughRecipe d: doughRecipes)
+        {
+            String notesFileName = d.getRecipePlanner().getNotesFileName();
+
+            if(notesFileName!=null &&
+                    !notesFileName.equals("")) {
+                File notesFile = context.getFileStreamPath(notesFileName);
+
+                if (notesFile.exists()) {
+                    notesFile.delete();
+                }
+            }
+        }
+
+        /* Remove user recipe list file */
+        File recipeList = context.getFileStreamPath(
+                context.getResources().getString(R.string.user_recipe_list));
+
+        recipeList.delete();
+
+        /* Reolad with res/raw data */
+        reloadContainer(context);
+    }
+
+    public void reloadContainer(Context context)
+    {
+        unload();
+
+        load(context);
     }
 
     public boolean checkForDuplicatedRecipeName(String name)

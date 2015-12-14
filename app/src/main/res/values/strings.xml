@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Doughlator</string>
-    <string name="action_settings">Ajustes</string>
+    <string name="action_settings">Restablecer</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_planner">PlannerActivity</string>
     <string name="user_recipe_list">recipelist.list</string>
