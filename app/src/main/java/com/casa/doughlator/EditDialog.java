@@ -21,6 +21,7 @@ public class EditDialog extends DialogFragment
     private EditDialogListener mCallBack;
     Bundle bundle;
     private int rowPosition;
+    private int ajdustmentMode;
 
     public EditDialog()
     {
@@ -45,8 +46,15 @@ public class EditDialog extends DialogFragment
         bundle = this.getArguments();
 
         rowPosition = bundle.getInt(ConstantContainer.POSITION_KEY);
+        ajdustmentMode = bundle.getInt(ConstantContainer.DOUGH_ADJUSTMENT);
 
         TextView qtyPerTv = (TextView)v.findViewById(R.id.infoQtyTv);
+        Button addIngBtn = (Button) v.findViewById(R.id.addBtn);
+        Button cancelBtn = (Button) v.findViewById(R.id.cancelBtn);
+        final EditText ingEt = (EditText) v.findViewById(R.id.addIngEt);
+        final EditText qtyEt = (EditText) v.findViewById(R.id.addQtyEt);
+        final CheckBox isLiquidCb = (CheckBox)v.findViewById(R.id.isLiquidCb);
+        final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
 
         String valuePassed;
 
@@ -56,17 +64,19 @@ public class EditDialog extends DialogFragment
         }
         else
         {
-            valuePassed = bundle.getString(ConstantContainer.PER_KEY);
+            if(ajdustmentMode==DoughRecipe.ADJUST_BY_PER) {
+                valuePassed = bundle.getString(ConstantContainer.PER_KEY);
 
-            qtyPerTv.setText("Porcentaje:");
+                qtyPerTv.setText("Porcentaje:");
+                qtyEt.setHint("Introduce el porcentaje");
+
+            }else{
+                valuePassed = bundle.getString(ConstantContainer.QTY_KEY);
+
+                qtyPerTv.setText("Peso:");
+                qtyEt.setHint("Introduce el peso");
+            }
         }
-
-        Button addIngBtn = (Button) v.findViewById(R.id.addBtn);
-        Button cancelBtn = (Button) v.findViewById(R.id.cancelBtn);
-        final EditText ingEt = (EditText) v.findViewById(R.id.addIngEt);
-        final EditText qtyEt = (EditText) v.findViewById(R.id.addQtyEt);
-        final CheckBox isLiquidCb = (CheckBox)v.findViewById(R.id.isLiquidCb);
-        final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
 
         if(rowPosition == ConstantContainer.NO_POSITION)
         {
@@ -123,7 +133,14 @@ public class EditDialog extends DialogFragment
                             if (rowPosition == ConstantContainer.ZERO) {
                                 bundle.putString(ConstantContainer.QTY_KEY, qtyEt.getText().toString());
                             } else {
-                                bundle.putString(ConstantContainer.PER_KEY, qtyEt.getText().toString());
+
+                                /* Bundle parameters */
+                                if(ajdustmentMode==DoughRecipe.ADJUST_BY_PER) {
+                                    bundle.putString(ConstantContainer.PER_KEY, qtyEt.getText().toString());
+                                }else{
+                                    bundle.putString(ConstantContainer.QTY_KEY, qtyEt.getText().toString());
+                                }
+
                                 bundle.putBoolean(ConstantContainer.BOOLEAN_KEY, isLiquidCb.isChecked());
                             }
 

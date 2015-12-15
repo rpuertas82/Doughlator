@@ -41,11 +41,29 @@
                 android:text="Hidratación: "/>
 
             <TextView
-                android:id="@+id/evaporationTextTv"
+                android:id="@+id/adjustmentTextTv"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="Evaporación: 20%"/>
+                android:text="Ajuste por peso"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="20dp">
+
+            <ImageView
+                android:id="@+id/hydrabarIv"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@drawable/hydrabar"/>
+
+            <TextView
+                android:id="@+id/currHydrationTv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="50%"/>
 
         </RelativeLayout>
         <RelativeLayout
@@ -70,29 +88,13 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="20dp">
-
-            <ImageView
-                android:id="@+id/hydrabarIv"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="@drawable/hydrabar"/>
-
-            <TextView
-                android:id="@+id/currHydrationTv"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="50%"/>
-
-        </RelativeLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_below="@id/toplayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="30dp">
         <ListView
             android:id="@+id/list"
             android:layout_width="fill_parent"

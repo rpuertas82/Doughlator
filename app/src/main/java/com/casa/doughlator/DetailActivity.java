@@ -31,6 +31,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
     private TextView weightTv;
     private TextView currHydrationTv;
     private TextView maxHydrationTv;
+    private TextView adjustmentTv;
     private ArrayList<Ingredient> ingList;
     private ListView list;
     private ItemAdapter adapter;
@@ -105,6 +106,9 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         doughRecipe = ds.getDoughRecipes().get(recipeIndex);
         ingList = doughRecipe.getIngredientsList();
 
+        /* Set default adjustment mode */
+        doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_PER);
+
         /* Set toolbar title */
         getSupportActionBar().setTitle(doughRecipe.getRecipeName());
 
@@ -113,6 +117,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         currHydrationTv = (TextView)findViewById(R.id.currHydrationTv);
         maxHydrationTv = (TextView)findViewById(R.id.maxHydrationTv);
         hydrabarIv = (ImageView)findViewById(R.id.hydrabarIv);
+        adjustmentTv = (TextView)findViewById(R.id.adjustmentTextTv);
 
         list = (ListView)findViewById(R.id.list);
         adapter = new ItemAdapter(this, ingList);
@@ -123,6 +128,10 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         /* Update textview contents */
         weightTv.setText(doughRecipe.getFormattedRecipeWeight());
+
+        adjustmentTv.setText(
+                doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER?
+                "Ajuste por porcentaje":"Ajuste por peso");
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -146,6 +155,9 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
                     bundle.putBoolean(ConstantContainer.BOOLEAN_KEY,
                             ingList.get(position).isLiquid());
+
+                    bundle.putInt(ConstantContainer.DOUGH_ADJUSTMENT,
+                            doughRecipe.getAdjustmentMode());
 
                     lastPosition = position;
 
@@ -253,6 +265,25 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             return true;
         }
 
+        if(id == R.id.action_adjustment)
+        {
+            /* Toggle modes */
+            if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER)
+            {
+                item.setTitle("Ajustar por porcentaje");
+                adjustmentTv.setText("Ajuste por peso");
+
+                doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_QTY);
+            }
+            else if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_QTY)
+            {
+                item.setTitle("Ajustar por peso");
+                adjustmentTv.setText("Ajuste por porcentaje");
+
+                doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_PER);
+            }
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -281,6 +312,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         /* NO_POSITION means that a new row has to be added */
         bundle.putInt(ConstantContainer.POSITION_KEY, ConstantContainer.NO_POSITION);
+        bundle.putInt(ConstantContainer.DOUGH_ADJUSTMENT,
+                doughRecipe.getAdjustmentMode());
 
         /* Create dialog object, set bundle and show */
         editDialog = new EditDialog();
@@ -311,13 +344,26 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         /* Add new ingredient */
         if(currentPosition == ConstantContainer.NO_POSITION)
         {
-            newIngredient = new Ingredient(
-                    bundle.getString(ConstantContainer.NAME_KEY),
-                    "0",/* Default but not used*/
-                    bundle.getString(ConstantContainer.PER_KEY),
-                    false,
-                    bundle.getBoolean(ConstantContainer.BOOLEAN_KEY)
-            );
+            if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER){
+
+                newIngredient = new Ingredient(
+                        bundle.getString(ConstantContainer.NAME_KEY),
+                        "0",/* Default but not used*/
+                        bundle.getString(ConstantContainer.PER_KEY),
+                        false,
+                        bundle.getBoolean(ConstantContainer.BOOLEAN_KEY)
+                        );
+            }
+            else{
+
+                newIngredient = new Ingredient(
+                        bundle.getString(ConstantContainer.NAME_KEY),
+                        bundle.getString(ConstantContainer.QTY_KEY),/* Default but not used*/
+                        "0",
+                        false,
+                        bundle.getBoolean(ConstantContainer.BOOLEAN_KEY)
+                );
+            }
 
             /* Add new ingredient */
             ingList.add(newIngredient);
@@ -332,7 +378,13 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             if (lastPosition == ConstantContainer.ZERO) {
                 ingredient.setQty(bundle.getString(ConstantContainer.QTY_KEY));
             } else {
-                ingredient.setPer(bundle.getString(ConstantContainer.PER_KEY));
+
+                if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER) {
+                    ingredient.setPer(bundle.getString(ConstantContainer.PER_KEY));
+                }else{
+                    ingredient.setQty(bundle.getString(ConstantContainer.QTY_KEY));
+                }
+
                 ingredient.setIsLiquid(bundle.getBoolean(ConstantContainer.BOOLEAN_KEY));
             }
 

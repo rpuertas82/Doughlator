@@ -11,7 +11,11 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
     /* serialVersionUID has to be overloaded in order to
     * avoid InvalidClassException in serialization */
     private final static long serialVersionUID = 103L;
+
+    public final static int ADJUST_BY_PER = 0;
+    public final static int ADJUST_BY_QTY = 1;
     private boolean useAsPreferment;
+    private int adjustmentMode;
 
     public DoughRecipe(String recipeName)
     {
@@ -22,6 +26,9 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
         ingredients.add(new Ingredient("Agua", "300", "60", false, true));
         ingredients.add(new Ingredient("Levadura", "10", "2", false));
         ingredients.add(new Ingredient("Sal", "10", "2", false));
+
+        /* Default value */
+        adjustmentMode = ADJUST_BY_PER;
     }
 
     @Override
@@ -63,8 +70,21 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
     {
         for(Ingredient i:ingredients)
         {
-            if(i.isReferenceIngredient()==false)
-                updateIngredientQty(i);
+            if(i.isReferenceIngredient()==false) {
+
+                switch(adjustmentMode)
+                {
+                    case ADJUST_BY_PER:
+                        updateIngredientQty(i);
+                        break;
+                    case ADJUST_BY_QTY:
+                        updateIngredientPer(i);
+                        break;
+                    default:
+                        updateIngredientQty(i);
+                        break;
+                }
+            }
         }
     }
 
@@ -94,5 +114,13 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
     public int compareTo(DoughRecipe another)
     {
         return getRecipeName().compareTo(another.getRecipeName());
+    }
+
+    public int getAdjustmentMode() {
+        return adjustmentMode;
+    }
+
+    public void setAdjustmentMode(int adjustmentMode) {
+        this.adjustmentMode = adjustmentMode;
     }
 }

@@ -13,4 +13,6 @@
     <item android:id="@+id/action_planner" android:title="@string/notes"
         android:orderInCategory="104" app:showAsAction="ifRoom"
         android:icon="@android:drawable/ic_menu_edit"/>
+    <item android:id="@+id/action_adjustment" android:title="Ajustar por peso"
+        android:orderInCategory="105" app:showAsAction="never"/>
 </menu>
