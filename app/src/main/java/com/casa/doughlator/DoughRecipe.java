@@ -68,6 +68,15 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
 
     public void updateIngredientsValues()
     {
+        int currentRow = ConstantContainer.ZERO;
+
+        /* First, update reference ingredients*/
+        for(Ingredient i:ingredients)
+        {
+            if(i.isReferenceIngredient())
+                updateIngredientQty(i);
+        }
+
         for(Ingredient i:ingredients)
         {
             if(i.isReferenceIngredient()==false) {

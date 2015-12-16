@@ -338,6 +338,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         Ingredient ingredient;
         int currentPosition;
         Ingredient newIngredient;
+        int adjustmentMode = 0;
 
         currentPosition = bundle.getInt(ConstantContainer.POSITION_KEY, ConstantContainer.ZERO);
 
@@ -391,8 +392,25 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             ingList.set(lastPosition, ingredient);
         }
 
+        /* Reference ingredient cannot be adjusted by ADJUST_BY_PER
+        * mode because other ingredients miss reference quantity.
+        * In order to avoid these situation, we change mode to
+        * ADJUST_BY_QTY if a reference ingredient has been changed
+        * and restore the previous mode when the update has finished */
+        if(lastPosition==ConstantContainer.ZERO)
+        {
+            adjustmentMode = doughRecipe.getAdjustmentMode();
+            doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_PER);
+        }
+
         /* Notify changes to recipe store */
         doughRecipe.updateIngredientsValues();
+
+        /* Restore previous mode */
+        if(lastPosition==ConstantContainer.ZERO)
+        {
+            doughRecipe.setAdjustmentMode(adjustmentMode);
+        }
 
         /* Update textview contents */
         weightTv.setText(doughRecipe.getFormattedRecipeWeight());
