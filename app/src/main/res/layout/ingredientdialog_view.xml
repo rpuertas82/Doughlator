@@ -76,15 +76,13 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/checkboxLayout"
+        android:id="@+id/checkboxLayout1"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/dialogBody"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:paddingRight="20dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -92,19 +90,41 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
-            android:text="Ingrediente líquido"/>
+            android:text="Ingrediente referencia"/>
+        <CheckBox
+            android:id="@+id/isReferenceCb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/checkboxLayout2"
+        android:layout_below="@id/checkboxLayout1"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:text="Ingrediente líquido      "/>
         <CheckBox
             android:id="@+id/isLiquidCb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:orientation="horizontal"
-        android:layout_below="@id/checkboxLayout">
+        android:layout_below="@id/checkboxLayout2">
 
         <Button
             android:id="@+id/addBtn"

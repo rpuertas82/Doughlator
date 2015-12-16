@@ -17,6 +17,7 @@ public class ConstantContainer
     public final static int NINETYFIVE  = 95;
     public final static int ONE_HUNDRED = 100;
     public final static int ONE_THOUSAND = 1000;
-    public final static String BOOLEAN_KEY = "BOOLEAN";
+    public final static String LIQUID_KEY = "LIQUID";
+    public final static String REFERENCE_KEY = "REFERENCE";
     public final static String DOUGH_ADJUSTMENT = "DOUGH_ADJUSTMENT";
 }

@@ -89,6 +89,14 @@ public class Ingredient implements Serializable, Cloneable
         return formattedValue;
     }
 
+    public String getQtyFormattedString()
+    {
+        String formattedValue = String.format(Locale.US, "%.1f gr", getQty());
+
+        return formattedValue;
+    }
+
+
     public void setQty(String qty)
     {
         try
@@ -107,10 +115,40 @@ public class Ingredient implements Serializable, Cloneable
 
     public String getPerString()
     {
-        String formattedValue = String.format(Locale.US, "%.1f", this.per);
+        String formattedValue;
+
+        if(isReferenceIngredient())
+        {
+            formattedValue = String.format(Locale.US, "%.1f", this.per);
+        }
+        else
+        {
+            formattedValue = String.format(Locale.US, "%.1f", this.per);
+        }
 
         return formattedValue;
     }
+
+    public String getPerFormattedString()
+    {
+        String formattedValue;
+
+        if(isReferenceIngredient())
+        {
+            formattedValue = String.format(Locale.US, "%.1f%%(R)", this.per);
+        }
+        else if(isLiquid())
+        {
+            formattedValue = String.format(Locale.US, "%.1f%%(L)", this.per);
+        }
+        else
+        {
+            formattedValue = String.format(Locale.US, "%.1f%%", this.per);
+        }
+
+        return formattedValue;
+    }
+
 
     public float getPer() {
         return per;

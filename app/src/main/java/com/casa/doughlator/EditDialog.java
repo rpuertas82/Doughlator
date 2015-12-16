@@ -54,16 +54,46 @@ public class EditDialog extends DialogFragment
         final EditText ingEt = (EditText) v.findViewById(R.id.addIngEt);
         final EditText qtyEt = (EditText) v.findViewById(R.id.addQtyEt);
         final CheckBox isLiquidCb = (CheckBox)v.findViewById(R.id.isLiquidCb);
+        final CheckBox isReferenceCb = (CheckBox)v.findViewById(R.id.isReferenceCb);
         final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
+
+          /* Code below implements toggle behaviour avoiding set both checkbox*/
+        isLiquidCb.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+
+                                              if(isLiquidCb.isChecked())
+                                              {
+                                                  isReferenceCb.setChecked(false);
+                                              }
+                                          }
+                                      }
+        );
+
+        isReferenceCb.setOnClickListener(new View.OnClickListener() {
+                                             @Override
+                                             public void onClick(View v) {
+
+                                                 if(isReferenceCb.isChecked()){
+                                                     isLiquidCb.setChecked(false);
+                                                 }
+                                             }
+                                         }
+        );
 
         String valuePassed;
 
         if(rowPosition==ConstantContainer.ZERO)
         {
             valuePassed = bundle.getString(ConstantContainer.QTY_KEY);
+            //isReferenceCb.setEnabled(false); TODO (for debug)
+            isLiquidCb.setEnabled(false);
         }
         else
         {
+            isReferenceCb.setEnabled(true);
+            isLiquidCb.setEnabled(true);
+
             if(ajdustmentMode==DoughRecipe.ADJUST_BY_PER) {
                 valuePassed = bundle.getString(ConstantContainer.PER_KEY);
 
@@ -88,7 +118,8 @@ public class EditDialog extends DialogFragment
 
             ingEt.setText(bundle.getString(ConstantContainer.NAME_KEY));
             qtyEt.setText(valuePassed);
-            isLiquidCb.setChecked(bundle.getBoolean(ConstantContainer.BOOLEAN_KEY));
+            isLiquidCb.setChecked(bundle.getBoolean(ConstantContainer.LIQUID_KEY));
+            isReferenceCb.setChecked(bundle.getBoolean(ConstantContainer.REFERENCE_KEY));
 
             qtyEt.requestFocus();
         }
@@ -132,6 +163,7 @@ public class EditDialog extends DialogFragment
 
                             if (rowPosition == ConstantContainer.ZERO) {
                                 bundle.putString(ConstantContainer.QTY_KEY, qtyEt.getText().toString());
+                                bundle.putBoolean(ConstantContainer.REFERENCE_KEY, isReferenceCb.isChecked());
                             } else {
 
                                 /* Bundle parameters */
@@ -141,7 +173,8 @@ public class EditDialog extends DialogFragment
                                     bundle.putString(ConstantContainer.QTY_KEY, qtyEt.getText().toString());
                                 }
 
-                                bundle.putBoolean(ConstantContainer.BOOLEAN_KEY, isLiquidCb.isChecked());
+                                bundle.putBoolean(ConstantContainer.LIQUID_KEY, isLiquidCb.isChecked());
+                                bundle.putBoolean(ConstantContainer.REFERENCE_KEY, isReferenceCb.isChecked());
                             }
 
                             mCallBack.onOkButtonClickEditDialogListener(bundle);

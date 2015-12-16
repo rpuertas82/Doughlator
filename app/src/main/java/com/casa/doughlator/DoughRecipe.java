@@ -42,6 +42,40 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
         return ingredients.get(0);
     }
 
+    /* Return the sum of all reference ingredients */
+    private float getReferencedQty()
+    {
+        float referencedQty;
+        int currentRow;
+
+        referencedQty = ConstantContainer.ZERO;
+        currentRow = ConstantContainer.ZERO;
+
+        /* Update reference quantities */
+        for(Ingredient i:ingredients)
+        {
+            if(currentRow==ConstantContainer.ZERO)
+            {
+                currentRow++;
+            }
+            else
+            {
+                if(i.isReferenceIngredient())
+                    updateIngredientQty(i);
+            }
+        }
+
+        /* perform sum */
+        for(Ingredient i:ingredients)
+        {
+            if(i.isReferenceIngredient()) {
+                referencedQty += i.getQty();
+            }
+        }
+
+        return referencedQty;
+    }
+
     public float getDoughHydration()
     {
         float doughHydration;
@@ -70,51 +104,53 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
     {
         int currentRow = ConstantContainer.ZERO;
 
-        /* First, update reference ingredients*/
+         /* Finally, update others based on values obtained before */
         for(Ingredient i:ingredients)
         {
-            if(i.isReferenceIngredient())
+            if(currentRow==ConstantContainer.ZERO) {
+                //There is no need to update
+                //first ingredient
+                currentRow++;
+            } else {
                 updateIngredientQty(i);
-        }
-
-        for(Ingredient i:ingredients)
-        {
-            if(i.isReferenceIngredient()==false) {
-
-                switch(adjustmentMode)
-                {
-                    case ADJUST_BY_PER:
-                        updateIngredientQty(i);
-                        break;
-                    case ADJUST_BY_QTY:
-                        updateIngredientPer(i);
-                        break;
-                    default:
-                        updateIngredientQty(i);
-                        break;
-                }
             }
         }
     }
 
-    private void updateIngredientQty(Ingredient i)
+    public void updateIngredientQty(Ingredient i)
     {
         Ingredient refIngredient = getReferenceIngredient();
         float qty;
 
-        qty = (refIngredient.getQty()*i.getPer())/
-                ConstantContainer.ONE_HUNDRED;
+        if(i.isReferenceIngredient()){
+
+            qty = (refIngredient.getQty() * i.getPer()) /
+                    ConstantContainer.ONE_HUNDRED;
+        }
+        else {
+
+            qty = (getReferencedQty() * i.getPer()) /
+                    ConstantContainer.ONE_HUNDRED;
+        }
 
         i.setQty(qty);
     }
 
-    private void updateIngredientPer(Ingredient i)
+    public void updateIngredientPer(Ingredient i)
     {
         Ingredient refIngredient = getReferenceIngredient();
         float per;
 
-        per = (i.getQty()*ConstantContainer.ONE_HUNDRED)/
-                refIngredient.getQty();
+        if(i.isReferenceIngredient()){
+
+            per = (i.getQty()*ConstantContainer.ONE_HUNDRED)/
+                    refIngredient.getQty();
+        }
+        else {
+
+            per = (i.getQty()*ConstantContainer.ONE_HUNDRED)/
+                    getReferencedQty();
+        }
 
         i.setPer(per);
     }

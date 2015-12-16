@@ -51,8 +51,8 @@ public class ItemView extends RelativeLayout
     public void setItem(Ingredient item)
     {
         mIngNameTV.setText(item.getName());
-        mIngPerTV.setText(item.getPerString() + "%");
-        mIngQtyTV.setText(item.getQtyString() + " gr");
+        mIngPerTV.setText(item.getPerFormattedString());
+        mIngQtyTV.setText(item.getQtyFormattedString());
     }
 
     public TextView getmIngQtyTV() {

@@ -153,8 +153,11 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                     bundle.putInt(ConstantContainer.POSITION_KEY,
                             position);
 
-                    bundle.putBoolean(ConstantContainer.BOOLEAN_KEY,
+                    bundle.putBoolean(ConstantContainer.LIQUID_KEY,
                             ingList.get(position).isLiquid());
+
+                    bundle.putBoolean(ConstantContainer.REFERENCE_KEY,
+                            ingList.get(position).isReferenceIngredient());
 
                     bundle.putInt(ConstantContainer.DOUGH_ADJUSTMENT,
                             doughRecipe.getAdjustmentMode());
@@ -186,6 +189,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                         public void onClick(DialogInterface dialog, int whichButton) {
 
                             ingList.remove(lIndex);
+
+                            doughRecipe.updateIngredientsValues();
 
                             ds.save(getApplicationContext());
 
@@ -351,8 +356,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                         bundle.getString(ConstantContainer.NAME_KEY),
                         "0",/* Default but not used*/
                         bundle.getString(ConstantContainer.PER_KEY),
-                        false,
-                        bundle.getBoolean(ConstantContainer.BOOLEAN_KEY)
+                        bundle.getBoolean(ConstantContainer.REFERENCE_KEY),
+                        bundle.getBoolean(ConstantContainer.LIQUID_KEY)
                         );
             }
             else{
@@ -361,13 +366,15 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                         bundle.getString(ConstantContainer.NAME_KEY),
                         bundle.getString(ConstantContainer.QTY_KEY),/* Default but not used*/
                         "0",
-                        false,
-                        bundle.getBoolean(ConstantContainer.BOOLEAN_KEY)
+                        bundle.getBoolean(ConstantContainer.REFERENCE_KEY),
+                        bundle.getBoolean(ConstantContainer.LIQUID_KEY)
                 );
             }
 
             /* Add new ingredient */
             ingList.add(newIngredient);
+
+            ingredient = newIngredient;
         }
         /* Edit existing ingredient */
         else
@@ -378,6 +385,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
             if (lastPosition == ConstantContainer.ZERO) {
                 ingredient.setQty(bundle.getString(ConstantContainer.QTY_KEY));
+                ingredient.setReferenceIngredient(bundle.getBoolean(ConstantContainer.REFERENCE_KEY));
             } else {
 
                 if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER) {
@@ -386,7 +394,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                     ingredient.setQty(bundle.getString(ConstantContainer.QTY_KEY));
                 }
 
-                ingredient.setIsLiquid(bundle.getBoolean(ConstantContainer.BOOLEAN_KEY));
+                ingredient.setIsLiquid(bundle.getBoolean(ConstantContainer.LIQUID_KEY));
+                ingredient.setReferenceIngredient(bundle.getBoolean(ConstantContainer.REFERENCE_KEY));
             }
 
             ingList.set(lastPosition, ingredient);
@@ -397,19 +406,25 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         * In order to avoid these situation, we change mode to
         * ADJUST_BY_QTY if a reference ingredient has been changed
         * and restore the previous mode when the update has finished */
-        if(lastPosition==ConstantContainer.ZERO)
+        if(ingredient.isReferenceIngredient())
         {
-            adjustmentMode = doughRecipe.getAdjustmentMode();
-            doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_PER);
+            if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_QTY) {
+                doughRecipe.updateIngredientPer(ingredient);
+            }
+            else {
+                doughRecipe.updateIngredientQty(ingredient);
+            }
+
+            doughRecipe.updateIngredientsValues();
         }
-
-        /* Notify changes to recipe store */
-        doughRecipe.updateIngredientsValues();
-
-        /* Restore previous mode */
-        if(lastPosition==ConstantContainer.ZERO)
+        else
         {
-            doughRecipe.setAdjustmentMode(adjustmentMode);
+            if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_QTY) {
+                doughRecipe.updateIngredientPer(ingredient);
+            }
+            else {
+                doughRecipe.updateIngredientQty(ingredient);
+            }
         }
 
         /* Update textview contents */
