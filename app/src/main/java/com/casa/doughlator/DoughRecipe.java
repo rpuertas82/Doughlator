@@ -1,6 +1,7 @@
 package com.casa.doughlator;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Locale;
 
 /**
@@ -22,10 +23,10 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
         super(recipeName);
 
         //Create basis dough ingredients
-        ingredients.add(new Ingredient("Harina", "500", "100", true));
-        ingredients.add(new Ingredient("Agua", "300", "60", false, true));
-        ingredients.add(new Ingredient("Levadura", "10", "2", false));
-        ingredients.add(new Ingredient("Sal", "10", "2", false));
+        ingredients.add(new Ingredient("Harina", "500", "100",true, true, false));
+        ingredients.add(new Ingredient("Agua", "300", "60", false, false, true));
+        ingredients.add(new Ingredient("Levadura", "10", "2", false, false, false));
+        ingredients.add(new Ingredient("Sal", "10", "2", false, false, false));
 
         /* Default value */
         adjustmentMode = ADJUST_BY_PER;
@@ -193,6 +194,15 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
         }
 
         i.setPer(per);
+    }
+
+    public void sortByReferenceIngredientsFirst()
+    {
+          /* Sort list with new ingredient,
+          * base ingredient is excluded (always first)*/
+        Collections.sort(
+                ingredients.subList(1, ingredients.size()),
+                Ingredient.ReferenceIngredientsFirst);
     }
 
     @Override

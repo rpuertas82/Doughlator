@@ -2,12 +2,13 @@ package com.casa.doughlator;
 
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.Comparator;
 import java.util.Locale;
 
 /**
  * Created by Casa on 20/11/15.
  */
-public class Ingredient implements Serializable, Cloneable
+public class Ingredient implements Serializable, Cloneable//, Comparable<Ingredient>
 {
     /* serialVersionUID has to be overloaded in order to
     * avoid InvalidClassException in serialization */
@@ -16,8 +17,10 @@ public class Ingredient implements Serializable, Cloneable
     private String name;
     private float qty;
     private float per;
+    private boolean baseIngredient;
     private boolean referenceIngredient;
     private boolean isLiquid;
+    private long id;
 
     Ingredient()
     {
@@ -43,6 +46,17 @@ public class Ingredient implements Serializable, Cloneable
         ingString += getQtyString()+" gr";
 
         return ingString;
+    }
+
+    Ingredient(String name, String qty, String per,
+               boolean baseIngredient, boolean refIng, boolean isLiquid)
+    {
+        this.name = name;
+        setQty(qty);
+        setPer(per);
+        setIsLiquid(isLiquid);
+        this.referenceIngredient = refIng;
+        this.baseIngredient = baseIngredient;
     }
 
     Ingredient(String name, String qty, String per, boolean refIng, boolean isLiquid)
@@ -170,6 +184,18 @@ public class Ingredient implements Serializable, Cloneable
         }
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public boolean isBaseIngredient() {
+        return baseIngredient;
+    }
+
     public void setReferenceIngredient(boolean value)
     {
         referenceIngredient = value;
@@ -192,4 +218,29 @@ public class Ingredient implements Serializable, Cloneable
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
+
+    public static Comparator<Ingredient> ReferenceIngredientsFirst = new Comparator<Ingredient>() {
+
+        public int compare(Ingredient i1, Ingredient i2) {
+
+            int retVal = -1;
+
+            /* Arranged by reference field */
+            if(i1.isReferenceIngredient() && i2.isReferenceIngredient())
+            {
+                retVal = i1.getName().compareTo(i2.getName());
+            }
+            else if(i1.isReferenceIngredient() && !i2.isReferenceIngredient())
+            {
+                retVal = -1;
+            }
+            else if(!i1.isReferenceIngredient() && i2.isReferenceIngredient())
+            {
+                retVal = 1;
+            }
+
+            return retVal;
+        }
+
+    };
 }

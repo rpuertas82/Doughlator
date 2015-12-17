@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,12 +15,11 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class DetailActivity extends AppCompatActivity implements EditDialog.EditDialogListener,
         RecipeDialog.RecipeDialogListener
@@ -375,6 +373,9 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             ingList.add(newIngredient);
 
             ingredient = newIngredient;
+
+            /* Sort list with new ingredient */
+            doughRecipe.sortByReferenceIngredientsFirst();
         }
         /* Edit existing ingredient */
         else
@@ -524,7 +525,11 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
     @Override
     protected void onResume() {
+
         super.onResume();
+
+       /* Sort list with new ingredient */
+        doughRecipe.sortByReferenceIngredientsFirst();
 
         if(hydrabarAnimation!=null &&
                 hydrabarAnimation.isReady()) {
