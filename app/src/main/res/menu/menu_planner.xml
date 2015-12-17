@@ -5,7 +5,7 @@
 
     <item android:id="@+id/action_help" android:title="Ayuda"
         android:orderInCategory="110" app:showAsAction="never" />
-    <item android:id="@+id/action_ok" android:title="OK"
+    <item android:id="@+id/action_edit" android:title="Edit"
         android:orderInCategory="102" app:showAsAction="ifRoom" />
     <item android:id="@+id/action_delete" android:title="Borrar"
         android:orderInCategory="103" app:showAsAction="ifRoom"

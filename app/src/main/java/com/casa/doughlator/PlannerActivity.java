@@ -1,11 +1,14 @@
 package com.casa.doughlator;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.KeyListener;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +28,8 @@ public class PlannerActivity extends AppCompatActivity {
     private String notesFileName;
     Logger logger;
     EditText notesBoard;
+    private boolean notesBoardInEditMode = false;
+    private KeyListener cookie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,9 @@ public class PlannerActivity extends AppCompatActivity {
             notesBoard.getText().clear();
             notesBoard.setText(notesBuffer);
         }
+
+        /* Disabled by default */
+        setNotesBoardInEditMode(false);
     }
 
     @Override
@@ -92,6 +100,7 @@ public class PlannerActivity extends AppCompatActivity {
         return true;
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -115,17 +124,63 @@ public class PlannerActivity extends AppCompatActivity {
             return true;
         }
 
-        if(id == R.id.action_ok)
+        if(id == R.id.action_edit)
         {
-            InputMethodManager imm = (InputMethodManager)getSystemService(
-                    getApplicationContext().INPUT_METHOD_SERVICE);
+            /* Toggle edition */
+            if(notesBoardInEditMode == false)
+            {
+                notesBoardInEditMode = true;
 
-            imm.hideSoftInputFromWindow(notesBoard.getWindowToken(), 0);
+                item.setTitle("OK");
+            }
+            else
+            {
+                notesBoardInEditMode = false;
+
+                item.setTitle("Edit");
+
+                if(Build.VERSION.SDK_INT < 21)
+                {
+                    item.setIcon(getResources().getDrawable(R.drawable.abc_edit_text_material));
+                }
+                else {
+                    item.setIcon(getResources().getDrawable(R.drawable.abc_edit_text_material, null));
+                }
+            }
+
+            setNotesBoardInEditMode(notesBoardInEditMode);
 
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setNotesBoardInEditMode(boolean enabled)
+    {
+        if(enabled)
+        {
+            /* Enable edition */
+            InputMethodManager imm = (InputMethodManager)getSystemService(
+                    getApplicationContext().INPUT_METHOD_SERVICE);
+
+            imm.hideSoftInputFromWindow(notesBoard.getWindowToken(), 0);
+
+            if(cookie!=null)
+                notesBoard.setKeyListener(cookie);
+        }
+        else
+        {
+            /* Disable edition */
+            InputMethodManager imm = (InputMethodManager)getSystemService(
+                    getApplicationContext().INPUT_METHOD_SERVICE);
+
+            imm.hideSoftInputFromWindow(notesBoard.getWindowToken(), 0);
+
+            /* Save reference to listener */
+            cookie = notesBoard.getKeyListener();
+            notesBoard.setKeyListener(null);
+        }
     }
 
     private void deleteNotes()
