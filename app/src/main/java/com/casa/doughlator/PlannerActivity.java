@@ -132,6 +132,17 @@ public class PlannerActivity extends AppCompatActivity {
                 notesBoardInEditMode = true;
 
                 item.setTitle("OK");
+
+                if(Build.VERSION.SDK_INT < 21)
+                {
+                    item.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_save));
+                }
+                else
+                {
+                    item.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_save, null));
+                }
+
+                logger.toast("Edición activada");
             }
             else
             {
@@ -141,13 +152,17 @@ public class PlannerActivity extends AppCompatActivity {
 
                 if(Build.VERSION.SDK_INT < 21)
                 {
-                    item.setIcon(getResources().getDrawable(R.drawable.abc_edit_text_material));
+                    item.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
                 }
-                else {
-                    item.setIcon(getResources().getDrawable(R.drawable.abc_edit_text_material, null));
+                else
+                {
+                    item.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit, null));
                 }
+
+                logger.toast("Notas guardadas");
             }
 
+            /* Enable / disable edition */
             setNotesBoardInEditMode(notesBoardInEditMode);
 
             return true;
