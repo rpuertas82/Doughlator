@@ -42,13 +42,43 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
         return ingredients.get(0);
     }
 
-    /* Return the sum of all reference ingredients */
-    private float getReferencedQty()
+    public void notifyIngredientChanged(Ingredient i, boolean wasReference)
     {
-        float referencedQty;
+         /* We have to proceed updating depending the ingredient
+        * that have changed.
+        *
+        * If reference ingredient or was reference before changes:
+        *   1 - Adjust reference ingredient
+        *   2 - Adjust others
+        * If not reference ingredient
+        *   1 - Adjust the ingredient
+        **/
+        if(i.isReferenceIngredient() || wasReference)
+        {
+            if(getAdjustmentMode()==DoughRecipe.ADJUST_BY_QTY) {
+                updateIngredientPer(i);
+            }
+            else {
+                updateIngredientQty(i);
+            }
+
+            updateIngredientsValues();
+        }
+        else
+        {
+            if(getAdjustmentMode()==DoughRecipe.ADJUST_BY_QTY) {
+                updateIngredientPer(i);
+            }
+            else {
+                updateIngredientQty(i);
+            }
+        }
+    }
+
+    private void updateReferencedIngredients()
+    {
         int currentRow;
 
-        referencedQty = ConstantContainer.ZERO;
         currentRow = ConstantContainer.ZERO;
 
         /* Update reference quantities */
@@ -64,6 +94,17 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
                     updateIngredientQty(i);
             }
         }
+    }
+
+    /* Return the sum of all reference ingredients */
+    private float getReferencedQty()
+    {
+        float referencedQty;
+
+        referencedQty = ConstantContainer.ZERO;
+
+        /* Update reference quantities */
+        updateReferencedIngredients();
 
         /* perform sum */
         for(Ingredient i:ingredients)
@@ -104,7 +145,6 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
     {
         int currentRow = ConstantContainer.ZERO;
 
-         /* Finally, update others based on values obtained before */
         for(Ingredient i:ingredients)
         {
             if(currentRow==ConstantContainer.ZERO) {

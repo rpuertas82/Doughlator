@@ -343,7 +343,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         Ingredient ingredient;
         int currentPosition;
         Ingredient newIngredient;
-        int adjustmentMode = 0;
+        boolean wasReferenceIngredient = false;
 
         currentPosition = bundle.getInt(ConstantContainer.POSITION_KEY, ConstantContainer.ZERO);
 
@@ -395,37 +395,26 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                 }
 
                 ingredient.setIsLiquid(bundle.getBoolean(ConstantContainer.LIQUID_KEY));
+
+                 /* If ingredient was marked as referenced before */
+                if(ingredient.isReferenceIngredient())
+                {
+                    /* And change status to not reference ingredient */
+                    if(bundle.getBoolean(ConstantContainer.REFERENCE_KEY)==false)
+                    {
+                        /* Notify ingredient status changed */
+                        wasReferenceIngredient = true;
+                    }
+                }
+
                 ingredient.setReferenceIngredient(bundle.getBoolean(ConstantContainer.REFERENCE_KEY));
             }
 
             ingList.set(lastPosition, ingredient);
         }
 
-        /* Reference ingredient cannot be adjusted by ADJUST_BY_PER
-        * mode because other ingredients miss reference quantity.
-        * In order to avoid these situation, we change mode to
-        * ADJUST_BY_QTY if a reference ingredient has been changed
-        * and restore the previous mode when the update has finished */
-        if(ingredient.isReferenceIngredient())
-        {
-            if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_QTY) {
-                doughRecipe.updateIngredientPer(ingredient);
-            }
-            else {
-                doughRecipe.updateIngredientQty(ingredient);
-            }
-
-            doughRecipe.updateIngredientsValues();
-        }
-        else
-        {
-            if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_QTY) {
-                doughRecipe.updateIngredientPer(ingredient);
-            }
-            else {
-                doughRecipe.updateIngredientQty(ingredient);
-            }
-        }
+        /* Re-compose recipe values */
+        doughRecipe.notifyIngredientChanged(ingredient, wasReferenceIngredient);
 
         /* Update textview contents */
         weightTv.setText(doughRecipe.getFormattedRecipeWeight());
