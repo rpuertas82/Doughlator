@@ -181,14 +181,14 @@ public class DoughRecipeStore
          * */
 
         /* 1 - Load recipe volumes (first time app is started or reset preferences) */
-        /*loadRecipeListFromResource(context, R.raw.recipelist_vol1,
+        loadRecipeListFromResource(context, R.raw.recipelist_vol1,
                 context.getString(R.string.loaded_vol1_flag));
 
         loadRecipeListFromResource(context, R.raw.recipelist_vol2,
                 context.getString(R.string.loaded_vol2_flag));
 
         loadRecipeListFromResource(context, R.raw.recipelist_vol3,
-                context.getString(R.string.loaded_vol3_flag));*/
+                context.getString(R.string.loaded_vol3_flag));
 
 
         /* 2 - Check for user recipe list file existence */

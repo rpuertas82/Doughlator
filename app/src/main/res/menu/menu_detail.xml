@@ -9,10 +9,10 @@
         android:orderInCategory="101" app:showAsAction="never" />
     <item android:id="@+id/action_add_ingredient" android:title="@string/add_ingredient"
         android:orderInCategory="103" app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_add" />
+        android:icon="@drawable/ic_add_white_36dp" />
     <item android:id="@+id/action_planner" android:title="@string/notes"
         android:orderInCategory="104" app:showAsAction="ifRoom"
-        android:icon="@android:drawable/ic_menu_edit"/>
+        android:icon="@drawable/ic_create_white_24dp"/>
     <item android:id="@+id/action_adjustment" android:title="Ajustar por peso"
         android:orderInCategory="105" app:showAsAction="never"/>
 </menu>

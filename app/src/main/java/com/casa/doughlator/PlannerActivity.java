@@ -135,11 +135,11 @@ public class PlannerActivity extends AppCompatActivity {
 
                 if(Build.VERSION.SDK_INT < 21)
                 {
-                    item.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_save));
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_save_white_24dp));
                 }
                 else
                 {
-                    item.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_save, null));
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_save_white_24dp, null));
                 }
 
                 logger.toast("Edición activada");
@@ -152,11 +152,11 @@ public class PlannerActivity extends AppCompatActivity {
 
                 if(Build.VERSION.SDK_INT < 21)
                 {
-                    item.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit));
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_create_white_24dp));
                 }
                 else
                 {
-                    item.setIcon(getResources().getDrawable(android.R.drawable.ic_menu_edit, null));
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_create_white_24dp, null));
                 }
 
                 logger.toast("Notas guardadas");
@@ -179,7 +179,7 @@ public class PlannerActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager)getSystemService(
                     getApplicationContext().INPUT_METHOD_SERVICE);
 
-            imm.hideSoftInputFromWindow(notesBoard.getWindowToken(), 0);
+            imm.showSoftInput(notesBoard, InputMethodManager.SHOW_IMPLICIT);
 
             if(cookie!=null)
                 notesBoard.setKeyListener(cookie);

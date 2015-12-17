@@ -47,7 +47,6 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        TextView toolbarTitle = (TextView)findViewById(R.id.toolbarTitle);
         setSupportActionBar(toolbar);
 
         /* Configure actionbar */
