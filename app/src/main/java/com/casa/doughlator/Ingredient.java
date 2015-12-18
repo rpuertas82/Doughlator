@@ -8,7 +8,7 @@ import java.util.Locale;
 /**
  * Created by Casa on 20/11/15.
  */
-public class Ingredient implements Serializable, Cloneable//, Comparable<Ingredient>
+public class Ingredient implements Serializable, Cloneable, Comparable<Ingredient>
 {
     /* serialVersionUID has to be overloaded in order to
     * avoid InvalidClassException in serialization */
@@ -243,4 +243,12 @@ public class Ingredient implements Serializable, Cloneable//, Comparable<Ingredi
         }
 
     };
+
+    @Override
+    public int compareTo(Ingredient ingredient) {
+
+        int retVal = (int)(this.getQty() - ingredient.getQty());
+
+        return retVal;
+    }
 }

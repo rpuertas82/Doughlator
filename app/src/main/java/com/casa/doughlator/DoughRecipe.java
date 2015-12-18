@@ -196,6 +196,20 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
         i.setPer(per);
     }
 
+    public void sortByIngredientsQuantity(boolean reverseOrder)
+    {
+          /* Sort list with new ingredient,
+          * base ingredient is excluded (always first)*/
+        if(!reverseOrder)
+        {
+            Collections.sort(ingredients.subList(1, ingredients.size()));
+        }
+        else {
+            Collections.sort(ingredients.subList(1, ingredients.size()),
+                    Collections.reverseOrder());
+        }
+    }
+
     public void sortByReferenceIngredientsFirst()
     {
           /* Sort list with new ingredient,

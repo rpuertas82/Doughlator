@@ -372,9 +372,6 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             ingList.add(newIngredient);
 
             ingredient = newIngredient;
-
-            /* Sort list with new ingredient */
-            doughRecipe.sortByReferenceIngredientsFirst();
         }
         /* Edit existing ingredient */
         else
@@ -425,6 +422,12 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         /* Move hydrationbar */
         currHydrationTv.setText(doughRecipe.getFormattedDoughHydration());
         hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
+
+        /* 1 - Sort by ingredient quantity (Decreasing order)*/
+        doughRecipe.sortByIngredientsQuantity(false);
+
+        /* 2 - Sort list with new ingredient */
+        doughRecipe.sortByReferenceIngredientsFirst();
 
         /* Notify changes to listview */
         adapter.notifyDataSetChanged();
@@ -496,11 +499,11 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         try
         {
-            startActivity(Intent.createChooser(emailIntent, "Send email"));
+            startActivity(Intent.createChooser(emailIntent, "Enviar e-mail"));
         }
         catch (android.content.ActivityNotFoundException ex)
         {
-            logger.toast("There is no email client installed.");
+            logger.toast("No hay ningún cliente de correo instalado.");
         }
     }
 
@@ -527,7 +530,10 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         super.onResume();
 
-       /* Sort list with new ingredient */
+        /* 1 - Sort by ingredient quantity (Decreasing order)*/
+        doughRecipe.sortByIngredientsQuantity(false);
+
+        /* 2 - Sort list with new ingredient */
         doughRecipe.sortByReferenceIngredientsFirst();
 
         if(hydrabarAnimation!=null &&
