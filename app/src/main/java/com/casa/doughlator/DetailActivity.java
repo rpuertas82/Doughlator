@@ -286,6 +286,13 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             }
         }
 
+        if(id == R.id.action_help)
+        {
+            showHelpDialog();
+
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -333,6 +340,19 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         startActivity(i);
     }
 
+    public void showHelpDialog()
+    {
+        HelpDialog helpDialog;
+        Bundle bundle;
+
+        /* Default, empty bundle */
+        bundle = new Bundle();
+
+            /* Create dialog object, set bundle and show */
+        helpDialog = new HelpDialog();
+        helpDialog.setArguments(bundle);
+        helpDialog.show(getFragmentManager(), "HelpDialog");
+    }
 
     @Override
     public void onOkButtonClickEditDialogListener(Bundle bundle)

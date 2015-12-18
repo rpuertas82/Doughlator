@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/dialogTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@android:color/holo_blue_light">
+
+        <TextView
+            android:id="@+id/dialogTitleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ayuda"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
+            android:paddingLeft="20dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dialogBody"
+        android:layout_below="@id/dialogTop"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <TextView
+            android:id="@+id/helpContentTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/helpContent"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/dialogBody">
+
+        <Button
+            android:id="@+id/addBtn"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_height="36dp"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="OK"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@android:color/holo_blue_light" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

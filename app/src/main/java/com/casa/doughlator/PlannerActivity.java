@@ -168,7 +168,28 @@ public class PlannerActivity extends AppCompatActivity {
             return true;
         }
 
+        if(id == R.id.action_help)
+        {
+            showHelpDialog();
+
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showHelpDialog()
+    {
+        HelpDialog helpDialog;
+        Bundle bundle;
+
+        /* Default, empty bundle */
+        bundle = new Bundle();
+
+            /* Create dialog object, set bundle and show */
+        helpDialog = new HelpDialog();
+        helpDialog.setArguments(bundle);
+        helpDialog.show(getFragmentManager(), "HelpDialog");
     }
 
     private void setNotesBoardInEditMode(boolean enabled)

@@ -10,4 +10,5 @@
     <string name="loaded_vol3_flag">loaded_vol3_flag</string>
     <string name="add_ingredient">Añadir ingrediente</string>
     <string name="notes">Notas</string>
+    <string name="helpContent">Contenido de la ayuda:\n 1 - Introducción\n 2 - Añadir recetas\n 3 - Eliminar recetas\n 4 - Añadir ingredientes\n 5 - Editar ingredientes\n 6 - Borrar ingredientes\n 7 - Escribir notas\n 8 - Borrar notas\n 9 - Enviar por correo\n 10 - Restablecer\n</string>
 </resources>
