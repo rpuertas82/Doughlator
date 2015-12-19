@@ -90,7 +90,7 @@ public class PlannerActivity extends AppCompatActivity {
         }
 
         /* Disabled by default */
-        setNotesBoardInEditMode(false);
+        setNotesBoardInEditMode(false, null);
     }
 
     @Override
@@ -131,16 +131,8 @@ public class PlannerActivity extends AppCompatActivity {
             {
                 notesBoardInEditMode = true;
 
-                item.setTitle("OK");
-
-                if(Build.VERSION.SDK_INT < 21)
-                {
-                    item.setIcon(getResources().getDrawable(R.drawable.ic_save_white_24dp));
-                }
-                else
-                {
-                    item.setIcon(getResources().getDrawable(R.drawable.ic_save_white_24dp, null));
-                }
+                 /* Enable / disable edition */
+                setNotesBoardInEditMode(notesBoardInEditMode, item);
 
                 logger.toast("Edición activada");
             }
@@ -148,22 +140,11 @@ public class PlannerActivity extends AppCompatActivity {
             {
                 notesBoardInEditMode = false;
 
-                item.setTitle("Edit");
+                /* Enable / disable edition */
+                setNotesBoardInEditMode(notesBoardInEditMode, item);
 
-                if(Build.VERSION.SDK_INT < 21)
-                {
-                    item.setIcon(getResources().getDrawable(R.drawable.ic_create_white_24dp));
-                }
-                else
-                {
-                    item.setIcon(getResources().getDrawable(R.drawable.ic_create_white_24dp, null));
-                }
-
-                logger.toast("Notas guardadas");
+                logger.toast("Edición desactivada");
             }
-
-            /* Enable / disable edition */
-            setNotesBoardInEditMode(notesBoardInEditMode);
 
             return true;
         }
@@ -192,10 +173,20 @@ public class PlannerActivity extends AppCompatActivity {
         helpDialog.show(getFragmentManager(), "HelpDialog");
     }
 
-    private void setNotesBoardInEditMode(boolean enabled)
+    private void setNotesBoardInEditMode(boolean enabled, MenuItem item)
     {
         if(enabled)
         {
+            if(item!=null) {
+                item.setTitle("OK");
+
+                if (Build.VERSION.SDK_INT < 21) {
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_save_white_24dp));
+                } else {
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_save_white_24dp, null));
+                }
+            }
+
             /* Enable edition */
             InputMethodManager imm = (InputMethodManager)getSystemService(
                     getApplicationContext().INPUT_METHOD_SERVICE);
@@ -204,9 +195,21 @@ public class PlannerActivity extends AppCompatActivity {
 
             if(cookie!=null)
                 notesBoard.setKeyListener(cookie);
+
+            notesBoard.requestFocus();
         }
         else
         {
+            if(item!=null) {
+                item.setTitle("Edit");
+
+                if (Build.VERSION.SDK_INT < 21) {
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_create_white_24dp));
+                } else {
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_create_white_24dp, null));
+                }
+            }
+
             /* Disable edition */
             InputMethodManager imm = (InputMethodManager)getSystemService(
                     getApplicationContext().INPUT_METHOD_SERVICE);
@@ -216,6 +219,8 @@ public class PlannerActivity extends AppCompatActivity {
             /* Save reference to listener */
             cookie = notesBoard.getKeyListener();
             notesBoard.setKeyListener(null);
+
+            notesBoard.clearFocus();
         }
     }
 
@@ -242,12 +247,10 @@ public class PlannerActivity extends AppCompatActivity {
                         if (!notesFile.delete()) {
                             retVal = false;
                         } else {
-                                /* Re-compose notes file name */
+
+                            /* Re-compose notes file name */
                             notesFileName = recipePlanner.composeNotesFileName(doughRecipe.getRecipeName(), ".nts");
                             dr.getRecipePlanner().setNotesFileName(notesFileName);
-
-                                /* Delete edit text content */
-                            notesBoard.getText().clear();
 
                             //ds.save(getApplicationContext());
                             retVal = true;
@@ -256,10 +259,19 @@ public class PlannerActivity extends AppCompatActivity {
                     }
                 }
 
+                /* Delete edit text content */
+                notesBoard.getText().clear();
+
+                  /* Disable edition */
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        getApplicationContext().INPUT_METHOD_SERVICE);
+
+                imm.hideSoftInputFromWindow(notesBoard.getWindowToken(), 0);
+
                 if (retVal) {
                     logger.toast("Notas eliminadas");
                 } else {
-                    logger.toast("Error eliminando las notas");
+                   /* Do nothing */
                 }
             }
         });

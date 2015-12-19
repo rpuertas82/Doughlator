@@ -9,6 +9,13 @@
         android:orientation="horizontal"
         android:background="@android:color/holo_blue_light">
 
+        <ImageView
+            android:id="@+id/iconIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingLeft="12dp"
+            android:src="@drawable/ic_help_white_24dp"/>
         <TextView
             android:id="@+id/dialogTitleTv"
             android:layout_width="match_parent"
@@ -20,33 +27,16 @@
             android:layout_alignParentTop="true"
             android:paddingBottom="20dp"
             android:paddingTop="20dp"
-            android:paddingLeft="20dp"/>
+            android:paddingLeft="6dp"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/dialogBody"
-        android:layout_below="@id/dialogTop"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp">
-
-        <TextView
-            android:id="@+id/helpContentTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/helpContent"/>
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/dialogBottom"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:orientation="horizontal"
-        android:layout_below="@id/dialogBody">
+        android:layout_alignParentBottom="true">
 
         <Button
             android:id="@+id/addBtn"
@@ -63,5 +53,32 @@
             android:textColor="@android:color/holo_blue_light" />
 
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/dialogBody"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/dialogTop"
+        android:layout_above="@id/dialogBottom"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <WebView
+                android:id="@+id/webViewWv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"/>
+
+        </ScrollView>
+
+    </LinearLayout>
 
 </RelativeLayout>
