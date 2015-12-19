@@ -69,7 +69,7 @@ public class HelpDialog extends DialogFragment
 
         /* Load and display help content */
         helpContent = loadHelpContentFromResource(
-                getActivity().getApplicationContext(),R.raw.example);
+                getActivity().getApplicationContext(),R.raw.help);
 
         helpContentWv.loadData(helpContent,"text/html", "utf-8");
 
