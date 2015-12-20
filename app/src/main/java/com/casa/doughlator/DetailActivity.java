@@ -106,6 +106,9 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         /* Set default adjustment mode */
         doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_PER);
 
+        /* Update values before print into list */
+        doughRecipe.updateIngredientsValues();
+
         /* Set toolbar title */
         getSupportActionBar().setTitle(doughRecipe.getRecipeName());
 

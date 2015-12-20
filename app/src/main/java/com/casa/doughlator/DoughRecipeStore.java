@@ -184,12 +184,7 @@ public class DoughRecipeStore
         loadRecipeListFromResource(context, R.raw.recipelist_vol1,
                 context.getString(R.string.loaded_vol1_flag));
 
-        loadRecipeListFromResource(context, R.raw.recipelist_vol2,
-                context.getString(R.string.loaded_vol2_flag));
-
-        loadRecipeListFromResource(context, R.raw.recipelist_vol3,
-                context.getString(R.string.loaded_vol3_flag));
-
+        /* Add more recipes volumes here */
 
         /* 2 - Check for user recipe list file existence */
         try
