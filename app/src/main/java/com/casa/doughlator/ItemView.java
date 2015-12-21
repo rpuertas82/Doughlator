@@ -50,7 +50,20 @@ public class ItemView extends RelativeLayout
 
     public void setItem(Ingredient item)
     {
-        mIngNameTV.setText(item.getName());
+        if(item.getName().length()>18)
+        {
+            StringBuilder sb = new StringBuilder(18);
+            sb.append(item.getName().substring(0,15));
+            sb.append("...");
+            String trimmedName = sb.toString();
+
+            mIngNameTV.setText(trimmedName);
+        }
+        else
+        {
+            mIngNameTV.setText(item.getName());
+        }
+
         mIngPerTV.setText(item.getPerFormattedString());
         mIngQtyTV.setText(item.getQtyFormattedString());
     }
