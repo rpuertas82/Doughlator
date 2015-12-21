@@ -39,18 +39,16 @@ public class Planner implements Serializable, Cloneable
     public String composeNotesFileName(String recipeName, String ext)
     {
         Random rnd = new Random();
-        String fileName;
         int rndNumber;
-        int firstBlank;
 
         rndNumber = rnd.nextInt((1000 - 0) + 1) + 0;
 
-        fileName = new String(recipeName).substring(0,4);
+        StringBuilder sb = new StringBuilder(String.valueOf(this.hashCode()));
+        sb.append("_");
+        sb.append(String.format("%04d",rndNumber));
+        sb.append(ext);
 
-        fileName += "_" + String.format("%04d",rndNumber);
-        fileName += ext;
-
-        return fileName;
+        return sb.toString();
     }
 
     public void setNotesFileName(String notesFileName) {
