@@ -16,11 +16,9 @@ import java.io.InputStreamReader;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 /**
@@ -126,10 +124,18 @@ public class DoughRecipeStore
                     try
                     {
                         /* Add recipes to doughRecipe container */
-                        doughRecipes.add((DoughRecipe) ois.readObject());
+                        DoughRecipe dr = (DoughRecipe) ois.readObject();
+                        doughRecipes.add(dr);
 
                         /* Copy notes file to user directory */
-                        //TODO
+                        if(dr.getRecipePlanner().getNotesFileName()!=null &&
+                                !dr.getRecipePlanner().getNotesFileName().isEmpty()) {
+
+                            copyNotesFromResource(
+                                    context,
+                                    dr.getRecipePlanner().getNotesFileName(), /* From */
+                                    dr.getRecipePlanner().getNotesFileName());/* To */
+                        }
                     }
                     catch (EOFException e)
                     {
@@ -431,6 +437,55 @@ public class DoughRecipeStore
         return retVal;
     }
 
+    public boolean copyNotesFromResource(Context context, String fromFileName, String toFileName)
+    {
+        boolean retVal = false;
+        int idFile;
+
+        if(fromFileName!=null &&
+                toFileName!=null)
+        {
+            StringBuilder sb = new StringBuilder("raw/");
+            sb.append(fromFileName);
+            fromFileName = sb.substring(0,sb.toString().indexOf(".nts"));
+
+            idFile = context.getResources().getIdentifier(fromFileName, "raw", context.getPackageName());
+
+            if(idFile<=0) {
+                /* Do nothing */
+            } else{
+
+                try
+                {
+                    InputStream inStream = context.getResources().openRawResource(idFile);
+                    FileOutputStream outStream = context.openFileOutput(toFileName, Context.MODE_PRIVATE);
+                    byte[] buffer = new byte[inStream.available()];
+
+                    /* Checkout stream to buffer */
+                    inStream.read(buffer);
+
+                    /* Write entire buffer to Outstream */
+                    outStream.write(buffer);
+
+                    inStream.close();
+                    outStream.close();
+
+                    retVal = true;
+                }
+                catch (FileNotFoundException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return retVal;
+    }
+
     public void restore(Context context)
     {
         /* Set shared preferences flags to false */
@@ -438,9 +493,11 @@ public class DoughRecipeStore
                 context.getString(R.string.app_load_prefs), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
 
-        editor.putBoolean(context.getResources().getString(R.string.loaded_vol1_flag),false);
-        editor.putBoolean(context.getResources().getString(R.string.loaded_vol2_flag),false);
-        editor.putBoolean(context.getResources().getString(R.string.loaded_vol3_flag),false);
+        editor.putBoolean(context.getResources().getString(R.string.loaded_vol1_flag), false);
+
+        /* Not used */
+        //editor.putBoolean(context.getResources().getString(R.string.loaded_vol2_flag),false);
+        //editor.putBoolean(context.getResources().getString(R.string.loaded_vol3_flag),false);
 
         editor.commit();
 
