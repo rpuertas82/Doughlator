@@ -65,7 +65,7 @@ public class DoughRecipeStore
         String newName = drOrig.getRecipeName()+" (Copia)";
 
         /* Check for duplicated name */
-        nameExist = ds.checkForDuplicatedRecipeName(newName);
+        nameExist = ds.checkForDuplicatedRecipeName(newName, true);
 
         if(!nameExist)
         {
@@ -465,7 +465,7 @@ public class DoughRecipeStore
 
         recipeList.delete();
 
-        /* Reolad with res/raw data */
+        /* Reload with res/raw data */
         reloadContainer(context);
     }
 
@@ -476,15 +476,23 @@ public class DoughRecipeStore
         load(context);
     }
 
-    public boolean checkForDuplicatedRecipeName(String name)
+    public boolean checkForDuplicatedRecipeName(String name, boolean ignoreCase)
     {
         boolean nameExist = false;
 
         /* Check for duplicated recipe name */
         for (DoughRecipe rd : doughRecipes) {
-            if (rd.getRecipeName().equals(name)) {
-                /* Name already created */
-                nameExist = true;
+
+            if(ignoreCase) {
+                if (rd.getRecipeName().equalsIgnoreCase(name)) {
+                    /* Name already created */
+                    nameExist = true;
+                }
+            }else{
+                if (rd.getRecipeName().equals(name)) {
+                    /* Name already created */
+                    nameExist = true;
+                }
             }
         }
 
@@ -511,4 +519,10 @@ public class DoughRecipeStore
     public boolean isDataLoaded() {
         return dataLoaded;
     }
+
+    public void sortRecipeList()
+    {
+        Collections.sort(this.getDoughRecipes());
+    }
+
 }

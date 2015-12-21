@@ -232,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
             else
             {
                 /* Check for duplicated recipe name */
-                nameExist = ds.checkForDuplicatedRecipeName(recipeName);
+                nameExist = ds.checkForDuplicatedRecipeName(recipeName, true);
 
                 if (nameExist == false) {
                     /* Create new dough recipe */
@@ -240,6 +240,9 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
 
                     /* Add recipe to Dough recipe store */
                     doughRecipes.add(doughRecipe);
+
+                    /* Rearrange recipe container */
+                    ds.sortRecipeList();
 
                     /* Save recipe */
                     ds.save(this);

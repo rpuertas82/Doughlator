@@ -587,15 +587,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             }
             else
             {
-                nameExist = false;
-
                 /* Check for duplicated recipe name */
-                for (DoughRecipe dr : doughRecipes) {
-                    if (dr.getRecipeName().equals(recipeName)) {
-                        /* Name already created */
-                        nameExist = true;
-                    }
-                }
+                nameExist= ds.checkForDuplicatedRecipeName(recipeName, false);
 
                 if (nameExist == false) {
 

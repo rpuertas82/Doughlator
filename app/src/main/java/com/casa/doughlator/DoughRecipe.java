@@ -222,7 +222,7 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
     @Override
     public int compareTo(DoughRecipe another)
     {
-        return getRecipeName().compareTo(another.getRecipeName());
+        return getRecipeName().compareToIgnoreCase(another.getRecipeName());
     }
 
     public int getAdjustmentMode() {

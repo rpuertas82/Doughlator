@@ -79,7 +79,7 @@ public class RecipeDialog extends DialogFragment
 
                             Bundle bundle = new Bundle();
 
-                            bundle.putString(ConstantContainer.NAME_KEY, recipeNameEt.getText().toString());
+                            bundle.putString(ConstantContainer.NAME_KEY, recipeNameEt.getText().toString().trim());
                             bundle.putInt(ConstantContainer.POSITION_KEY, rowPosition);
 
                             mCallBack.onOkButtonClickRecipeDialogListener(bundle);
