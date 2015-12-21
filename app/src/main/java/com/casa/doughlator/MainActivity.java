@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
             ds.load(this);
         }
 
-        getSupportActionBar().setTitle("Doughlator Alpha 1.3");
+        getSupportActionBar().setTitle("Doughlator Beta 1.4");
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
         /* Get data from data source */
