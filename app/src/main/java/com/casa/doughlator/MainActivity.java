@@ -163,16 +163,44 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == R.id.action_restore){
+        if(id == R.id.action_restore_recipes){
 
             final AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
             b.setIcon(android.R.drawable.ic_dialog_alert);
-            b.setMessage("ATENCIÓN: Si reestablece los ajustes se borrarán todas las recetas creadas por usted.");
+            b.setMessage("Si restableces se borrarán las recetas creadas por ti");
             b.setTitle("¿Restablecer?");
             b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
-                    ds.restore(MainActivity.this);
+                    ds.restoreRecipesList(MainActivity.this, false /* Remove all*/);
+
+                    adapter.notifyDataSetChanged();
+
+                    logger.toast("Se han restablecido los ajustes");
+                }
+            });
+
+            b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
+            });
+
+            b.show();
+
+            return true;
+        }
+
+        if(id == R.id.action_restore_builtin)
+        {
+            final AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
+            b.setIcon(android.R.drawable.ic_dialog_alert);
+            b.setMessage("Se restablecerán las recetas originales");
+            b.setTitle("¿Restablecer?");
+            b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                    ds.restoreRecipesList(MainActivity.this, true /* Remove only builtin*/);
 
                     adapter.notifyDataSetChanged();
 

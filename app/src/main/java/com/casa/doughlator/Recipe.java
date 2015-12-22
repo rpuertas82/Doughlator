@@ -16,6 +16,7 @@ public class Recipe implements Serializable, Cloneable
     private float recipeWeight;
     private Planner recipePlanner;
     private String recipeNotes;
+    private boolean builtInRecipe;
     protected ArrayList<Ingredient> ingredients;
 
     public Recipe()
@@ -99,6 +100,14 @@ public class Recipe implements Serializable, Cloneable
 
     public Planner getRecipePlanner() {
         return recipePlanner;
+    }
+
+    public boolean isBuiltInRecipe() {
+        return builtInRecipe;
+    }
+
+    public void setBuiltInRecipe(boolean builtInRecipe) {
+        this.builtInRecipe = builtInRecipe;
     }
 
     public Recipe duplicate()

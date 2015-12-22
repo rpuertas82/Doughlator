@@ -71,6 +71,9 @@ public class DoughRecipeStore
 
             drCloned.setRecipeName(newName);
 
+            /*  Set flag to not builtin recipe */
+            drCloned.setBuiltInRecipe(false);
+
             /* Add duplicated recipe to container */
             ds.getDoughRecipes().add(drCloned);
 
@@ -486,7 +489,7 @@ public class DoughRecipeStore
         return retVal;
     }
 
-    public void restore(Context context)
+    public void restoreRecipesList(Context context, boolean restoreOnlyBuiltIn)
     {
         /* Set shared preferences flags to false */
         SharedPreferences preferences = context.getSharedPreferences(
@@ -504,26 +507,69 @@ public class DoughRecipeStore
         /* Remove notes */
         for(DoughRecipe d: doughRecipes)
         {
-            String notesFileName = d.getRecipePlanner().getNotesFileName();
+            if(restoreOnlyBuiltIn)
+            {
+                /* Clear only builtin recipes */
+                if(d.isBuiltInRecipe())
+                {
+                    String notesFileName = d.getRecipePlanner().getNotesFileName();
 
-            if(notesFileName!=null &&
-                    !notesFileName.equals("")) {
-                File notesFile = context.getFileStreamPath(notesFileName);
+                    if(notesFileName!=null &&
+                            !notesFileName.equals("")) {
+                        File notesFile = context.getFileStreamPath(notesFileName);
 
-                if (notesFile.exists()) {
-                    notesFile.delete();
+                        if (notesFile.exists()) {
+                            notesFile.delete();
+                        }
+                    }
                 }
             }
+            else
+            {
+                /* Clear all */
+                String notesFileName = d.getRecipePlanner().getNotesFileName();
+
+                if(notesFileName!=null &&
+                        !notesFileName.equals("")) {
+                    File notesFile = context.getFileStreamPath(notesFileName);
+
+                    if (notesFile.exists()) {
+                        notesFile.delete();
+                    }
+                }
+            }
+
+
         }
 
-        /* Remove user recipe list file */
-        File recipeList = context.getFileStreamPath(
-                context.getResources().getString(R.string.user_recipe_list));
+        if(restoreOnlyBuiltIn)
+        {
+            /* Remove from list only builtin recipes */
+            for(int i=0;i<doughRecipes.size();i++)
+            {
+                if(doughRecipes.get(i).isBuiltInRecipe())
+                {
+                    doughRecipes.remove(i);
+                    i--;
+                }
+            }
 
-        recipeList.delete();
+            /* Save list */
+            save(context);
 
-        /* Reload with res/raw data */
-        reloadContainer(context);
+             /* Once removed from recipe list, reload original */
+            reloadContainer(context);
+        }
+        else {
+            /* Remove user recipe list file */
+            File recipeList = context.getFileStreamPath(
+                    context.getResources().getString(R.string.user_recipe_list));
+
+            recipeList.delete();
+
+            /* Reload with res/raw data */
+            reloadContainer(context);
+        }
     }
 
     public void reloadContainer(Context context)
