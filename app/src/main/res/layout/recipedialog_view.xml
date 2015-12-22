@@ -40,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:hint="Nombre de la receta"/>
+            android:hint="Nombre de la receta"
+            android:inputType="textCapSentences"/>
 
     </LinearLayout>
 

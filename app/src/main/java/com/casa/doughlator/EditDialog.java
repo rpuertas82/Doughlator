@@ -86,7 +86,7 @@ public class EditDialog extends DialogFragment
         if(rowPosition==ConstantContainer.ZERO)
         {
             valuePassed = bundle.getString(ConstantContainer.QTY_KEY);
-            //isReferenceCb.setEnabled(false); TODO (for debug)
+            isReferenceCb.setEnabled(false);
             isLiquidCb.setEnabled(false);
         }
         else
@@ -104,7 +104,7 @@ public class EditDialog extends DialogFragment
                 valuePassed = bundle.getString(ConstantContainer.QTY_KEY);
 
                 qtyPerTv.setText("Peso:");
-                qtyEt.setHint("Introduce el peso");
+                qtyEt.setHint("Introduce el peso (gramos)");
             }
         }
 

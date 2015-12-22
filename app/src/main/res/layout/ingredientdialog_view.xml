@@ -53,7 +53,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:hint="Nombre del ingrediente"/>
+            android:hint="Nombre del ingrediente"
+            android:inputType="textCapSentences"/>
 
         <TextView
             android:id="@+id/infoQtyTv"
