@@ -34,6 +34,20 @@
                 android:layout_height="20dp"/>
 
             <TextView
+                android:id="@+id/flourTv"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="prueba"/>
+
+            <TextView
+                android:id="@+id/flourWeightTv"
+                android:layout_toLeftOf="@id/flourTv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Total harinas: "/>
+
+            <TextView
                 android:id="@+id/hydrationTextTv"
                 android:layout_below="@id/weightTextTv"
                 android:layout_width="wrap_content"
@@ -41,11 +55,20 @@
                 android:text="Hidratación: "/>
 
             <TextView
-                android:id="@+id/adjustmentTextTv"
+                android:id="@+id/liquidTv"
+                android:layout_below="@id/flourTv"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="Ajuste por peso"/>
+                android:text="prueba"/>
+
+            <TextView
+                android:id="@+id/liquidWeightTv"
+                android:layout_below="@id/flourWeightTv"
+                android:layout_toLeftOf="@id/liquidTv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="Total líquidos: "/>
 
         </RelativeLayout>
 
@@ -101,6 +124,24 @@
             android:id="@+id/list"
             android:layout_width="fill_parent"
             android:layout_height="match_parent" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/bottomLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/adjustmentTextTv"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="Ajuste por peso"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"/>
 
     </LinearLayout>
 

@@ -232,4 +232,46 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
     public void setAdjustmentMode(int adjustmentMode) {
         this.adjustmentMode = adjustmentMode;
     }
+
+    public float getLiquidIngredientsWeight()
+    {
+        float weight = 0;
+
+        for(Ingredient i:ingredients)
+        {
+            if(i.isLiquid())
+                weight += i.getQty();
+        }
+
+        return weight;
+    }
+
+    public float getReferencedIngredientsWeight()
+    {
+        float weight = 0;
+
+        for(Ingredient i:ingredients)
+        {
+            if(i.isReferenceIngredient())
+                weight += i.getQty();
+        }
+
+        return weight;
+    }
+
+    public String getFormattedReferencedIngredientsWeight()
+    {
+        String formattedValue = String.format(Locale.US, "%.1f gr.",
+                getReferencedIngredientsWeight());
+
+        return formattedValue;
+    }
+
+    public String getFormattedLiquidIngredientsWeight()
+    {
+        String formattedValue = String.format(Locale.US, "%.1f gr.",
+                getLiquidIngredientsWeight());
+
+        return formattedValue;
+    }
 }

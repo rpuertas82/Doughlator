@@ -30,6 +30,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
     private TextView currHydrationTv;
     private TextView maxHydrationTv;
     private TextView adjustmentTv;
+    private TextView flourWeightTv;
+    private TextView liquidWeightTv;
     private ArrayList<Ingredient> ingList;
     private ListView list;
     private ItemAdapter adapter;
@@ -118,6 +120,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         maxHydrationTv = (TextView)findViewById(R.id.maxHydrationTv);
         hydrabarIv = (ImageView)findViewById(R.id.hydrabarIv);
         adjustmentTv = (TextView)findViewById(R.id.adjustmentTextTv);
+        flourWeightTv = (TextView)findViewById(R.id.flourTv);
+        liquidWeightTv = (TextView)findViewById(R.id.liquidTv);
 
         list = (ListView)findViewById(R.id.list);
         adapter = new ItemAdapter(this, ingList);
@@ -128,6 +132,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         /* Update textview contents */
         weightTv.setText(doughRecipe.getFormattedRecipeWeight());
+        flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
+        liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
 
         adjustmentTv.setText(
                 doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER?
@@ -438,6 +444,8 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         /* Update textview contents */
         weightTv.setText(doughRecipe.getFormattedRecipeWeight());
+        flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
+        liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
 
         /* Save changes */
         //ds.save(this);
