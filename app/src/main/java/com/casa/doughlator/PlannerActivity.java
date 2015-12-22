@@ -80,7 +80,7 @@ public class PlannerActivity extends AppCompatActivity {
 
         if(notesBuffer == null)
         {
-            logger.toast("No hay ninguna nota");
+            logger.toast(getString(R.string.notes_not_found));
         }
         else
         {
@@ -134,7 +134,7 @@ public class PlannerActivity extends AppCompatActivity {
                  /* Enable / disable edition */
                 setNotesBoardInEditMode(notesBoardInEditMode, item);
 
-                logger.toast("Edición activada");
+                logger.toast(getString(R.string.edit_mode_enabled));
             }
             else
             {
@@ -143,7 +143,7 @@ public class PlannerActivity extends AppCompatActivity {
                 /* Enable / disable edition */
                 setNotesBoardInEditMode(notesBoardInEditMode, item);
 
-                logger.toast("Edición desactivada");
+                logger.toast(getString(R.string.edit_mode_disabled));
             }
 
             return true;
@@ -178,7 +178,7 @@ public class PlannerActivity extends AppCompatActivity {
         if(enabled)
         {
             if(item!=null) {
-                item.setTitle("OK");
+                item.setTitle(R.string.ok);
 
                 if (Build.VERSION.SDK_INT < 21) {
                     item.setIcon(getResources().getDrawable(R.drawable.ic_save_white_24dp));
@@ -228,8 +228,8 @@ public class PlannerActivity extends AppCompatActivity {
     {
         final AlertDialog.Builder b = new AlertDialog.Builder(PlannerActivity.this);
         b.setIcon(android.R.drawable.ic_dialog_alert);
-        b.setMessage("¿Desea borrar las notas?");
-        b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        b.setMessage(R.string.remove_notes_msg);
+        b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 boolean retVal = false;
                 DoughRecipe dr;
@@ -269,14 +269,14 @@ public class PlannerActivity extends AppCompatActivity {
                 imm.hideSoftInputFromWindow(notesBoard.getWindowToken(), 0);
 
                 if (retVal) {
-                    logger.toast("Notas eliminadas");
+                    logger.toast(getString(R.string.notes_deleted));
                 } else {
                    /* Do nothing */
                 }
             }
         });
 
-        b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
 
             }

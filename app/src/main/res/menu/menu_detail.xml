@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".DetailActivity">
 
-    <item android:id="@+id/action_help" android:title="Ayuda"
+    <item android:id="@+id/action_help" android:title="@string/help"
         android:orderInCategory="110" app:showAsAction="never" />
-    <item android:id="@+id/action_recipe_copy" android:title="Duplicar receta"
+    <item android:id="@+id/action_recipe_copy" android:title="@string/duplicate_recipe"
         android:orderInCategory="101" app:showAsAction="never" />
     <item android:id="@+id/action_add_ingredient" android:title="@string/add_ingredient"
         android:orderInCategory="103" app:showAsAction="ifRoom"
@@ -13,6 +13,6 @@
     <item android:id="@+id/action_planner" android:title="@string/notes"
         android:orderInCategory="104" app:showAsAction="ifRoom"
         android:icon="@drawable/ic_create_white_24dp"/>
-    <item android:id="@+id/action_adjustment" android:title="Ajustar por peso"
+    <item android:id="@+id/action_adjustment" android:title="@string/adjust_by_weight_menu"
         android:orderInCategory="105" app:showAsAction="never"/>
 </menu>

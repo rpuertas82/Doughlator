@@ -11,7 +11,7 @@
 
     <TextView
         android:id="@+id/presTv"
-        android:text="Selecciona una receta de la lista:"
+        android:text="@string/select_recipe_tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
 

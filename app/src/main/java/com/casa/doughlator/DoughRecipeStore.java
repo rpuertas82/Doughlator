@@ -60,7 +60,7 @@ public class DoughRecipeStore
 
         drOrig = ds.getDoughRecipes().get(recipeIndex);
 
-        String newName = drOrig.getRecipeName()+" (Copia)";
+        String newName = drOrig.getRecipeName()+context.getString(R.string.append_copy);
 
         /* Check for duplicated name */
         nameExist = ds.checkForDuplicatedRecipeName(newName, true);

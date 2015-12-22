@@ -12,7 +12,7 @@
 
     <TextView
         android:id="@+id/presTv"
-        android:text="Notas de elaboración:"
+        android:text="@string/elaboration_notes_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="12dp"/>

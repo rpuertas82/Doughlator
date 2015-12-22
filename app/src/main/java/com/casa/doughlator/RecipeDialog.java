@@ -52,14 +52,14 @@ public class RecipeDialog extends DialogFragment
 
         if(rowPosition == ConstantContainer.NO_POSITION)
         {
-            dialogTitle.setText("Nueva receta:");
+            dialogTitle.setText(R.string.new_recipe);
         }
         else
         {
             /* Recipe name edit */
             String recipeName = bundle.getString(ConstantContainer.NAME_KEY);
 
-            dialogTitle.setText("Nuevo nombre:");
+            dialogTitle.setText(R.string.new_name);
 
             recipeNameEt.setText(recipeName);
         }
@@ -72,7 +72,7 @@ public class RecipeDialog extends DialogFragment
                         /* Parse name field */
                         if(recipeNameEt.getText().toString().equals(""))
                         {
-                            recipeNameEt.setHint("Especifique un nombre");
+                            recipeNameEt.setHint(R.string.type_name);
                             recipeNameEt.setHintTextColor(Color.RED);
                         }
                         else{

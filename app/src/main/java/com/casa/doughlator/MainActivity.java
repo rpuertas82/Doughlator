@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
             ds.load(this);
         }
 
-        getSupportActionBar().setTitle("Doughlator");
+        getSupportActionBar().setTitle(R.string.app_name);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
 
         /* Get data from data source */
@@ -100,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
 
                 final AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
                 b.setIcon(android.R.drawable.ic_dialog_alert);
-                b.setMessage("¿Desea borrar la receta?");
-                b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                b.setMessage(R.string.delete_recipe_answer);
+                b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton)
                     {
                         DoughRecipe dr;
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
                             {
                                 if(!notesFile.delete())
                                 {
-                                    logger.toast("Error borrando las notas");
+                                    logger.toast(getString(R.string.error_removing_recipe));
 
                                 }
                             }
@@ -131,11 +131,11 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
 
                         adapter.notifyDataSetChanged();
 
-                        logger.toast("Receta borrada");
+                        logger.toast(getString(R.string.recipe_removed));
 
                     }
                 });
-                b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                     }
@@ -167,20 +167,20 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
 
             final AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
             b.setIcon(android.R.drawable.ic_dialog_alert);
-            b.setMessage("Si restableces se borrarán las recetas creadas por ti");
-            b.setTitle("¿Restablecer?");
-            b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            b.setMessage(R.string.delete_all_recipes_msg);
+            b.setTitle(R.string.delete_recipes_answer);
+            b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
                     ds.restoreRecipesList(MainActivity.this, false /* Remove all*/);
 
                     adapter.notifyDataSetChanged();
 
-                    logger.toast("Se han restablecido los ajustes");
+                    logger.toast(getString(R.string.settings_restablished));
                 }
             });
 
-            b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
                 }
@@ -195,20 +195,20 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
         {
             final AlertDialog.Builder b = new AlertDialog.Builder(MainActivity.this);
             b.setIcon(android.R.drawable.ic_dialog_alert);
-            b.setMessage("Se restablecerán las recetas originales");
-            b.setTitle("¿Restablecer?");
-            b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            b.setMessage(R.string.delete_only_original_msg);
+            b.setTitle(R.string.delete_only_original_title);
+            b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
                     ds.restoreRecipesList(MainActivity.this, true /* Remove only builtin*/);
 
                     adapter.notifyDataSetChanged();
 
-                    logger.toast("Se han restablecido los ajustes");
+                    logger.toast(getString(R.string.settings_restablished));
                 }
             });
 
-            b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
                 }
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
                     /* Update List view */
                     adapter.notifyDataSetChanged();
                 } else {
-                    logger.toast("Ya existe una receta con el mismo nombre");
+                    logger.toast(getString(R.string.duplicated_recipe_name_error));
                 }
             }
         }

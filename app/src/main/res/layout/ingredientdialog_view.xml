@@ -40,7 +40,7 @@
             android:id="@+id/infoIngTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nombre del ingrediente:"
+            android:text="@string/ingredient_name_tv"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:paddingBottom="10dp"
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:hint="Nombre del ingrediente"
+            android:hint="@string/ingredient_name_et"
             android:inputType="textCapSentences"/>
 
         <TextView
@@ -61,7 +61,7 @@
             android:layout_below="@id/addIngEt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cantidad:"
+            android:text="@string/quantity_tv"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:paddingLeft="10dp"/>
@@ -72,7 +72,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:hint="Cantidad"
+            android:hint="@string/quantity_et"
             android:inputType="numberDecimal"/>
 
     </LinearLayout>
@@ -92,7 +92,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
-            android:text="Ingrediente referencia"/>
+            android:text="@string/reference_ingredient_cb"/>
         <CheckBox
             android:id="@+id/isReferenceCb"
             android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp"
-            android:text="Ingrediente líquido      "/>
+            android:text="@string/liquid_ingredient_tv"/>
         <CheckBox
             android:id="@+id/isLiquidCb"
             android:layout_width="wrap_content"

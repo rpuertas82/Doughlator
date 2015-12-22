@@ -97,24 +97,24 @@ public class EditDialog extends DialogFragment
             if(ajdustmentMode==DoughRecipe.ADJUST_BY_PER) {
                 valuePassed = bundle.getString(ConstantContainer.PER_KEY);
 
-                qtyPerTv.setText("Porcentaje:");
-                qtyEt.setHint("Introduce el porcentaje");
+                qtyPerTv.setText(R.string.percentage);
+                qtyEt.setHint(R.string.put_percentage);
 
             }else{
                 valuePassed = bundle.getString(ConstantContainer.QTY_KEY);
 
-                qtyPerTv.setText("Peso:");
-                qtyEt.setHint("Introduce el peso (gramos)");
+                qtyPerTv.setText(R.string.weight);
+                qtyEt.setHint(R.string.put_weight);
             }
         }
 
         if(rowPosition == ConstantContainer.NO_POSITION)
         {
-            dialogTitle.setText("Añadir ingrediente:");
+            dialogTitle.setText(R.string.add_ingredient);
         }
         else
         {
-            dialogTitle.setText("Editar ingrediente:");
+            dialogTitle.setText(R.string.edit_ingredient);
 
             ingEt.setText(bundle.getString(ConstantContainer.NAME_KEY));
             qtyEt.setText(valuePassed);
@@ -134,7 +134,7 @@ public class EditDialog extends DialogFragment
                         /* Parse name field */
                         if(ingEt.getText().toString().equals(""))
                         {
-                            ingEt.setHint("Especifique un nombre");
+                            ingEt.setHint(R.string.type_name);
                             ingEt.setHintTextColor(Color.RED);
 
                             parseOK = false;

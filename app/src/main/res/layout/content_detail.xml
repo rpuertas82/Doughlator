@@ -25,7 +25,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="Peso: "/>
+                android:text="@string/weight_tv"/>
 
             <TextView
                 android:id="@+id/weightTv"
@@ -45,14 +45,14 @@
                 android:layout_toLeftOf="@id/flourTv"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="Total harinas: "/>
+                android:text="@string/total_flour_tv"/>
 
             <TextView
                 android:id="@+id/hydrationTextTv"
                 android:layout_below="@id/weightTextTv"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="Hidratación: "/>
+                android:text="@string/hydration_tv"/>
 
             <TextView
                 android:id="@+id/liquidTv"
@@ -68,7 +68,7 @@
                 android:layout_toLeftOf="@id/liquidTv"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="Total líquidos: "/>
+                android:text="@string/total_liquid"/>
 
         </RelativeLayout>
 
@@ -138,7 +138,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:text="Ajuste por peso"
+            android:text="@string/adjust_mode_tv"
             android:textStyle="normal"
             android:textAllCaps="false"/>
 

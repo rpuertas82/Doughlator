@@ -137,7 +137,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         adjustmentTv.setText(
                 doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER?
-                "Ajuste por porcentaje":"Ajuste por peso");
+                getString(R.string.adjust_by_per):getString(R.string.adjust_by_weight));
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -186,12 +186,12 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                 lIndex = index;
 
                 if (lIndex == ConstantContainer.ZERO) {
-                    logger.toast("No se puede borrar el ingrediente referencia");
+                    logger.toast(getString(R.string.cannot_delete_reference_ingredient));
                 } else {
                     final AlertDialog.Builder b = new AlertDialog.Builder(DetailActivity.this);
                     b.setIcon(android.R.drawable.ic_dialog_alert);
-                    b.setMessage("¿Desea borrar el ingrediente?");
-                    b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    b.setMessage(R.string.delete_ingredient_answer);
+                    b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
 
                             ingList.remove(lIndex);
@@ -202,11 +202,11 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
                             adapter.notifyDataSetChanged();
 
-                            logger.toast("Ingrediente borrado");
+                            logger.toast(getString(R.string.ingredient_deleted));
 
                         }
                     });
-                    b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
 
                         }
@@ -281,15 +281,15 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             /* Toggle modes */
             if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER)
             {
-                item.setTitle("Ajustar por porcentaje");
-                adjustmentTv.setText("Ajuste por peso");
+                item.setTitle(R.string.adjust_by_per_menu);
+                adjustmentTv.setText(R.string.adjust_by_weight);
 
                 doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_QTY);
             }
             else if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_QTY)
             {
-                item.setTitle("Ajustar por peso");
-                adjustmentTv.setText("Ajuste por porcentaje");
+                item.setTitle(R.string.adjust_by_weight_menu);
+                adjustmentTv.setText(R.string.adjust_by_per);
 
                 doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_PER);
             }
@@ -313,11 +313,11 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         if(retVal)
         {
-            logger.toast("Se ha duplicado la receta");
+            logger.toast(getString(R.string.recipe_duplicate_ok));
         }
         else
         {
-            logger.toast("Error duplicando receta");
+            logger.toast(getString(R.string.recipe_duplicate_ko));
         }
     }
 
@@ -534,7 +534,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         }
         catch (android.content.ActivityNotFoundException ex)
         {
-            logger.toast("No hay ningún cliente de correo instalado.");
+            logger.toast(getString(R.string.no_mail_clients_installed));
         }
     }
 
@@ -611,7 +611,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                     getSupportActionBar().setTitle(recipeName);
 
                 } else {
-                    logger.toast("Ya existe una receta con el mismo nombre");
+                    logger.toast(getString(R.string.recipe_name_duplicated));
                 }
             }
         }

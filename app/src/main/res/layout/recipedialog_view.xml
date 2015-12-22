@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="20dp"
-            android:hint="Nombre de la receta"
+            android:hint="@string/recipe_name_tv"
             android:inputType="textCapSentences"/>
 
     </LinearLayout>
