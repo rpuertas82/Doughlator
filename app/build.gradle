@@ -13,7 +13,7 @@ android {
     buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId "com.casa.doughlator"
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 23
         versionCode 7
         versionName "1.5"
