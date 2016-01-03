@@ -1,7 +1,6 @@
 package com.casa.doughlator;
 
 import java.io.Serializable;
-import java.text.ParseException;
 import java.util.Comparator;
 import java.util.Locale;
 
@@ -20,6 +19,12 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
     private boolean baseIngredient;
     private boolean referenceIngredient;
     private boolean isLiquid;
+    private boolean usedAsPreferment;
+    private float prefermentQty;
+    private float prefermentFlourQty;
+    private float prefermentFlourRate;
+    private float prefermentHydrationQty;
+    private float prefermentHydrationRate;
     private long id;
 
     Ingredient()
@@ -46,6 +51,33 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
         ingString += getQtyString()+" gr";
 
         return ingString;
+    }
+
+    /* Used when synthesized from preferment recipe */
+    Ingredient(
+            String name, float prefermentQty,
+            float prefermentFlourQty, float prefermentHydrationRate)
+    {
+        this.name = name;
+        this.prefermentQty = prefermentQty;
+        this.prefermentFlourQty = prefermentFlourQty;
+        this.prefermentHydrationRate = prefermentHydrationRate;
+        this.prefermentFlourRate = (this.prefermentFlourQty*ConstantContainer.ONE_HUNDRED)/this.prefermentQty;
+
+        scale(prefermentQty);
+
+        this.usedAsPreferment = true;
+    }
+
+    public void scale(float prefermentQty)
+    {
+        if(this.usedAsPreferment)
+        {
+            this.prefermentFlourQty =
+                    (this.prefermentFlourRate/ConstantContainer.ONE_HUNDRED)*prefermentQty;
+            this.prefermentHydrationQty =
+                    (this.prefermentHydrationRate/ConstantContainer.ONE_HUNDRED)*this.prefermentFlourQty;
+        }
     }
 
     Ingredient(String name, String qty, String per,
@@ -250,5 +282,10 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
         int retVal = (int)(this.getQty() - ingredient.getQty());
 
         return retVal;
+    }
+
+    public float getPrefermentHydrationRate()
+    {
+        return 1;
     }
 }

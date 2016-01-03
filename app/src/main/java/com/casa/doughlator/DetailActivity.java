@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class DetailActivity extends AppCompatActivity implements EditDialog.EditDialogListener,
-        RecipeDialog.RecipeDialogListener
+        RecipeDialog.RecipeDialogListener, PrefermentDialog.PrefermentDialogListener
 {
     private static final String TAG = "DetailActivity";
     private TextView tv;
@@ -295,6 +295,13 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             }
         }
 
+        if(id == R.id.action_add_preferment)
+        {
+            showPrefermentDialog();
+
+            return true;
+        }
+
         if(id == R.id.action_help)
         {
             showHelpDialog();
@@ -361,6 +368,20 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         helpDialog = new HelpDialog();
         helpDialog.setArguments(bundle);
         helpDialog.show(getFragmentManager(), "HelpDialog");
+    }
+
+    public void showPrefermentDialog()
+    {
+        PrefermentDialog prefermentDialog;
+        Bundle bundle;
+
+        /* Default, empty bundle */
+        bundle = new Bundle();
+
+            /* Create dialog object, set bundle and show */
+        prefermentDialog = new PrefermentDialog();
+        prefermentDialog.setArguments(bundle);
+        prefermentDialog.show(getFragmentManager(), "PrefermentDialog");
     }
 
     @Override
@@ -619,6 +640,16 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
     @Override
     public void onCancelButtonClickRecipeDialogListener() {
+
+    }
+
+    @Override
+    public void onOkButtonClickPrefermentDialogListener(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onCancelButtonClickPrefermentDialogListener() {
 
     }
 }

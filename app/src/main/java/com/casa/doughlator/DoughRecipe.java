@@ -175,6 +175,9 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
         }
 
         i.setQty(qty);
+
+        /* If used as preferment */
+        i.scale(qty);
     }
 
     public void updateIngredientPer(Ingredient i)
@@ -194,6 +197,9 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
         }
 
         i.setPer(per);
+
+        /* If used as preferment */
+        i.scale(i.getQty());
     }
 
     public void sortByIngredientsQuantity(boolean reverseOrder)
@@ -273,5 +279,14 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
                 getLiquidIngredientsWeight());
 
         return formattedValue;
+    }
+
+    public Ingredient synthesize()
+    {
+        return new Ingredient(
+                this.getRecipeName(),
+                getRecipeWeight(),
+                getReferencedQty(),
+                getDoughHydration());
     }
 }

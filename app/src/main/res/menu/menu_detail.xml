@@ -13,6 +13,8 @@
     <item android:id="@+id/action_planner" android:title="@string/notes"
         android:orderInCategory="104" app:showAsAction="ifRoom"
         android:icon="@drawable/ic_create_white_24dp"/>
+    <item android:id="@+id/action_add_preferment" android:title="@string/add_preferment_menu"
+        android:orderInCategory="105" app:showAsAction="never" />
     <item android:id="@+id/action_adjustment" android:title="@string/adjust_by_weight_menu"
         android:orderInCategory="105" app:showAsAction="never"/>
 </menu>
