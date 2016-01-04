@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by Casa on 18/11/15.
  */
@@ -25,6 +27,8 @@ public class PrefermentDialog extends DialogFragment
     Bundle bundle;
     private int rowPosition;
     private int ajdustmentMode;
+    private ArrayList<DoughRecipe> doughRecipes;
+    private DoughRecipeStore ds;
 
     public PrefermentDialog()
     {
@@ -61,7 +65,21 @@ public class PrefermentDialog extends DialogFragment
 
         Spinner spinner = (Spinner) v.findViewById(R.id.selectPrefermentSp);
         String[] valores = {"uno","dos","tres","cuatro","cinco","seis", "siete", "ocho"};
-        spinner.setAdapter(new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, valores));
+
+        /* Load prefermentents */
+        ds = DoughRecipeStore.getInstance();
+        doughRecipes = ds.getDoughRecipes();
+        ArrayList<String> prefermentRecipes = new ArrayList();
+
+        for(DoughRecipe d:doughRecipes)
+        {
+            if(d.isUseAsPreferment())
+            {
+                prefermentRecipes.add(d.getRecipeName());
+            }
+        }
+
+        spinner.setAdapter(new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, prefermentRecipes));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
@@ -134,7 +152,6 @@ public class PrefermentDialog extends DialogFragment
         qtyEt.setText(valuePassed);
         isLiquidCb.setChecked(bundle.getBoolean(ConstantContainer.LIQUID_KEY));
         isReferenceCb.setChecked(bundle.getBoolean(ConstantContainer.REFERENCE_KEY));
-
 
         addIngBtn.setOnClickListener(
                 new View.OnClickListener() {

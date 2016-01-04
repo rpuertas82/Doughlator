@@ -20,4 +20,5 @@ public class ConstantContainer
     public final static String LIQUID_KEY = "LIQUID";
     public final static String REFERENCE_KEY = "REFERENCE";
     public final static String DOUGH_ADJUSTMENT = "DOUGH_ADJUSTMENT";
+    public final static String USE_AS_PREFERMENT_KEY = "USE_AS_PREFERMENT";
 }

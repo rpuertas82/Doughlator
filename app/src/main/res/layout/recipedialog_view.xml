@@ -61,7 +61,7 @@
                 android:paddingLeft="0dp"
                 android:text="@string/use_as_preferment"/>
             <CheckBox
-                android:id="@+id/isReferenceCb"
+                android:id="@+id/useAsPrefermentCb"
                 android:layout_toRightOf="@id/refIngTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

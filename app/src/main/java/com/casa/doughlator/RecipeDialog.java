@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -49,6 +50,7 @@ public class RecipeDialog extends DialogFragment
         Button cancelBtn = (Button) v.findViewById(R.id.cancelBtn);
         final EditText recipeNameEt = (EditText) v.findViewById(R.id.recipeNameEt);
         final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
+        final CheckBox useAsPreferment = (CheckBox)v.findViewById(R.id.useAsPrefermentCb);
 
         if(rowPosition == ConstantContainer.NO_POSITION)
         {
@@ -81,6 +83,8 @@ public class RecipeDialog extends DialogFragment
 
                             bundle.putString(ConstantContainer.NAME_KEY, recipeNameEt.getText().toString().trim());
                             bundle.putInt(ConstantContainer.POSITION_KEY, rowPosition);
+                            bundle.putBoolean(ConstantContainer.USE_AS_PREFERMENT_KEY,
+                                    useAsPreferment.isChecked());
 
                             mCallBack.onOkButtonClickRecipeDialogListener(bundle);
 

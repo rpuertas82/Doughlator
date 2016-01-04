@@ -289,4 +289,12 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
                 getReferencedQty(),
                 getDoughHydration());
     }
+
+    public boolean isUseAsPreferment() {
+        return useAsPreferment;
+    }
+
+    public void setUseAsPreferment(boolean useAsPreferment) {
+        this.useAsPreferment = useAsPreferment;
+    }
 }

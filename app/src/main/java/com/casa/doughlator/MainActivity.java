@@ -247,9 +247,11 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
     public void onOkButtonClickRecipeDialogListener(Bundle bundle)
     {
         String recipeName;
+        boolean useAsPreferment;
         boolean nameExist;
 
         recipeName = bundle.getString(ConstantContainer.NAME_KEY);
+        useAsPreferment = bundle.getBoolean(ConstantContainer.USE_AS_PREFERMENT_KEY);
 
         if(recipeName!=null)
         {
@@ -263,8 +265,12 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
                 nameExist = ds.checkForDuplicatedRecipeName(recipeName, true);
 
                 if (nameExist == false) {
+
                     /* Create new dough recipe */
                     DoughRecipe doughRecipe = new DoughRecipe(recipeName);
+
+                    /* Set preferment field */
+                    doughRecipe.setUseAsPreferment(useAsPreferment);
 
                     /* Add recipe to Dough recipe store */
                     doughRecipes.add(doughRecipe);
