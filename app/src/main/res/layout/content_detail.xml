@@ -21,54 +21,54 @@
             android:layout_height="40dp">
 
             <TextView
-                android:id="@+id/weightTextTv"
                 android:layout_alignParentLeft="true"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="@string/weight_tv"/>
-
-            <TextView
-                android:id="@+id/weightTv"
-                android:layout_toRightOf="@id/weightTextTv"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"/>
-
-            <TextView
-                android:id="@+id/flourTv"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="prueba"/>
-
-            <TextView
                 android:id="@+id/flourWeightTv"
-                android:layout_toLeftOf="@id/flourTv"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="@string/total_flour_tv"/>
 
             <TextView
+                android:id="@+id/flourTv"
+                android:layout_toRightOf="@id/flourWeightTv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="prueba"/>
+
+            <!--<TextView
                 android:id="@+id/hydrationTextTv"
                 android:layout_below="@id/weightTextTv"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="@string/hydration_tv"/>
+                android:text="@string/hydration_tv"/>-->
+
+            <TextView
+                android:id="@+id/liquidWeightTv"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/flourWeightTv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="@string/total_liquid"/>
 
             <TextView
                 android:id="@+id/liquidTv"
                 android:layout_below="@id/flourTv"
-                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@id/liquidWeightTv"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="prueba"/>
 
             <TextView
-                android:id="@+id/liquidWeightTv"
-                android:layout_below="@id/flourWeightTv"
-                android:layout_toLeftOf="@id/liquidTv"
+                android:id="@+id/weightTv"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"/>
+
+            <TextView
+                android:id="@+id/weightTextTv"
+                android:layout_toLeftOf="@id/weightTv"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:text="@string/total_liquid"/>
+                android:text="@string/weight_tv"/>
 
         </RelativeLayout>
 

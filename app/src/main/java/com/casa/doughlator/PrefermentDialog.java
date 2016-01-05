@@ -62,11 +62,9 @@ public class PrefermentDialog extends DialogFragment
         final CheckBox isLiquidCb = (CheckBox)v.findViewById(R.id.isLiquidCb);
         final CheckBox isReferenceCb = (CheckBox)v.findViewById(R.id.isReferenceCb);
         final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
+        final Spinner spinner = (Spinner) v.findViewById(R.id.selectPrefermentSp);
 
-        Spinner spinner = (Spinner) v.findViewById(R.id.selectPrefermentSp);
-        String[] valores = {"uno","dos","tres","cuatro","cinco","seis", "siete", "ocho"};
-
-        /* Load prefermentents */
+        /* Load preferments */
         ds = DoughRecipeStore.getInstance();
         doughRecipes = ds.getDoughRecipes();
         ArrayList<String> prefermentRecipes = new ArrayList();
@@ -77,6 +75,11 @@ public class PrefermentDialog extends DialogFragment
             {
                 prefermentRecipes.add(d.getRecipeName());
             }
+        }
+
+        if(prefermentRecipes.isEmpty())
+        {
+            prefermentRecipes.add("No hay prefermentos");
         }
 
         spinner.setAdapter(new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, prefermentRecipes));
@@ -120,36 +123,22 @@ public class PrefermentDialog extends DialogFragment
                                          }
         );
 
-        String valuePassed;
+        isReferenceCb.setEnabled(true);
+        isLiquidCb.setEnabled(true);
 
-        if(rowPosition==ConstantContainer.ZERO)
-        {
-            valuePassed = bundle.getString(ConstantContainer.QTY_KEY);
-            isReferenceCb.setEnabled(false);
-            isLiquidCb.setEnabled(false);
-        }
-        else
-        {
-            isReferenceCb.setEnabled(true);
-            isLiquidCb.setEnabled(true);
+        if(ajdustmentMode==DoughRecipe.ADJUST_BY_PER) {
 
-            if(ajdustmentMode==DoughRecipe.ADJUST_BY_PER) {
-                valuePassed = bundle.getString(ConstantContainer.PER_KEY);
+            qtyPerTv.setText(R.string.percentage);
+            qtyEt.setHint(R.string.put_percentage);
 
-                qtyPerTv.setText(R.string.percentage);
-                qtyEt.setHint(R.string.put_percentage);
+        }else{
 
-            }else{
-                valuePassed = bundle.getString(ConstantContainer.QTY_KEY);
-
-                qtyPerTv.setText(R.string.weight);
-                qtyEt.setHint(R.string.put_weight);
-            }
+            qtyPerTv.setText(R.string.weight);
+            qtyEt.setHint(R.string.put_weight);
         }
 
         dialogTitle.setText(R.string.add_preferment);
 
-        qtyEt.setText(valuePassed);
         isLiquidCb.setChecked(bundle.getBoolean(ConstantContainer.LIQUID_KEY));
         isReferenceCb.setChecked(bundle.getBoolean(ConstantContainer.REFERENCE_KEY));
 

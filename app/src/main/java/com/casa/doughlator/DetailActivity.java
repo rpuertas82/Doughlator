@@ -375,10 +375,11 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         PrefermentDialog prefermentDialog;
         Bundle bundle;
 
-        /* Default, empty bundle */
         bundle = new Bundle();
 
-            /* Create dialog object, set bundle and show */
+        bundle.putInt(ConstantContainer.DOUGH_ADJUSTMENT, doughRecipe.getAdjustmentMode());
+
+        /* Create dialog object, set bundle and show */
         prefermentDialog = new PrefermentDialog();
         prefermentDialog.setArguments(bundle);
         prefermentDialog.show(getFragmentManager(), "PrefermentDialog");
