@@ -124,7 +124,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         liquidWeightTv = (TextView)findViewById(R.id.liquidTv);
 
         list = (ListView)findViewById(R.id.list);
-        adapter = new ItemAdapter(this, ingList);
+        adapter = new ItemAdapter(this, ingList, doughRecipe);
         list.setAdapter(adapter);
 
         /* Create hydrabar with empty values */
@@ -193,6 +193,9 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                     b.setMessage(R.string.delete_ingredient_answer);
                     b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
+
+                            if(ingList.get(lIndex).isUsedAsPreferment())
+                                doughRecipe.setPreferment(null);
 
                             ingList.remove(lIndex);
 
@@ -297,7 +300,14 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         if(id == R.id.action_add_preferment)
         {
-            showPrefermentDialog();
+            if(doughRecipe.getPreferment()!=null)
+            {
+                logger.toast("La receta ya tiene un prefermento");
+            }
+            else
+            {
+                showPrefermentDialog();
+            }
 
             return true;
         }
@@ -646,7 +656,55 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
     @Override
     public void onOkButtonClickPrefermentDialogListener(Bundle bundle) {
+        boolean selectedValidPreferment;
+        boolean addToDough;
+        Ingredient prefermentIng;
+        DoughRecipe preferment;
+        int rowPosition;
+        String value;
 
+        addToDough = bundle.getBoolean(ConstantContainer.ADD_TO_DOUGH);
+        selectedValidPreferment = bundle.getBoolean(ConstantContainer.SELECTED_VALID_PREFERMENT);
+        rowPosition = bundle.getInt(ConstantContainer.POSITION_KEY);
+        value = bundle.getString(
+                doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER?
+                        ConstantContainer.PER_KEY:ConstantContainer.QTY_KEY);
+
+        if(selectedValidPreferment==true)
+        {
+            /* Get preferment */
+            preferment = ds.getDoughRecipes().get(rowPosition);
+
+            /* Convert to ingredient */
+            prefermentIng = preferment.synthesize();
+
+            /* Set qty/percentage */
+            if(doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_QTY)
+            {
+                prefermentIng.setQty(value);
+            }
+            else
+            {
+                prefermentIng.setPer(value);
+            }
+
+            /* Add to ingredient list */
+            ingList.add(prefermentIng);
+
+            /* Notify doughrecipe */
+            doughRecipe.setPreferment(prefermentIng);
+            doughRecipe.notifyIngredientChanged(prefermentIng,false);
+
+            /* 1 - Sort by ingredient quantity (Decreasing order)*/
+            doughRecipe.sortByIngredientsQuantity(false);
+
+            /* 2 - Sort list with new ingredient */
+            doughRecipe.sortByReferenceIngredientsFirst();
+
+            adapter.notifyDataSetChanged();
+
+            logger.toast("Se ha añadido el prefermento");
+        }
     }
 
     @Override

@@ -17,6 +17,7 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
     public final static int ADJUST_BY_QTY = 1;
     private boolean useAsPreferment;
     private int adjustmentMode;
+    private Ingredient preferment;
 
     public DoughRecipe(String recipeName)
     {
@@ -30,6 +31,9 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
 
         /* Default value */
         adjustmentMode = ADJUST_BY_PER;
+
+        /* Default value, not preferment added */
+        preferment = null;
     }
 
     @Override
@@ -288,6 +292,14 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
                 getRecipeWeight(),
                 getReferencedQty(),
                 getDoughHydration());
+    }
+
+    public Ingredient getPreferment() {
+        return preferment;
+    }
+
+    public void setPreferment(Ingredient preferment) {
+        this.preferment = preferment;
     }
 
     public boolean isUseAsPreferment() {

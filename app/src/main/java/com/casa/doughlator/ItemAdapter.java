@@ -12,9 +12,13 @@ import java.util.List;
  */
 public class ItemAdapter extends ArrayAdapter<Ingredient> {
 
-    public ItemAdapter(Context c, List<Ingredient> items)
+    private DoughRecipe doughRecipe = null;
+
+    public ItemAdapter(Context c, List<Ingredient> items, DoughRecipe doughRecipe)
     {
         super(c, 0, items);
+
+        this.doughRecipe = doughRecipe;
     }
 
     @Override
@@ -25,7 +29,7 @@ public class ItemAdapter extends ArrayAdapter<Ingredient> {
         if (null == itemView)
             itemView = ItemView.inflate(parent);
 
-        itemView.setItem(getItem(position));
+        itemView.setItem(getItem(position),doughRecipe);
 
         return itemView;
     }

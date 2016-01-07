@@ -29,6 +29,7 @@ public class PrefermentDialog extends DialogFragment
     private int ajdustmentMode;
     private ArrayList<DoughRecipe> doughRecipes;
     private DoughRecipeStore ds;
+    private boolean selectedValidPreferment;
 
     public PrefermentDialog()
     {
@@ -52,79 +53,65 @@ public class PrefermentDialog extends DialogFragment
 
         bundle = this.getArguments();
 
-        rowPosition = bundle.getInt(ConstantContainer.POSITION_KEY);
         ajdustmentMode = bundle.getInt(ConstantContainer.DOUGH_ADJUSTMENT);
 
         TextView qtyPerTv = (TextView)v.findViewById(R.id.infoQtyTv);
         Button addIngBtn = (Button) v.findViewById(R.id.addBtn);
         Button cancelBtn = (Button) v.findViewById(R.id.cancelBtn);
         final EditText qtyEt = (EditText) v.findViewById(R.id.addQtyEt);
-        final CheckBox isLiquidCb = (CheckBox)v.findViewById(R.id.isLiquidCb);
-        final CheckBox isReferenceCb = (CheckBox)v.findViewById(R.id.isReferenceCb);
         final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
         final Spinner spinner = (Spinner) v.findViewById(R.id.selectPrefermentSp);
+        final CheckBox addToDough = (CheckBox)v.findViewById(R.id.addToDoughCb);
 
         /* Load preferments */
         ds = DoughRecipeStore.getInstance();
         doughRecipes = ds.getDoughRecipes();
-        ArrayList<String> prefermentRecipes = new ArrayList();
+        final ArrayList<DoughRecipe> prefermentRecipes = new ArrayList();
+
+        rowPosition = ConstantContainer.ZERO;
+        selectedValidPreferment = true;
 
         for(DoughRecipe d:doughRecipes)
         {
             if(d.isUseAsPreferment())
             {
-                prefermentRecipes.add(d.getRecipeName());
+                prefermentRecipes.add(d);
             }
         }
 
         if(prefermentRecipes.isEmpty())
         {
-            prefermentRecipes.add("No hay prefermentos");
+            //prefermentRecipes.add("No hay prefermentos");
+
+            selectedValidPreferment = false;
         }
 
-        spinner.setAdapter(new ArrayAdapter<String>(v.getContext(), android.R.layout.simple_spinner_item, prefermentRecipes));
+        spinner.setAdapter(new ArrayAdapter<DoughRecipe>(v.getContext(), android.R.layout.simple_spinner_item, prefermentRecipes));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id)
-            {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                rowPosition = 0;
+                selectedValidPreferment = false;
 
+                /* Search selected recipe */
+                for (DoughRecipe d : doughRecipes) {
+                    if (d.hashCode() == prefermentRecipes.get(position).hashCode()) {
+                        selectedValidPreferment = true;
+
+                        break;
+                    }
+
+                    rowPosition++;
+                }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
+            public void onNothingSelected(AdapterView<?> parent) {
                 // vacio
 
             }
         });
-
-          /* Code below implements toggle behaviour avoiding set both checkbox*/
-        isLiquidCb.setOnClickListener(new View.OnClickListener() {
-                                          @Override
-                                          public void onClick(View v) {
-
-                                              if(isLiquidCb.isChecked())
-                                              {
-                                                  isReferenceCb.setChecked(false);
-                                              }
-                                          }
-                                      }
-        );
-
-        isReferenceCb.setOnClickListener(new View.OnClickListener() {
-                                             @Override
-                                             public void onClick(View v) {
-
-                                                 if(isReferenceCb.isChecked()){
-                                                     isLiquidCb.setChecked(false);
-                                                 }
-                                             }
-                                         }
-        );
-
-        isReferenceCb.setEnabled(true);
-        isLiquidCb.setEnabled(true);
 
         if(ajdustmentMode==DoughRecipe.ADJUST_BY_PER) {
 
@@ -138,9 +125,7 @@ public class PrefermentDialog extends DialogFragment
         }
 
         dialogTitle.setText(R.string.add_preferment);
-
-        isLiquidCb.setChecked(bundle.getBoolean(ConstantContainer.LIQUID_KEY));
-        isReferenceCb.setChecked(bundle.getBoolean(ConstantContainer.REFERENCE_KEY));
+        addToDough.setChecked(false);
 
         addIngBtn.setOnClickListener(
                 new View.OnClickListener() {
@@ -157,30 +142,20 @@ public class PrefermentDialog extends DialogFragment
                             qtyEt.setTextColor(Color.RED);
                         }
 
-                        if(!parseOK)
-                        {
+                        if (!parseOK) {
                             /* Do nothing */
-                        }
-                        else
-                        {
+                        } else {
                             Bundle bundle = new Bundle();
 
                             bundle.putInt(ConstantContainer.POSITION_KEY, rowPosition);
+                            bundle.putBoolean(ConstantContainer.SELECTED_VALID_PREFERMENT, selectedValidPreferment);
+                            bundle.putBoolean(ConstantContainer.ADD_TO_DOUGH, addToDough.isChecked());
 
-                            if (rowPosition == ConstantContainer.ZERO) {
-                                bundle.putString(ConstantContainer.QTY_KEY, qtyEt.getText().toString());
-                                bundle.putBoolean(ConstantContainer.REFERENCE_KEY, isReferenceCb.isChecked());
+                            /* Bundle parameters */
+                            if (ajdustmentMode == DoughRecipe.ADJUST_BY_PER) {
+                                bundle.putString(ConstantContainer.PER_KEY, qtyEt.getText().toString());
                             } else {
-
-                                /* Bundle parameters */
-                                if(ajdustmentMode==DoughRecipe.ADJUST_BY_PER) {
-                                    bundle.putString(ConstantContainer.PER_KEY, qtyEt.getText().toString());
-                                }else{
-                                    bundle.putString(ConstantContainer.QTY_KEY, qtyEt.getText().toString());
-                                }
-
-                                bundle.putBoolean(ConstantContainer.LIQUID_KEY, isLiquidCb.isChecked());
-                                bundle.putBoolean(ConstantContainer.REFERENCE_KEY, isReferenceCb.isChecked());
+                                bundle.putString(ConstantContainer.QTY_KEY, qtyEt.getText().toString());
                             }
 
                             mCallBack.onOkButtonClickPrefermentDialogListener(bundle);

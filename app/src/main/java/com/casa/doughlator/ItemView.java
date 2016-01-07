@@ -48,7 +48,7 @@ public class ItemView extends RelativeLayout
         return ingredient;
     }
 
-    public void setItem(Ingredient item)
+    public void setItem(Ingredient item, DoughRecipe doughRecipe)
     {
         if(item.getName().length()>18)
         {

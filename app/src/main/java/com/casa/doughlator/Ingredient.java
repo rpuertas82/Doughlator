@@ -20,7 +20,6 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
     private boolean referenceIngredient;
     private boolean isLiquid;
     private boolean usedAsPreferment;
-    private float prefermentQty;
     private float prefermentFlourQty;
     private float prefermentFlourRate;
     private float prefermentHydrationQty;
@@ -59,14 +58,14 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
             float prefermentFlourQty, float prefermentHydrationRate)
     {
         this.name = name;
-        this.prefermentQty = prefermentQty;
+        this.qty = prefermentQty;
         this.prefermentFlourQty = prefermentFlourQty;
         this.prefermentHydrationRate = prefermentHydrationRate;
-        this.prefermentFlourRate = (this.prefermentFlourQty*ConstantContainer.ONE_HUNDRED)/this.prefermentQty;
-
-        scale(prefermentQty);
+        this.prefermentFlourRate = (this.prefermentFlourQty*ConstantContainer.ONE_HUNDRED)/this.qty;
 
         this.usedAsPreferment = true;
+
+        scale(this.qty);
     }
 
     public void scale(float prefermentQty)
@@ -124,7 +123,8 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
         this.name = name;
     }
 
-    public float getQty() {
+    public float getQty()
+    {
         return qty;
     }
 
@@ -288,4 +288,9 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
     {
         return 1;
     }
+
+    public boolean isUsedAsPreferment() {
+        return usedAsPreferment;
+    }
+
 }
