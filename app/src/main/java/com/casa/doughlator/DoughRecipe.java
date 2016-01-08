@@ -299,7 +299,46 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
     }
 
     public void setPreferment(Ingredient preferment) {
+
         this.preferment = preferment;
+
+        /* We have to mark main ingredients (base flour and main liquid item)
+        to substract preferment quantities when they are represented */
+
+        /* Check for flour base ingredient */
+        for(Ingredient i:ingredients)
+        {
+            if(i.isBaseIngredient()==true)
+                i.setSubstractPrefermentQty(true);
+
+            break;
+        }
+
+        /* Check for main liquid ingredient, get the
+         * major */
+        Ingredient auxIng = null;
+
+        for(Ingredient i:ingredients)
+        {
+            if(i.isLiquid())
+            {
+                if(auxIng==null)
+                {
+                   auxIng = i;
+                }
+                else
+                {
+                    if(i.getQty()>auxIng.getQty())
+                    {
+                        auxIng = i;
+                    }
+                }
+            }
+        }
+
+        /* It should be the major */
+        if(auxIng!=null)
+            auxIng.setSubstractPrefermentQty(true);
     }
 
     public boolean isUseAsPreferment() {

@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 /**
  * Created by Casa on 15/11/15.
  */
@@ -50,6 +52,8 @@ public class ItemView extends RelativeLayout
 
     public void setItem(Ingredient item, DoughRecipe doughRecipe)
     {
+        float qty = 0;
+
         if(item.getName().length()>18)
         {
             StringBuilder sb = new StringBuilder(18);
@@ -65,7 +69,29 @@ public class ItemView extends RelativeLayout
         }
 
         mIngPerTV.setText(item.getPerFormattedString());
-        mIngQtyTV.setText(item.getQtyFormattedString());
+
+        if(item.shouldSubstractPrefermentQty() &&
+                doughRecipe.getPreferment()!=null)
+        {
+            if(item.isBaseIngredient())
+            {
+                qty = item.getQty() - doughRecipe.getPreferment().getPrefermentFlourQty();
+            }
+
+            if(item.isLiquid())
+            {
+                qty = item.getQty() - doughRecipe.getPreferment().getPrefermentHydrationQty();
+            }
+
+            String formattedValue = String.format(Locale.US, "%.1f gr", qty);
+
+            mIngQtyTV.setText(formattedValue);
+        }
+        else
+        {
+            mIngQtyTV.setText(item.getQtyFormattedString());
+        }
+
     }
 
     public TextView getmIngQtyTV() {

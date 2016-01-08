@@ -20,6 +20,7 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
     private boolean referenceIngredient;
     private boolean isLiquid;
     private boolean usedAsPreferment;
+    private boolean substractPrefermentQty;
     private float prefermentFlourQty;
     private float prefermentFlourRate;
     private float prefermentHydrationQty;
@@ -126,6 +127,11 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
     public float getQty()
     {
         return qty;
+    }
+
+    public float getPrefermentQty()
+    {
+        return (qty-(prefermentHydrationQty+prefermentFlourQty));
     }
 
     public String getQtyString()
@@ -289,8 +295,25 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
         return 1;
     }
 
+    public float getPrefermentFlourQty() {
+        return prefermentFlourQty;
+    }
+
+    public float getPrefermentHydrationQty() {
+        return prefermentHydrationQty;
+    }
+
     public boolean isUsedAsPreferment() {
         return usedAsPreferment;
     }
 
+    public boolean shouldSubstractPrefermentQty() {
+
+        return substractPrefermentQty;
+    }
+
+    public void setSubstractPrefermentQty(boolean substract)
+    {
+        substractPrefermentQty = substract;
+    }
 }

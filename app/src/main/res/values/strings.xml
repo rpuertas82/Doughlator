@@ -61,7 +61,7 @@
     <string name="ingredient_name_et">Nombre del ingrediente</string>
     <string name="quantity_tv">Cantidad:</string>
     <string name="quantity_et">Cantidad</string>
-    <string name="reference_ingredient_cb">Sumar a la masa</string>
+    <string name="reference_ingredient_cb">Ingrediente referencia</string>
     <string name="liquid_ingredient_tv">Ingrediente líquido</string>
     <string name="recipe_name_tv">Nombre de la receta</string>
     <string name="help">Ayuda</string>

@@ -203,6 +203,11 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
                             ds.save(getApplicationContext());
 
+                            /* Update textview contents */
+                            weightTv.setText(doughRecipe.getFormattedRecipeWeight());
+                            flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
+                            liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
+
                             adapter.notifyDataSetChanged();
 
                             logger.toast(getString(R.string.ingredient_deleted));
@@ -700,6 +705,11 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
             /* 2 - Sort list with new ingredient */
             doughRecipe.sortByReferenceIngredientsFirst();
+
+             /* Update textview contents */
+            weightTv.setText(doughRecipe.getFormattedRecipeWeight());
+            flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
+            liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
 
             adapter.notifyDataSetChanged();
 

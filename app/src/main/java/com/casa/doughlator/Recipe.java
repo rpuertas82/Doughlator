@@ -37,7 +37,14 @@ public class Recipe implements Serializable, Cloneable
 
         for(Ingredient i:ingredients)
         {
-            recipeWeight += i.getQty();
+            if(i.isUsedAsPreferment())
+            {
+                recipeWeight += i.getPrefermentQty();
+            }
+            else
+            {
+                recipeWeight += i.getQty();
+            }
         }
 
         return recipeWeight;
