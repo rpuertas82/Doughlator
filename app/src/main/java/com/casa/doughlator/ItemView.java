@@ -2,7 +2,9 @@ package com.casa.doughlator;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ public class ItemView extends RelativeLayout
     private TextView mIngNameTV;
     private TextView mIngPerTV;
     private TextView mIngQtyTV;
+    private TextView mIngPrefTV;
     private Ingredient ingredient;
 
     public ItemView(Context c) {
@@ -37,6 +40,7 @@ public class ItemView extends RelativeLayout
         mIngNameTV = (TextView) findViewById(R.id.item_IngNameTextView);
         mIngPerTV = (TextView) findViewById(R.id.item_IngPerTextView);
         mIngQtyTV = (TextView) findViewById(R.id.item_IngQtyTextView);
+        mIngPrefTV = (TextView)findViewById(R.id.item_PrefermentTextView);
     }
 
     public static ItemView inflate(ViewGroup parent)
@@ -53,6 +57,7 @@ public class ItemView extends RelativeLayout
     public void setItem(Ingredient item, DoughRecipe doughRecipe)
     {
         float qty = 0;
+        float toSubstract = 0;
 
         if(item.getName().length()>18)
         {
@@ -75,20 +80,28 @@ public class ItemView extends RelativeLayout
         {
             if(item.isBaseIngredient())
             {
-                qty = item.getQty() - doughRecipe.getPreferment().getPrefermentFlourQty();
+                toSubstract = doughRecipe.getPreferment().getPrefermentFlourQty();
             }
 
             if(item.isLiquid())
             {
-                qty = item.getQty() - doughRecipe.getPreferment().getPrefermentHydrationQty();
+                toSubstract = doughRecipe.getPreferment().getPrefermentHydrationQty();
             }
 
-            String formattedValue = String.format(Locale.US, "%.1f gr", qty);
+            qty = item.getQty() - toSubstract;
 
-            mIngQtyTV.setText(formattedValue);
+            String qtyValue = String.format(Locale.US, "%.1f gr", qty);
+            mIngQtyTV.setText(qtyValue);
+
+            String prefermentText = String.format("[%.1f - %.1f]",item.getQty(),toSubstract);
+            mIngPrefTV.setVisibility(View.VISIBLE);
+            mIngPrefTV.setText(prefermentText);
+            mIngQtyTV.setTextSize(TypedValue.COMPLEX_UNIT_PT,10);
         }
         else
         {
+            mIngQtyTV.setTextSize(TypedValue.COMPLEX_UNIT_PT,15);
+            mIngPrefTV.setVisibility(View.GONE);
             mIngQtyTV.setText(item.getQtyFormattedString());
         }
 
