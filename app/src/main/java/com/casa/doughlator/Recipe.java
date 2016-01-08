@@ -52,7 +52,7 @@ public class Recipe implements Serializable, Cloneable
 
     public String getFormattedRecipeWeight()
     {
-        String formattedValue = String.format(Locale.US, "%.1f gr.", getRecipeWeight());
+        String formattedValue = String.format(Locale.US, " %.1f gr.", getRecipeWeight());
 
         return formattedValue;
     }

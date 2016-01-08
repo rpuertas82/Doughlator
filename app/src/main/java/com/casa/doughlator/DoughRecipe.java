@@ -271,7 +271,7 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
 
     public String getFormattedReferencedIngredientsWeight()
     {
-        String formattedValue = String.format(Locale.US, "%.1f gr.",
+        String formattedValue = String.format(Locale.US, " %.1f gr.",
                 getReferencedIngredientsWeight());
 
         return formattedValue;
@@ -279,7 +279,7 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
 
     public String getFormattedLiquidIngredientsWeight()
     {
-        String formattedValue = String.format(Locale.US, "%.1f gr.",
+        String formattedValue = String.format(Locale.US, " %.1f gr.",
                 getLiquidIngredientsWeight());
 
         return formattedValue;

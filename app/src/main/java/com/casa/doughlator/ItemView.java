@@ -1,6 +1,7 @@
 package com.casa.doughlator;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -91,12 +92,23 @@ public class ItemView extends RelativeLayout
             qty = item.getQty() - toSubstract;
 
             String qtyValue = String.format(Locale.US, "%.1f gr", qty);
+
+            if(qty<0)
+            {
+                mIngQtyTV.setTextColor(Color.RED);
+            }
+            else
+            {
+                mIngQtyTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            }
+
             mIngQtyTV.setText(qtyValue);
 
             String prefermentText = String.format("[%.1f - %.1f]",item.getQty(),toSubstract);
+
             mIngPrefTV.setVisibility(View.VISIBLE);
-            mIngPrefTV.setText(prefermentText);
             mIngQtyTV.setTextSize(TypedValue.COMPLEX_UNIT_PT,10);
+            mIngPrefTV.setText(prefermentText);
         }
         else
         {

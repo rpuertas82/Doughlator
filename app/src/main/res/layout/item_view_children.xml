@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="normal"
+        android:textColor="@color/colorAccent"
         android:textSize="15pt"
         />
 
@@ -30,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/item_IngNameTextView"
         android:text="Percentage text"
+        android:textColor="@color/colorPrimary"
         android:textStyle="italic"
         />
 
@@ -40,6 +42,7 @@
         android:layout_below="@id/item_IngQtyTextView"
         android:layout_alignParentRight="true"
         android:text="Preferment text"
+        android:textColor="@color/colorPrimary"
         android:textSize="5pt"
         android:textStyle="normal"
         />
