@@ -34,13 +34,6 @@
                 android:layout_height="20dp"
                 android:text="prueba"/>
 
-            <!--<TextView
-                android:id="@+id/hydrationTextTv"
-                android:layout_below="@id/weightTextTv"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:text="@string/hydration_tv"/>-->
-
             <TextView
                 android:id="@+id/liquidWeightTv"
                 android:layout_alignParentLeft="true"
@@ -61,7 +54,8 @@
                 android:id="@+id/weightTv"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"/>
+                android:layout_height="20dp"
+                android:text="prueba"/>
 
             <TextView
                 android:id="@+id/weightTextTv"
@@ -70,6 +64,21 @@
                 android:layout_height="20dp"
                 android:text="@string/weight_tv"/>
 
+            <TextView
+                android:id="@+id/prefermentTv"
+                android:layout_below="@id/weightTv"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="prueba"/>
+
+            <TextView
+                android:id="@+id/prefermentTextTv"
+                android:layout_below="@id/weightTextTv"
+                android:layout_toLeftOf="@id/prefermentTv"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="@string/preferment_text"/>
         </RelativeLayout>
 
         <RelativeLayout

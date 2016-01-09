@@ -148,6 +148,12 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
         return formattedValue;
     }
 
+    public String getPrefermentHydrationRateFormattedString()
+    {
+        String formattedValue = String.format(Locale.US, " %.1f%% H.", prefermentHydrationRate);
+
+        return formattedValue;
+    }
 
     public void setQty(String qty)
     {

@@ -49,10 +49,10 @@
     <string name="notes_deleted">Notas eliminadas</string>
     <string name="new_recipe">Nueva receta:</string>
     <string name="new_name">Nuevo nombre:</string>
-    <string name="weight_tv">Total masa:</string>
-    <string name="total_flour_tv">Total harina:</string>
+    <string name="weight_tv">Masa:</string>
+    <string name="total_flour_tv">Harina:</string>
     <string name="hydration_tv">Hidratación:</string>
-    <string name="total_liquid">Total líquidos:</string>
+    <string name="total_liquid">Líquido:</string>
     <string name="adjust_mode_tv">Ajuste por peso</string>
     <string name="select_recipe_tv">Selecciona una receta de la lista:</string>
     <string name="elaboration_notes_tv">Notas de elaboración:</string>
@@ -71,4 +71,6 @@
     <string name="use_as_preferment">Usar como prefermento</string>
     <string name="add_preferment">Añadir prefermento</string>
     <string name="add_preferment_menu">Añadir prefermento</string>
+    <string name="preferment_added">Se ha añadido el prefermento</string>
+    <string name="preferment_text">Prefermento:</string>
 </resources>

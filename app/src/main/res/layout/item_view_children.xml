@@ -43,7 +43,6 @@
         android:layout_alignParentRight="true"
         android:text="Preferment text"
         android:textColor="@color/colorPrimary"
-        android:textSize="5pt"
         android:textStyle="normal"
         />
 

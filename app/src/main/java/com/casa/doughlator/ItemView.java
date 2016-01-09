@@ -107,13 +107,14 @@ public class ItemView extends RelativeLayout
             String prefermentText = String.format("[%.1f - %.1f]",item.getQty(),toSubstract);
 
             mIngPrefTV.setVisibility(View.VISIBLE);
-            mIngQtyTV.setTextSize(TypedValue.COMPLEX_UNIT_PT,10);
+            mIngQtyTV.setTextSize(TypedValue.COMPLEX_UNIT_PT,15);
             mIngPrefTV.setText(prefermentText);
         }
         else
         {
-            mIngQtyTV.setTextSize(TypedValue.COMPLEX_UNIT_PT,15);
             mIngPrefTV.setVisibility(View.GONE);
+            mIngQtyTV.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+            mIngQtyTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 15);
             mIngQtyTV.setText(item.getQtyFormattedString());
         }
 

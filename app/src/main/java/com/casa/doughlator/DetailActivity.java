@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -32,6 +34,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
     private TextView adjustmentTv;
     private TextView flourWeightTv;
     private TextView liquidWeightTv;
+    private TextView prefermentTv;
     private ArrayList<Ingredient> ingList;
     private ListView list;
     private ItemAdapter adapter;
@@ -134,6 +137,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         weightTv.setText(doughRecipe.getFormattedRecipeWeight());
         flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
         liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
+        setPrefermentHydrationTv();
 
         adjustmentTv.setText(
                 doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER?
@@ -207,6 +211,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                             weightTv.setText(doughRecipe.getFormattedRecipeWeight());
                             flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
                             liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
+                            setPrefermentHydrationTv();
 
                             adapter.notifyDataSetChanged();
 
@@ -698,7 +703,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
             /* Notify doughrecipe */
             doughRecipe.setPreferment(prefermentIng);
-            doughRecipe.notifyIngredientChanged(prefermentIng,false);
+            doughRecipe.notifyIngredientChanged(prefermentIng, false);
 
             /* 1 - Sort by ingredient quantity (Decreasing order)*/
             doughRecipe.sortByIngredientsQuantity(false);
@@ -710,10 +715,26 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             weightTv.setText(doughRecipe.getFormattedRecipeWeight());
             flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
             liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
+            setPrefermentHydrationTv();
 
             adapter.notifyDataSetChanged();
 
-            logger.toast("Se ha añadido el prefermento");
+            logger.toast(getString(R.string.preferment_added));
+        }
+    }
+
+    public void setPrefermentHydrationTv()
+    {
+        TextView prefermentTv = (TextView)findViewById(R.id.prefermentTv);
+
+        if(doughRecipe.getPreferment()==null)
+        {
+            prefermentTv.setText(" No");
+        }
+        else
+        {
+            prefermentTv.setText(
+                    doughRecipe.getPreferment().getPrefermentHydrationRateFormattedString());
         }
     }
 
