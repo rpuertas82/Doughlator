@@ -7,6 +7,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import java.util.Locale;
  */
 public class ItemView extends RelativeLayout
 {
+    private ImageView mIngIconIV;
     private TextView mIngNameTV;
     private TextView mIngPerTV;
     private TextView mIngQtyTV;
@@ -42,6 +44,7 @@ public class ItemView extends RelativeLayout
         mIngPerTV = (TextView) findViewById(R.id.item_IngPerTextView);
         mIngQtyTV = (TextView) findViewById(R.id.item_IngQtyTextView);
         mIngPrefTV = (TextView)findViewById(R.id.item_PrefermentTextView);
+        mIngIconIV = (ImageView)findViewById(R.id.itemIconIV);
     }
 
     public static ItemView inflate(ViewGroup parent)
@@ -59,6 +62,24 @@ public class ItemView extends RelativeLayout
     {
         float qty = 0;
         float toSubstract = 0;
+
+        /* Set icon */
+        if(item.isReferenceIngredient())
+        {
+            mIngIconIV.setImageResource(R.drawable.trigo);
+        }
+        else if(item.isLiquid())
+        {
+            mIngIconIV.setImageResource(R.drawable.gotas);
+        }
+        else if(item.isUsedAsPreferment())
+        {
+            mIngIconIV.setImageResource(R.drawable.null_image);
+        }
+        else
+        {
+            mIngIconIV.setImageResource(R.drawable.null_image);
+        }
 
         if(item.getName().length()>18)
         {

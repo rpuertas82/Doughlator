@@ -193,11 +193,11 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
 
         if(isReferenceIngredient())
         {
-            formattedValue = String.format(Locale.US, "%.1f%%(R)", this.per);
+            formattedValue = String.format(Locale.US, "%.1f%%", this.per);
         }
         else if(isLiquid())
         {
-            formattedValue = String.format(Locale.US, "%.1f%%(L)", this.per);
+            formattedValue = String.format(Locale.US, "%.1f%%", this.per);
         }
         else
         {
