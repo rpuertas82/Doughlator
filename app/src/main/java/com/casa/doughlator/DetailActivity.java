@@ -69,6 +69,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                 /* send Recipe index and recipe name */
                bundle.putInt(ConstantContainer.POSITION_KEY, recipeIndex);
                bundle.putString(ConstantContainer.NAME_KEY, doughRecipe.getRecipeName());
+               bundle.putBoolean(ConstantContainer.USE_AS_PREFERMENT_KEY,doughRecipe.isUseAsPreferment());
 
                 /* Create dialog object, set bundle and show */
                editRecipeDialog = new RecipeDialog();
@@ -621,6 +622,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
     {
         String recipeName;
         boolean nameExist;
+        boolean isPreferment;
         int rowPosition;
         ArrayList<DoughRecipe> doughRecipes;
 
@@ -628,6 +630,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         recipeName = bundle.getString(ConstantContainer.NAME_KEY);
         rowPosition = bundle.getInt(ConstantContainer.POSITION_KEY);
+        isPreferment = bundle.getBoolean(ConstantContainer.USE_AS_PREFERMENT_KEY);
 
         if(recipeName!=null)
         {
@@ -645,6 +648,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                     /* Set new name */
                     DoughRecipe dr = doughRecipes.get(rowPosition);
                     dr.setRecipeName(recipeName);
+                    dr.setUseAsPreferment(isPreferment);
 
                     /* Save recipe */
                     ds.save(this);

@@ -61,7 +61,6 @@ public class PrefermentDialog extends DialogFragment
         final EditText qtyEt = (EditText) v.findViewById(R.id.addQtyEt);
         final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
         final Spinner spinner = (Spinner) v.findViewById(R.id.selectPrefermentSp);
-        final CheckBox addToDough = (CheckBox)v.findViewById(R.id.addToDoughCb);
 
         /* Load preferments */
         ds = DoughRecipeStore.getInstance();
@@ -125,7 +124,6 @@ public class PrefermentDialog extends DialogFragment
         }
 
         dialogTitle.setText(R.string.add_preferment);
-        addToDough.setChecked(false);
 
         addIngBtn.setOnClickListener(
                 new View.OnClickListener() {
@@ -149,7 +147,6 @@ public class PrefermentDialog extends DialogFragment
 
                             bundle.putInt(ConstantContainer.POSITION_KEY, rowPosition);
                             bundle.putBoolean(ConstantContainer.SELECTED_VALID_PREFERMENT, selectedValidPreferment);
-                            bundle.putBoolean(ConstantContainer.ADD_TO_DOUGH, addToDough.isChecked());
 
                             /* Bundle parameters */
                             if (ajdustmentMode == DoughRecipe.ADJUST_BY_PER) {

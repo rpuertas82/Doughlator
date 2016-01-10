@@ -21,6 +21,7 @@ public class RecipeDialog extends DialogFragment
     private RecipeDialogListener mCallBack;
     Bundle bundle;
     private int rowPosition;
+    private boolean isPreferment;
 
     public RecipeDialog()
     {
@@ -45,12 +46,15 @@ public class RecipeDialog extends DialogFragment
         bundle = this.getArguments();
 
         rowPosition = bundle.getInt(ConstantContainer.POSITION_KEY);
+        isPreferment = bundle.getBoolean(ConstantContainer.USE_AS_PREFERMENT_KEY);
 
         Button addIngBtn = (Button) v.findViewById(R.id.addBtn);
         Button cancelBtn = (Button) v.findViewById(R.id.cancelBtn);
         final EditText recipeNameEt = (EditText) v.findViewById(R.id.recipeNameEt);
         final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
         final CheckBox useAsPreferment = (CheckBox)v.findViewById(R.id.useAsPrefermentCb);
+
+        useAsPreferment.setChecked(isPreferment);
 
         if(rowPosition == ConstantContainer.NO_POSITION)
         {
