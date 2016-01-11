@@ -62,7 +62,7 @@
     <string name="quantity_tv">Cantidad:</string>
     <string name="quantity_et">Cantidad</string>
     <string name="reference_ingredient_cb">Usar como harina</string>
-    <string name="liquid_ingredient_tv">Ingrediente líquido</string>
+    <string name="liquid_ingredient_tv">Usar como líquido</string>
     <string name="recipe_name_tv">Nombre de la receta</string>
     <string name="help">Ayuda</string>
     <string name="edit">Edit</string>
@@ -73,4 +73,5 @@
     <string name="add_preferment_menu">Añadir prefermento</string>
     <string name="preferment_added">Se ha añadido el prefermento</string>
     <string name="preferment_text">Prefermento:</string>
+    <string name="recipe_has_already_preferment">La receta ya tiene un prefermento</string>
 </resources>

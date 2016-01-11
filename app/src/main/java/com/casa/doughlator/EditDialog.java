@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -56,6 +57,7 @@ public class EditDialog extends DialogFragment
         final CheckBox isLiquidCb = (CheckBox)v.findViewById(R.id.isLiquidCb);
         final CheckBox isReferenceCb = (CheckBox)v.findViewById(R.id.isReferenceCb);
         final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
+        final RelativeLayout checkBoxLayout = (RelativeLayout)v.findViewById(R.id.checkboxLayout);
 
           /* Code below implements toggle behaviour avoiding set both checkbox*/
         isLiquidCb.setOnClickListener(new View.OnClickListener() {
@@ -91,8 +93,16 @@ public class EditDialog extends DialogFragment
         }
         else
         {
-            isReferenceCb.setEnabled(true);
-            isLiquidCb.setEnabled(true);
+            if(bundle.getBoolean(ConstantContainer.USE_AS_PREFERMENT_KEY)==true)
+            {
+                checkBoxLayout.setVisibility(View.GONE);
+            }
+            else
+            {
+                checkBoxLayout.setVisibility(View.VISIBLE);
+                isReferenceCb.setEnabled(true);
+                isLiquidCb.setEnabled(true);
+            }
 
             if(ajdustmentMode==DoughRecipe.ADJUST_BY_PER) {
                 valuePassed = bundle.getString(ConstantContainer.PER_KEY);

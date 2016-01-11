@@ -170,6 +170,9 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                     bundle.putBoolean(ConstantContainer.REFERENCE_KEY,
                             ingList.get(position).isReferenceIngredient());
 
+                    bundle.putBoolean(ConstantContainer.USE_AS_PREFERMENT_KEY,
+                            ingList.get(position).isUsedAsPreferment());
+
                     bundle.putInt(ConstantContainer.DOUGH_ADJUSTMENT,
                             doughRecipe.getAdjustmentMode());
 
@@ -313,7 +316,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         {
             if(doughRecipe.getPreferment()!=null)
             {
-                logger.toast("La receta ya tiene un prefermento");
+                logger.toast(getString(R.string.recipe_has_already_preferment));
             }
             else
             {
