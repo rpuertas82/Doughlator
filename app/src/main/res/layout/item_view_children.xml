@@ -4,20 +4,10 @@
   android:layout_width="match_parent"
   android:layout_height="wrap_content" >
 
-    <ImageView
-        android:id="@+id/itemIconIV"
-        android:layout_height="20dp"
-        android:layout_width="20dp"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:paddingRight="5dp"
-        />
-
     <TextView
         android:id="@+id/item_IngNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/itemIconIV"
         android:text="Name text"
         android:textSize="10pt"
         android:textStyle="bold"
@@ -40,10 +30,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/item_IngNameTextView"
-        android:layout_toRightOf="@id/itemIconIV"
         android:text="Percentage text"
         android:textColor="@color/colorPrimary"
         android:textStyle="italic"
+        />
+
+    <ImageView
+        android:id="@+id/itemIconIV"
+        android:layout_height="20dp"
+        android:layout_width="20dp"
+        android:layout_below="@id/item_IngNameTextView"
+        android:layout_toRightOf="@id/item_IngPerTextView"
+        android:paddingLeft="5dp"
         />
 
     <TextView
