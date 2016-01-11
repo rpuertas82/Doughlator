@@ -53,6 +53,27 @@ public class Ingredient implements Serializable, Cloneable, Comparable<Ingredien
         return ingString;
     }
 
+    public String toString(float toSubstract)
+    {
+        String ingString;
+        int nSpaces;
+        int maxSpace;
+
+        maxSpace = 25;
+
+        ingString = "- " + getName() + "(" + getPer()+" %)";
+
+        nSpaces = maxSpace - ingString.length();
+
+        for(int i=0;i<nSpaces;i++)
+            ingString += " ";
+
+        ingString += String.format(Locale.US, "%.1f gr (%.1f - %.1f)",
+                getQty()-toSubstract,getQty(),toSubstract);
+
+        return ingString;
+    }
+
     /* Used when synthesized from preferment recipe */
     Ingredient(
             String name, float prefermentQty,

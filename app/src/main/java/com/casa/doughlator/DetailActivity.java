@@ -541,12 +541,28 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         for(Ingredient i:ingList)
         {
-            emailBody += i.toString();
+            if(i.shouldSubstractPrefermentQty() &&
+                    doughRecipe.getPreferment()!=null)
+            {
+                if(i.isBaseIngredient())
+                {
+                    emailBody += i.toString(doughRecipe.getPreferment().getPrefermentFlourQty());
+                }
+                else if(i.isLiquid())
+                {
+                    emailBody += i.toString(doughRecipe.getPreferment().getPrefermentHydrationQty());
+                }
+            }
+            else
+            {
+                emailBody += i.toString();
+            }
+
             emailBody += "\n";
         }
 
         emailBody += "\n";
-        emailBody += "Peso aproximado: " +
+        emailBody += "Peso: " +
                 doughRecipe.getFormattedRecipeWeight() + "\n";
         emailBody += "Tasa de hidratación: " +
                 doughRecipe.getFormattedDoughHydration() + "\n";
@@ -593,8 +609,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
 
         Log.d(TAG, "saving data...");
