@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -53,12 +54,14 @@ public class RecipeDialog extends DialogFragment
         final EditText recipeNameEt = (EditText) v.findViewById(R.id.recipeNameEt);
         final TextView dialogTitle = (TextView)v.findViewById(R.id.dialogTitleTv);
         final CheckBox useAsPreferment = (CheckBox)v.findViewById(R.id.useAsPrefermentCb);
+        final RelativeLayout checkBoxLayout = (RelativeLayout)v.findViewById(R.id.checkboxLayout);
 
         useAsPreferment.setChecked(isPreferment);
 
         if(rowPosition == ConstantContainer.NO_POSITION)
         {
             dialogTitle.setText(R.string.new_recipe);
+            checkBoxLayout.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -66,6 +69,7 @@ public class RecipeDialog extends DialogFragment
             String recipeName = bundle.getString(ConstantContainer.NAME_KEY);
 
             dialogTitle.setText(R.string.new_name);
+            checkBoxLayout.setVisibility(View.GONE);
 
             recipeNameEt.setText(recipeName);
         }
