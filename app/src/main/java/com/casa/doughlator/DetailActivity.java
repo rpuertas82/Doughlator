@@ -105,48 +105,56 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         /* Get Dough recipe store instance */
         ds = DoughRecipeStore.getInstance();
 
-        /* Get recipe and ingredients  */
-        doughRecipe = ds.getDoughRecipes().get(recipeIndex);
-        ingList = doughRecipe.getIngredientsList();
+        /* Workaround for BUG 20151230
+        (See Errors & ANRs in developer console) */
+        if(!ds.isDataLoaded())
+        {
+            finish();
+        }
+        else
+        {
+            /* Get recipe and ingredients  */
+            doughRecipe = ds.getDoughRecipes().get(recipeIndex);
+            ingList = doughRecipe.getIngredientsList();
 
-        /* Set default adjustment mode */
-        doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_PER);
+            /* Set default adjustment mode */
+            doughRecipe.setAdjustmentMode(DoughRecipe.ADJUST_BY_PER);
 
-        /* Update values before print into list */
-        doughRecipe.updateIngredientsValues();
+            /* Update values before print into list */
+            doughRecipe.updateIngredientsValues();
 
-        /* Set toolbar title */
-        getSupportActionBar().setTitle(doughRecipe.getRecipeName());
+            /* Set toolbar title */
+            getSupportActionBar().setTitle(doughRecipe.getRecipeName());
 
-        /* Get reference to widgets */
-        weightTv = (TextView)findViewById(R.id.weightTv);
-        currHydrationTv = (TextView)findViewById(R.id.currHydrationTv);
-        maxHydrationTv = (TextView)findViewById(R.id.maxHydrationTv);
-        hydrabarIv = (ImageView)findViewById(R.id.hydrabarIv);
-        adjustmentTv = (TextView)findViewById(R.id.adjustmentTextTv);
-        flourWeightTv = (TextView)findViewById(R.id.flourTv);
-        liquidWeightTv = (TextView)findViewById(R.id.liquidTv);
+            /* Get reference to widgets */
+            weightTv = (TextView) findViewById(R.id.weightTv);
+            currHydrationTv = (TextView) findViewById(R.id.currHydrationTv);
+            maxHydrationTv = (TextView) findViewById(R.id.maxHydrationTv);
+            hydrabarIv = (ImageView) findViewById(R.id.hydrabarIv);
+            adjustmentTv = (TextView) findViewById(R.id.adjustmentTextTv);
+            flourWeightTv = (TextView) findViewById(R.id.flourTv);
+            liquidWeightTv = (TextView) findViewById(R.id.liquidTv);
 
-        list = (ListView)findViewById(R.id.list);
-        adapter = new ItemAdapter(this, ingList, doughRecipe);
-        list.setAdapter(adapter);
+            list = (ListView) findViewById(R.id.list);
+            adapter = new ItemAdapter(this, ingList, doughRecipe);
+            list.setAdapter(adapter);
 
-        /* Create hydrabar with empty values */
-        hydrabarAnimation = new HydrabarAnimation();
+            /* Create hydrabar with empty values */
+            hydrabarAnimation = new HydrabarAnimation();
 
-        /* Update textview contents */
-        weightTv.setText(doughRecipe.getFormattedRecipeWeight());
-        flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
-        liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
-        setPrefermentHydrationTv();
+            /* Update textview contents */
+            weightTv.setText(doughRecipe.getFormattedRecipeWeight());
+            flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
+            liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
+            setPrefermentHydrationTv();
 
-        adjustmentTv.setText(
-                doughRecipe.getAdjustmentMode()==DoughRecipe.ADJUST_BY_PER?
-                getString(R.string.adjust_by_per):getString(R.string.adjust_by_weight));
+            adjustmentTv.setText(
+                    doughRecipe.getAdjustmentMode() == DoughRecipe.ADJUST_BY_PER ?
+                            getString(R.string.adjust_by_per) : getString(R.string.adjust_by_weight));
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     EditDialog editDialog;
                     Bundle bundle = new Bundle();
@@ -182,78 +190,79 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
                     editDialog = new EditDialog();
                     editDialog.setArguments(bundle);
                     editDialog.show(getFragmentManager(), "EditDialog");
-            }
-        });
+                }
+            });
 
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-            public boolean onItemLongClick(AdapterView<?> arg0, View v,
-                                           int index, long arg3) {
-                final int lIndex;
+                public boolean onItemLongClick(AdapterView<?> arg0, View v,
+                                               int index, long arg3) {
+                    final int lIndex;
 
-                lIndex = index;
+                    lIndex = index;
 
-                if (lIndex == ConstantContainer.ZERO) {
-                    logger.toast(getString(R.string.cannot_delete_reference_ingredient));
-                } else {
-                    final AlertDialog.Builder b = new AlertDialog.Builder(DetailActivity.this);
-                    b.setIcon(android.R.drawable.ic_dialog_alert);
-                    b.setMessage(R.string.delete_ingredient_answer);
-                    b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
+                    if (lIndex == ConstantContainer.ZERO) {
+                        logger.toast(getString(R.string.cannot_delete_reference_ingredient));
+                    } else {
+                        final AlertDialog.Builder b = new AlertDialog.Builder(DetailActivity.this);
+                        b.setIcon(android.R.drawable.ic_dialog_alert);
+                        b.setMessage(R.string.delete_ingredient_answer);
+                        b.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
 
-                            if(ingList.get(lIndex).isUsedAsPreferment())
-                                doughRecipe.setPreferment(null);
+                                if (ingList.get(lIndex).isUsedAsPreferment())
+                                    doughRecipe.setPreferment(null);
 
-                            ingList.remove(lIndex);
+                                ingList.remove(lIndex);
 
-                            doughRecipe.updateIngredientsValues();
+                                doughRecipe.updateIngredientsValues();
 
-                            ds.save(getApplicationContext());
+                                ds.save(getApplicationContext());
 
                             /* Update textview contents */
-                            weightTv.setText(doughRecipe.getFormattedRecipeWeight());
-                            flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
-                            liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
-                            setPrefermentHydrationTv();
+                                weightTv.setText(doughRecipe.getFormattedRecipeWeight());
+                                flourWeightTv.setText(doughRecipe.getFormattedReferencedIngredientsWeight());
+                                liquidWeightTv.setText(doughRecipe.getFormattedLiquidIngredientsWeight());
+                                setPrefermentHydrationTv();
 
-                            adapter.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
 
-                            logger.toast(getString(R.string.ingredient_deleted));
+                                logger.toast(getString(R.string.ingredient_deleted));
 
-                        }
-                    });
-                    b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        });
+                        b.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
 
-                        }
-                    });
+                            }
+                        });
 
-                    b.show();
+                        b.show();
+                    }
+
+                    return true;
                 }
+            });
 
-                return true;
-            }
-        });
+            final ViewTreeObserver observer = maxHydrationTv.getViewTreeObserver();
+            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Log.d(TAG, "onCreate(): View ready on parent view!!");
 
-        final ViewTreeObserver observer = maxHydrationTv.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Log.d(TAG, "onCreate(): View ready on parent view!!");
+                    // On these listener we know view positions
+                    float aPoint = hydrabarIv.getLeft();
+                    float bPoint = hydrabarIv.getWidth();
+                    hydrabarAnimation.setValues(currHydrationTv, aPoint, bPoint);
 
-                // On these listener we know view positions
-                float aPoint = hydrabarIv.getLeft();
-                float bPoint = hydrabarIv.getWidth();
-                hydrabarAnimation.setValues(currHydrationTv, aPoint, bPoint);
+                    ViewTreeObserver vto = maxHydrationTv.getViewTreeObserver();
+                    vto.removeOnGlobalLayoutListener(this);
 
-                ViewTreeObserver vto = maxHydrationTv.getViewTreeObserver();
-                vto.removeOnGlobalLayoutListener(this);
-
-                hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
-                currHydrationTv.setText(String.valueOf(doughRecipe.getFormattedDoughHydration()));
-            }
-        });
+                    hydrabarAnimation.moveToPer(doughRecipe.getDoughHydration());
+                    currHydrationTv.setText(String.valueOf(doughRecipe.getFormattedDoughHydration()));
+                }
+            });
+        }
     }
 
     @Override
