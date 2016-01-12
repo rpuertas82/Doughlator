@@ -19,6 +19,7 @@ import com.casa.doughlator.RecipeDialog.RecipeDialogListener;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements RecipeDialogListener {
 
@@ -266,8 +267,11 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
 
                 if (nameExist == false) {
 
+                    /* Get locale */
+                    String locale = getResources().getConfiguration().locale.getLanguage();
+
                     /* Create new dough recipe */
-                    DoughRecipe doughRecipe = new DoughRecipe(recipeName);
+                    DoughRecipe doughRecipe = new DoughRecipe(recipeName, locale);
 
                     /* Set preferment field */
                     doughRecipe.setUseAsPreferment(useAsPreferment);
