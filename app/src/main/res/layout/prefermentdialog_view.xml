@@ -40,7 +40,7 @@
             android:id="@+id/infoIngTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Selecciona el prefermento"
+            android:text="@string/select_preferment_tv"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:paddingBottom="10dp"
