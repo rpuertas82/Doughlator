@@ -576,6 +576,12 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         emailBody += "Tasa de hidratación: " +
                 doughRecipe.getFormattedDoughHydration() + "\n";
 
+        if(doughRecipe.getPreferment()!=null)
+        {
+            emailBody += "Hidratación prefermento: " +
+                    doughRecipe.getPreferment().getPrefermentHydrationRateFormattedString() + "\n";
+        }
+
         /* Load notes if exist */
         if(doughRecipe.getRecipePlanner().getNotesFileName()!=null)
         {
@@ -614,7 +620,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
 
         super.onSaveInstanceState(outState);
 
-        outState.putInt(ConstantContainer.POSITION_KEY,recipeIndex);
+        outState.putInt(ConstantContainer.POSITION_KEY, recipeIndex);
     }
 
     @Override
