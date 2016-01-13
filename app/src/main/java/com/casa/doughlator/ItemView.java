@@ -74,7 +74,7 @@ public class ItemView extends RelativeLayout
         }
         else if(item.isUsedAsPreferment())
         {
-            mIngIconIV.setImageResource(R.drawable.preferment);
+            mIngIconIV.setImageResource(R.drawable.prefermento);
         }
         else
         {
