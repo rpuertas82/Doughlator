@@ -1,5 +1,7 @@
 package com.casa.doughlator;
 
+import android.content.Context;
+
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Locale;
@@ -35,27 +37,22 @@ public class DoughRecipe extends Recipe implements Serializable, Comparable<Doug
         preferment = null;
     }
 
-    public DoughRecipe(String recipeName, String locale)
+    public DoughRecipe(String recipeName, Context context)
     {
         super(recipeName);
 
-        //Create basis dough ingredients
-        if(locale.equalsIgnoreCase("es"))
-        {
-            /* Spanish */
-            ingredients.add(new Ingredient("Harina", "500", "100", true, true, false));
-            ingredients.add(new Ingredient("Agua", "300", "60", false, false, true));
-            ingredients.add(new Ingredient("Levadura", "10", "2", false, false, false));
-            ingredients.add(new Ingredient("Sal", "10", "2", false, false, false));
-        }
-        else
-        {
-            /* Default */
-            ingredients.add(new Ingredient("Flour", "500", "100", true, true, false));
-            ingredients.add(new Ingredient("Water", "300", "60", false, false, true));
-            ingredients.add(new Ingredient("Yeast", "10", "2", false, false, false));
-            ingredients.add(new Ingredient("Salt", "10", "2", false, false, false));
-        }
+        ingredients.add(
+                new Ingredient(
+                        context.getString(R.string.flour_ingredient), "500", "100", true, true, false));
+        ingredients.add(
+                new Ingredient(
+                        context.getString(R.string.water_ingredient), "300", "60", false, false, true));
+        ingredients.add(
+                new Ingredient(
+                        context.getString(R.string.yeast_ingredient), "10", "2", false, false, false));
+        ingredients.add(
+                new Ingredient(
+                        context.getString(R.string.salt_ingredient), "10", "2", false, false, false));
 
         /* Default value */
         adjustmentMode = ADJUST_BY_PER;

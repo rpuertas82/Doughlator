@@ -75,4 +75,8 @@
     <string name="preferment_text">Prefermento:</string>
     <string name="recipe_has_already_preferment">La receta ya tiene un prefermento</string>
     <string name="select_preferment_tv">Selecciona el prefermento</string>
+    <string name="flour_ingredient">Harina</string>
+    <string name="salt_ingredient">Sal</string>
+    <string name="water_ingredient">Agua</string>
+    <string name="yeast_ingredient">Levadura</string>
 </resources>

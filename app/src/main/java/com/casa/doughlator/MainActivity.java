@@ -267,11 +267,8 @@ public class MainActivity extends AppCompatActivity implements RecipeDialogListe
 
                 if (nameExist == false) {
 
-                    /* Get locale */
-                    String locale = getResources().getConfiguration().locale.getLanguage();
-
                     /* Create new dough recipe */
-                    DoughRecipe doughRecipe = new DoughRecipe(recipeName, locale);
+                    DoughRecipe doughRecipe = new DoughRecipe(recipeName, getApplicationContext());
 
                     /* Set preferment field */
                     doughRecipe.setUseAsPreferment(useAsPreferment);
