@@ -15,8 +15,8 @@ android {
         applicationId "com.casa.doughlator"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 9
-        versionName "1.6"
+        versionCode 10
+        versionName "1.61"
     }
     buildTypes {
         release {
