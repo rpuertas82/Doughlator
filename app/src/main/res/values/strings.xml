@@ -65,7 +65,7 @@
     <string name="weight">Weight:</string>
     <string name="weight_tv">Dough:</string>
     <string name="yes">Yes</string>
-    <string name="app_load_prefs">app_load_prefs</string>
+    <string name="app_load_prefs" translatable="false">app_load_prefs</string>
     <string name="app_name">Doughlator</string>
     <string name="edit">Edit</string>
     <string name="loaded_vol1_flag">loaded_vol1_flag</string>
@@ -73,10 +73,19 @@
     <string name="loaded_vol3_flag">loaded_vol3_flag</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_planner">PlannerActivity</string>
-    <string name="user_recipe_list">recipelist.list</string>
+    <string name="user_recipe_list" translatable="false">recipelist.list</string>
     <string name="select_preferment_tv">Select preferment</string>
     <string name="flour_ingredient">Flour</string>
     <string name="water_ingredient">Water</string>
     <string name="yeast_ingredient">Yeast</string>
     <string name="salt_ingredient">Salt</string>
+    <string name="hello_mail">Hello!\n\n</string>
+    <string name="try_this_recipe_mail">Try this recipe: </string>
+    <string name="ingredients_mail">Ingredients: \n\n</string>
+    <string name="weight_mail">Weight: </string>
+    <string name="preferment_hydration_mail">Preferment hydration: </string>
+    <string name="elaboration_mail">Elaboration:</string>
+    <string name="sent_from_doughlator_mail">Sent from Doughlator</string>
+    <string name="send_mail_mail">Send e-mail</string>
+    <string name="hydration_rate_mail">Hydration rate:</string>
 </resources>

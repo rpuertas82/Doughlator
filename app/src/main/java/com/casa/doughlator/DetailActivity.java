@@ -540,13 +540,13 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         /* Compose email body */
         emailSubject = doughRecipe.getRecipeName();
 
-        emailBody = "¡Hola!\n\n";
+        emailBody = getString(R.string.hello_mail);
 
-        emailBody += "Prueba esta receta: ";
+        emailBody += getString(R.string.try_this_recipe_mail);
 
         emailBody += "\n\n";
 
-        emailBody += "Ingredientes: \n\n";
+        emailBody += getString(R.string.ingredients_mail);
 
         for(Ingredient i:ingList)
         {
@@ -571,14 +571,14 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         }
 
         emailBody += "\n";
-        emailBody += "Peso: " +
+        emailBody += getString(R.string.weight_mail) +
                 doughRecipe.getFormattedRecipeWeight() + "\n";
-        emailBody += "Tasa de hidratación: " +
+        emailBody += getString(R.string.hydration_rate_mail) +
                 doughRecipe.getFormattedDoughHydration() + "\n";
 
         if(doughRecipe.getPreferment()!=null)
         {
-            emailBody += "Hidratación prefermento: " +
+            emailBody += getString(R.string.preferment_hydration_mail) +
                     doughRecipe.getPreferment().getPrefermentHydrationRateFormattedString() + "\n";
         }
 
@@ -592,7 +592,7 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
             if (notes != null)
             {
                 emailBody += "\n";
-                emailBody += "Elaboración:";
+                emailBody += getString(R.string.elaboration_mail);
                 emailBody += "\n";
 
                 emailBody += notes;
@@ -600,14 +600,14 @@ public class DetailActivity extends AppCompatActivity implements EditDialog.Edit
         }
 
         emailBody += "\n\n";
-        emailBody += "Enviado desde Doughlator";
+        emailBody += getString(R.string.sent_from_doughlator_mail);
 
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
         emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
 
         try
         {
-            startActivity(Intent.createChooser(emailIntent, "Enviar e-mail"));
+            startActivity(Intent.createChooser(emailIntent, getString(R.string.send_mail_mail)));
         }
         catch (android.content.ActivityNotFoundException ex)
         {

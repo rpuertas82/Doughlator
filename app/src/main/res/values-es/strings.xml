@@ -1,13 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Doughlator</string>
     <string name="action_restore_recipes">Restablecer todas las recetas</string>
-    <string name="title_activity_detail" translatable="false">DetailActivity</string>
-    <string name="title_activity_planner" translatable="false">PlannerActivity</string>
-    <string name="user_recipe_list" translatable="false">recipelist.list</string>
-    <string name="app_load_prefs" translatable="false">app_load_prefs</string>
-    <string name="loaded_vol1_flag" translatable="false">loaded_vol1_flag</string>
-    <string name="loaded_vol2_flag" translatable="false">loaded_vol2_flag</string>
-    <string name="loaded_vol3_flag" translatable="false">loaded_vol3_flag</string>
     <string name="add_ingredient">Añadir ingrediente</string>
     <string name="notes">Notas</string>
     <string name="helpContent" translatable="false"></string>
@@ -65,7 +57,6 @@
     <string name="liquid_ingredient_tv">Usar como líquido</string>
     <string name="recipe_name_tv">Nombre de la receta</string>
     <string name="help">Ayuda</string>
-    <string name="edit" translatable="false">Edit</string>
     <string name="remove">Borrar</string>
     <string name="duplicate_recipe">Duplicar receta</string>
     <string name="use_as_preferment">Usar como prefermento</string>
@@ -79,4 +70,13 @@
     <string name="salt_ingredient">Sal</string>
     <string name="water_ingredient">Agua</string>
     <string name="yeast_ingredient">Levadura</string>
+    <string name="hello_mail">¡Hola!\n\n</string>
+    <string name="try_this_recipe_mail">Prueba esta receta: </string>
+    <string name="ingredients_mail">Ingredientes: \n\n</string>
+    <string name="weight_mail">Peso: </string>
+    <string name="hydration_rate_mail">Tasa de hidratación: </string>
+    <string name="preferment_hydration_mail">Hidratación prefermento: </string>
+    <string name="elaboration_mail">Elaboración:</string>
+    <string name="sent_from_doughlator_mail">Enviado desde Doughlator</string>
+    <string name="send_mail_mail">Enviar e-mail</string>
 </resources>
